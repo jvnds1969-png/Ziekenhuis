@@ -608,26 +608,3 @@ main {
   color:var(--brand);
   transform:translateX(-2px);
 }
-.example-plan-cta{
-  margin-top: 2.5rem;
-  text-align: center;
-}
-
-.btn-example-plan{
-  display: inline-block;
-  padding: 0.85rem 1.8rem;
-  border-radius: 999px;
-  background: #eef2ff;          /* zacht blauw */
-  color: #1e3a8a;               /* donker blauw */
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-decoration: none;
-  border: 1px solid #c7d2fe;
-  transition: all 0.2s ease;
-}
-
-.btn-example-plan:hover{
-  background: #e0e7ff;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(30,58,138,0.15);
-}
