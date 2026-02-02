@@ -4,6 +4,7 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Zorgstart script geladen - versie 1.1 met progress bar');
 
   // ============================================================
   // CONFIGURATIE
@@ -239,6 +240,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (fileInput) {
     fileInput.addEventListener('change', function(e) {
+          console.log('📄 Document upload gestart!');
+    // Creëer progress bar onderaan de pagina
+    showProgressBar();
+      
       if (e.target.files.length === 0) return;
       
       var file = e.target.files[0];
@@ -329,9 +334,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateStepUI(stepId, progress, text) {
     // Update progress bar
+        updateProgressBar(progress, text); // Update nieuwe progress bar
     var progressFill = document.getElementById('progressFill');
     if (progressFill) {
       progressFill.style.width = progress + '%';
+      
     }
 
     // Update status text
@@ -672,6 +679,78 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   loadExistingPatients();
+
+    // ============================================================
+  // PROGRESS BAR FUNCTIE - Toont voortgang onderaan pagina
+  // ============================================================
+  function showProgressBar() {
+    // Verwijder bestaande progress bar indien aanwezig
+    const existing = document.getElementById('zorgstart-progress');
+    if (existing) existing.remove();
+
+    // Creëer progress bar container
+    const progressContainer = document.createElement('div');
+    progressContainer.id = 'zorgstart-progress';
+    progressContainer.style.cssText = '
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 9999;
+      padding: 15px 20px;
+      font-family: system-ui, -apple-system, sans-serif;
+    ';
+
+    // Progress bar tekst
+    const progressText = document.createElement('div');
+    progressText.id = 'progress-text';
+    progressText.textContent = 'Document wordt verwerkt...';
+    progressText.style.cssText = 'margin-bottom: 8px; font-size: 14px; color: #333;';
+
+    // Progress bar
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = '
+      width: 100%;
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+    ';
+
+    const progressFill = document.createElement('div');
+    progressFill.id = 'progress-fill';
+    progressFill.style.cssText = '
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    ';
+
+    progressBar.appendChild(progressFill);
+    progressContainer.appendChild(progressText);
+    progressContainer.appendChild(progressBar);
+    document.body.appendChild(progressContainer);
+
+    return {progressContainer, progressText, progressFill};
+  }
+
+  function updateProgressBar(progress, text) {
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    if (progressFill) progressFill.style.width = progress + '%';
+    if (progressText) progressText.textContent = text;
+  }
+
+  function hideProgressBar() {
+    const progressContainer = document.getElementById('zorgstart-progress');
+    if (progressContainer) {
+      setTimeout(() => progressContainer.remove(), 500);
+    }
+  }
 
 }); // Einde DOMContentLoaded
 
