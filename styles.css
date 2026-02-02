@@ -367,4 +367,19 @@ h2 {
 label.button {
   cursor: pointer;
   display: inline-block;
+
+/* Nav Brand with Subtitle */
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.nav-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: 2px;
+}
 }
