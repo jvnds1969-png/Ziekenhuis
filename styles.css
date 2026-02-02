@@ -398,3 +398,47 @@ label.button {
 .method-benefits {
   margin-bottom: 1rem;
 }
+
+
+/* Patients Table Styles */
+.patients-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+.patients-table thead {
+    background: var(--primary);
+    color: white;
+}
+
+.patients-table th,
+.patients-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.patients-table th {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.patients-table tbody tr:hover {
+    background: var(--primary-soft);
+}
+
+.patients-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.patients-table .button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
