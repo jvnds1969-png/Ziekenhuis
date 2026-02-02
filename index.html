@@ -3,188 +3,259 @@
 <head>
   <meta charset="UTF-8" />
   <title>Zorgstart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="logo">
-      <div class="logo-icon">Z</div>
-      <div class="logo-textblock">
-        <span class="logo-text">Zorgstart</span>
-        <span class="logo-subtitle">Veilig melden & advies</span>
-      </div>
-    </div>
+    <div class="navbar-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">Z</div>
+        <div class="logo-textblock">
+          <span class="logo-text">Zorgstart</span>
+          <span class="logo-subtitle">Veilig melden &amp; advies</span>
+        </div>
+      </a>
 
-    <div class="nav-links">
-      <a href="#melden" class="nav-link">Melding doen</a>
-      <a href="#preventie" class="nav-link">Preventie</a>
-      <a href="#waarom" class="nav-link">Waarom Zorgstart</a>
-      <button class="btn btn-outline">Inloggen</button>
-      <button class="btn btn-primary">Registreer</button>
+      <div class="nav-links">
+        <a href="#melden" class="nav-link">Melding doen</a>
+        <a href="#preventie" class="nav-link">Preventie</a>
+        <a href="#waarom" class="nav-link">Waarom Zorgstart</a>
+        <button class="btn btn-outline">Inloggen</button>
+        <button class="btn btn-primary">Registreer</button>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="hero-content">
-      <h1>Maak je je zorgen over iemand in de zorg?</h1>
-      <p>
-        Met Zorgstart meld je vermoedens veilig, snel en met ondersteuning.
-        Je staat er niet alleen voor.
-      </p>
-      <div class="hero-actions">
-        <button class="btn btn-primary">Direct melding starten</button>
-        <button class="btn btn-secondary">Eerst advies vragen</button>
-      </div>
-    </div>
-    <div class="hero-image">
-      <img src="hero.jpg" alt="Zorgmedewerker in gesprek" />
-    </div>
-  </header>
-
-  <!-- Actie sectie -->
-  <section class="action-section" id="melden">
-    <h2>Kies wat je nu wil doen</h2>
-
-    <div class="action-cards">
-      <!-- Kaart 1: Melding starten -->
-      <article class="action-card">
-        <header class="action-card-header">
-          <div class="action-card-main">
-            <span class="card-icon">📝</span>
-            <div class="card-title-group">
-              <h3>Melding starten</h3>
-              <small>Veilig en stap-voor-stap</small>
-            </div>
-          </div>
-          <div class="action-card-extra action-card-extra-blue">
-            10–15 minuten
-          </div>
-        </header>
-
-        <p>
-          Doorloop een korte vragenlijst zodat we de situatie goed begrijpen
-          en je stap voor stap kunnen begeleiden.
+  <main>
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-content">
+        <p class="breadcrumb">Voor zorgprofessionals</p>
+        <h1>Maak je je zorgen over iemand in de zorg?</h1>
+        <p class="lead">
+          Met Zorgstart meld je vermoedens veilig, stap voor stap en met ondersteuning. 
+          Je staat er niet alleen voor.
         </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary">Direct melding starten</button>
+          <button class="btn btn-secondary">Eerst advies vragen</button>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-image">
+          <img src="hero.jpg" alt="Zorgmedewerker in gesprek" />
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">150+</div>
+          <div class="stat-label">Meldingen per jaar met begeleiding</div>
+        </div>
+      </div>
+    </header>
 
-        <div class="upload-area">
-          <span class="upload-icon">⬆️</span>
-          <p class="upload-text">
-            Sleep hier aanvullend dossiermateriaal naartoe of
-            <button class="link-button">kies een bestand</button>.
+    <!-- Actie sectie -->
+    <section class="action-section" id="melden">
+      <h2>Kies wat je nu wil doen</h2>
+
+      <div class="action-cards">
+        <!-- Kaart 1: Melding starten -->
+        <article class="action-card">
+          <header class="action-card-header">
+            <div class="action-card-main">
+              <span class="card-icon">📝</span>
+              <div class="card-title-group">
+                <h3>Melding starten</h3>
+                <small>Veilig en stap-voor-stap</small>
+              </div>
+            </div>
+            <div class="action-card-extra action-card-extra-blue">
+              10–15 minuten
+            </div>
+          </header>
+
+          <p>
+            Doorloop een korte vragenlijst zodat we de situatie goed begrijpen 
+            en je stap voor stap kunnen begeleiden.
           </p>
 
-          <div class="upload-extra">
-            <small>
-              <span class="tooltip" data-tooltip="We slaan je documenten versleuteld op en delen niets zonder jouw toestemming.">
-                Hoe gaan we met je gegevens om?
-              </span>
-            </small>
-          </div>
+          <!-- Upload area -->
+          <div class="upload-area" aria-label="Voeg dossiermateriaal toe">
+            <div class="upload-inner">
+              <span class="upload-icon" aria-hidden="true">⬆️</span>
+              <p class="upload-text">
+                Sleep hier aanvullend dossiermateriaal naartoe of
+                <button type="button" class="link-button">kies een bestand</button>.
+              </p>
+            </div>
 
-          <!-- Dynamisch: voorbeeld geselecteerd bestand -->
-          <div class="file-info">
-            <span class="file-name">rapport_team_2025.pdf</span>
-            <span class="file-size">(1.2 MB)</span>
-            <button class="btn-remove">×</button>
-          </div>
-        </div>
-      </article>
+            <div class="upload-extra">
+              <small>
+                <button type="button" class="tooltip" 
+                        data-tooltip="We slaan je documenten versleuteld op en delen niets zonder jouw toestemming.">
+                  Hoe gaan we met je gegevens om?
+                </button>
+              </small>
+            </div>
 
-      <!-- Kaart 2: Direct hulp nodig -->
-      <article class="action-card action-card-support">
-        <header class="action-card-header">
-          <div class="action-card-main">
-            <span class="card-icon">📞</span>
-            <div class="card-title-group">
-              <h3>Direct hulp nodig?</h3>
-              <small>Praat met een vertrouwenspersoon</small>
+            <!-- Dynamisch voorbeeld geselecteerd bestand -->
+            <div class="file-info" aria-live="polite">
+              <span class="file-name">rapport_team_2025.pdf</span>
+              <span class="file-size">(1.2 MB)</span>
+              <button type="button" class="btn-remove" aria-label="Verwijder bestand">×</button>
             </div>
           </div>
-          <div class="action-card-extra action-card-extra-outline">
-            Gratis & anoniem
+        </article>
+
+        <!-- Kaart 2: Direct hulp nodig -->
+        <article class="action-card action-card-support">
+          <header class="action-card-header">
+            <div class="action-card-main">
+              <span class="card-icon">📞</span>
+              <div class="card-title-group">
+                <h3>Direct hulp nodig?</h3>
+                <small>Praat met een vertrouwenspersoon</small>
+              </div>
+            </div>
+            <div class="action-card-extra action-card-extra-outline">
+              Gratis &amp; anoniem
+            </div>
+          </header>
+
+          <p>
+            Twijfel je of je een melding moet doen, of loop je zelf vast in een 
+            lastige situatie? Onze vertrouwenspersonen denken met je mee.
+          </p>
+
+          <div class="support-contact">
+            <a href="tel:012345678" class="phone-link">012 34 56 78</a>
+            <span class="availability">Vandaag nog iemand aan de lijn.</span>
           </div>
-        </header>
 
-        <p>
-          Twijfel je of je een melding moet doen, of loop je zelf vast in een
-          lastige situatie? Onze vertrouwenspersonen denken met je mee.
+          <small>
+            Liever schriftelijk? Stuur een bericht en we reageren binnen één werkdag.
+          </small>
+        </article>
+      </div>
+    </section>
+
+    <!-- Zorgbundels / lexicons -->
+    <section class="zorgbundels-section" aria-labelledby="zorgbundels-title">
+      <div class="zorgbundels-header">
+        <h2 id="zorgbundels-title">Zorgbundels en probleemgebieden</h2>
+        <p class="section-intro">
+          Zoek op medische termen of patiententaal en klik op een badge om direct daarop te filteren.
         </p>
+      </div>
 
-        <div class="support-contact">
-          <a href="tel:012345678" class="phone-link">012 34 56 78</a>
-          <span class="availability">Vandaag nog iemand aan de lijn.</span>
+      <div class="zorg-toolbar">
+        <div class="toolbar-search">
+          <label for="searchInput" class="visually-hidden">Zoek in zorgbundels</label>
+          <input id="searchInput" type="search" placeholder="Zoek in zorgbundels…" />
         </div>
-
-        <small>
-          Liever schriftelijk? Stuur een bericht en we reageren binnen één werkdag.
-        </small>
-      </article>
-    </div>
-  </section>
-
-  <!-- Preventie sectie -->
-  <section class="prevention-section" id="preventie">
-    <div class="prevention-content">
-      <div class="prevention-text">
-        <h2>Voorkom dat situaties uit de hand lopen</h2>
-        <p>
-          Hoe vroeger je signalen herkent, hoe groter de kans dat je problemen
-          samen kunt oplossen voordat er schade ontstaat.
-        </p>
-        <ul>
-          <li>Checklists om signalen van grensoverschrijdend gedrag te herkennen.</li>
-          <li>Praktische gesprekstips voor in het team en met leidinggevenden.</li>
-          <li>Voorbeelden van veilige meldprocedures in zorgorganisaties.</li>
-        </ul>
-        <button class="btn btn-outline">Bekijk preventietips</button>
+        <fieldset class="toolbar-filter">
+          <legend class="visually-hidden">Filtertype</legend>
+          <label for="lexiconFilter">Filter:</label>
+          <select id="lexiconFilter">
+            <option value="all">Alles</option>
+            <option value="medisch">Medische termen</option>
+            <option value="patient">Patiententaal</option>
+          </select>
+        </fieldset>
       </div>
-      <div class="prevention-image">
-        <img src="preventie.jpg" alt="Teamoverleg in de zorg" />
+
+      <div class="table-wrapper" role="region" aria-labelledby="zorgbundelsCaption" tabindex="0">
+        <table id="zorgbundelsTable" class="zorg-table">
+          <caption id="zorgbundelsCaption">Overzicht zorgbundels</caption>
+          <thead>
+            <tr>
+              <th scope="col">Nr</th>
+              <th scope="col">Naam</th>
+              <th scope="col">Medische termen</th>
+              <th scope="col">Patiententaal</th>
+              <th scope="col">Klinisch</th>
+              <th scope="col">Educatie</th>
+              <th scope="col">Functioneel</th>
+              <th scope="col">Coördinatie</th>
+              <th scope="col">Monitoring</th>
+              <th scope="col">Zorgverleners</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Wordt gevuld door JavaScript renderTableRows() -->
+          </tbody>
+        </table>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Waarom Zorgstart -->
-  <section class="trust-section" id="waarom">
-    <h2>Waarom professionals voor Zorgstart kiezen</h2>
-    <div class="trust-items">
-      <article class="trust-item">
-        <h3>Specifiek voor de zorg</h3>
-        <p>
-          De vragen en voorbeelden zijn afgestemd op zorgteams, van ziekenhuis
-          tot woonzorgcentrum.
-        </p>
-      </article>
+    <!-- Preventie sectie -->
+    <section class="prevention-section" id="preventie">
+      <div class="prevention-content">
+        <div class="prevention-text">
+          <h2>Voorkom dat situaties uit de hand lopen</h2>
+          <p>
+            Hoe vroeger je signalen herkent, hoe groter de kans dat je problemen 
+            samen kunt oplossen voordat er schade ontstaat.
+          </p>
+          <ul>
+            <li>Checklists om signalen van grensoverschrijdend gedrag te herkennen.</li>
+            <li>Praktische gesprekstips voor in het team en met leidinggevenden.</li>
+            <li>Voorbeelden van veilige meldprocedures in zorgorganisaties.</li>
+          </ul>
+          <button class="btn btn-outline">Bekijk preventietips</button>
+        </div>
+        <div class="prevention-image">
+          <img src="preventie.jpg" alt="Teamoverleg in de zorg" />
+        </div>
+      </div>
+    </section>
 
-      <article class="trust-item">
-        <h3>Veilig en vertrouwelijk</h3>
-        <p>
-          Meldingen worden versleuteld opgeslagen en alleen gedeeld met wie jij
-          expliciet toestemming geeft.
-        </p>
-      </article>
+    <!-- Waarom Zorgstart -->
+    <section class="trust-section" id="waarom">
+      <h2>Waarom professionals voor Zorgstart kiezen</h2>
+      <div class="trust-items">
+        <article class="trust-item">
+          <h3>Specifiek voor de zorg</h3>
+          <p>
+            De vragen en voorbeelden zijn afgestemd op zorgteams, van ziekenhuis 
+            tot woonzorgcentrum.
+          </p>
+        </article>
 
-      <article class="trust-item">
-        <h3>Ondersteuning door experts</h3>
-        <p>
-          Je krijgt begeleiding van ervaren vertrouwenspersonen die de
-          zorgpraktijk goed kennen.
-        </p>
-      </article>
-    </div>
-  </section>
+        <article class="trust-item">
+          <h3>Veilig en vertrouwelijk</h3>
+          <p>
+            Meldingen worden versleuteld opgeslagen en alleen gedeeld met wie jij 
+            expliciet toestemming geeft.
+          </p>
+        </article>
+
+        <article class="trust-item">
+          <h3>Ondersteuning door experts</h3>
+          <p>
+            Je krijgt begeleiding van ervaren vertrouwenspersonen die de zorgpraktijk 
+            goed kennen.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer>
-    © 2026 Zorgstart. Alle rechten voorbehouden.
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© 2026 Zorgstart. Alle rechten voorbehouden.</span>
+    </div>
   </footer>
 
   <!-- Toast -->
-  <div class="toast" id="toast">
-    <span class="toast-icon">✅</span>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
+    <span class="toast-icon" aria-hidden="true">✅</span>
     <span class="toast-text">Je bestand is veilig toegevoegd.</span>
   </div>
+
+  <!-- Jouw bestaande JS komt hier -->
+  <script src="zorgbundels.js"></script>
 </body>
 </html>
+
