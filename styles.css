@@ -291,3 +291,80 @@ h2 {
   border-top: 1px solid var(--border-soft);
   margin-top: 1rem;
 }
+
+/* Top Navigation */
+.top-nav {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.nav-logo:hover {
+  color: var(--text-main);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-button {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.85rem !important;
+}
+
+/* Patients Section */
+.patients {
+  padding: 3rem 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.patients h2 {
+  margin-bottom: 0.5rem;
+}
+
+.patients-placeholder {
+  background: var(--bg);
+  border: 2px dashed var(--border-soft);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+/* File Upload Label Styling */
+label.button {
+  cursor: pointer;
+  display: inline-block;
+}
