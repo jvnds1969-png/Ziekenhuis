@@ -6,6 +6,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Zorgstart script geladen - versie 1.1 met progress bar');
 
+      // ============================================================
+  // UPLOAD BUTTON TRIGGER - Direct koppeling file input
+  // ============================================================
+  const fileInput = document.getElementById('dischargeDoc');
+  const uploadLabel = document.querySelector('label[for="dischargeDoc"]');
+  
+  if (uploadLabel && fileInput) {
+    console.log('✅ Upload button gevonden en gekoppeld');
+    uploadLabel.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('🖱️ Upload button geklikt - trigger file input');
+      fileInput.click();
+    });
+  } else {
+    console.error('❌ Upload button of file input niet gevonden!');
+  }
+
   // ============================================================
   // CONFIGURATIE
   // ============================================================
@@ -175,23 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ============================================================
   
   // Zoek het bestaande file input element
-  const fileInput = document.getElementById('dischargeDoc');
   
-  // Zoek de upload button (meerdere manieren om robuust te zijn)
-  const uploadBtn = document.querySelector('button.btn-primary') ||
-                    document.querySelector('.btn-card') ||
-                    Array.from(document.querySelectorAll('button')).find(function(btn) {
-                      return btn.textContent.toLowerCase().includes('uploaden') ||
-                             btn.textContent.toLowerCase().includes('document');
-                    });
-
-  // Zoek de patiënten tabel
-  const patientenTabel = document.querySelector('.patients-table tbody') ||
-                         document.querySelector('table tbody');
-
-  // ============================================================
-  // MODAL FUNCTIES
-  // ============================================================
   
   function showModal(content) {
     var modal = document.getElementById('uploadModal');
@@ -222,19 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // UPLOAD BUTTON EVENT LISTENER
-  // ============================================================
   
-  if (uploadBtn) {
-    uploadBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (fileInput) {
-        fileInput.click();
-      }
-    });
-  }
-
-  // ============================================================
   // FILE INPUT CHANGE EVENT - HOOFDWORKFLOW
   // ============================================================
   
