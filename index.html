@@ -6,6 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
 </head>
+<!-- Modal voor upload voortgang en resultaten -->
+<div id="uploadModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Zorgplan Modal -->
+<div id="zorgplanModal" class="modal" style="display:none;">
+  <div class="modal-content modal-large">
+    <span class="modal-close">&times;</span>
+    <div class="zorgplan-tabs">
+      <button class="tab-btn active" data-tab="professional">👨‍⚕️ Voor zorgverleners</button>
+      <button class="tab-btn" data-tab="patient">👤 Voor patiënt</button>
+    </div>
+    <div id="zorgplanContent"></div>
+  </div>
+</div>
 <body>
 
 <!-- Top Navigatie -->
