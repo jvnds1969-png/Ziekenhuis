@@ -589,17 +589,3 @@ main {
 
 .btn-primary:hover {
   backgroun
-  white-space: nowrap;
-}
-
-/* Tekst onder de header blijft zoals je had */
-.action-card h3 {
-  margin: 0.25rem 0 0.1rem;
-  font-size: 1.1rem;
-}
-
-.action-card p {
-  margin: 0;
-  color: #4b5563;
-  font-size: 0.95rem;
-}
