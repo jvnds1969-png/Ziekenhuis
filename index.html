@@ -7,6 +7,19 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<!-- Top Navigatie -->
+<nav class="top-nav">
+  <div class="container top-nav-content">
+    <a href="#" class="nav-logo">Zorgstart</a>
+    <div class="nav-links">
+      <a href="#">Mijn dashboard</a>
+      <a href="https://github.com/jvnds1969-png/Nurseline" target="_blank" rel="noopener">Nurseline</a>
+      <a href="#mijn-patienten" class="button primary nav-button">Mijn patiënten</a>
+    </div>
+  </div>
+</nav>
+
 <header class="hero">
   <div class="container">
     <span class="badge">Ontslagmanagement</span>
@@ -49,9 +62,10 @@
         <ul class="method-benefits">
           <li>⚡ In 30 seconden naar zorgvoorstel</li>
         </ul>
-        <a class="button primary" href="https://cdpn.io/Jan-Avonds/fullpage/XJKZqor?nocache=true&view=#" target="_blank" rel="noopener">
+        <input type="file" id="dischargeDoc" name="dischargeDoc" accept=".pdf,.doc,.docx,.txt" style="display:none;">
+        <label for="dischargeDoc" class="button primary">
           Document uploaden
-        </a>
+        </label>
       </article>
 
       <!-- Vragenlijst -->
@@ -64,7 +78,7 @@
         <ul class="method-benefits">
           <li>🎯 Mis nooit een belangrijk detail</li>
         </ul>
-        <a class="button secondary" href="#" aria-disabled="true">
+        <a class="button secondary" href="https://chat.bingli.eu/#/consent" target="_blank" rel="noopener">
           Start vragenlijst
         </a>
       </article>
@@ -79,7 +93,7 @@
         <ul class="method-benefits">
           <li>✨ Directe toegang tot zorgaanbod</li>
         </ul>
-        <a class="button secondary" href="#" aria-disabled="true">
+        <a class="button secondary" href="https://github.com/jvnds1969-png/Zorgverleners" target="_blank" rel="noopener">
           Begin met zoeken
         </a>
       </article>
@@ -94,10 +108,21 @@
         <ul class="method-benefits">
           <li>📞 Eén vast aanspreekpunt</li>
         </ul>
-        <a class="button secondary" href="#" aria-disabled="true">
+        <a class="button secondary" href="https://github.com/jvnds1969-png/Nurseline" target="_blank" rel="noopener">
           Contacteer Nurseline
         </a>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- Mijn Patiënten sectie -->
+<section id="mijn-patienten" class="patients">
+  <div class="container">
+    <h2>Mijn patiënten</h2>
+    <p class="section-intro">Overzicht van je actieve dossiers.</p>
+    <div class="patients-placeholder">
+      <p>Hier komt het overzicht van je patiënten.</p>
     </div>
   </div>
 </section>
