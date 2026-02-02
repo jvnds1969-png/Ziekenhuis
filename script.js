@@ -1,165 +1,160 @@
 // ============================================================
-// ZIEKENHUIS ONTSLAGMANAGEMENT - VOLLEDIGE WORKFLOW MET UI
+// ZIEKENHUIS ONTSLAGMANAGEMENT - VOLLEDIGE WORKFLOW
+// Versie: 1.0 - 2 februari 2026
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  // === ZORGBUNDELS DATA ===
+  // ============================================================
+  // CONFIGURATIE
+  // ============================================================
+  const CONFIG = {
+    onePatientUrl: 'https://test.onepatient.bingli.be',
+    zorgverlenersUrl: 'https://jvnds1969-png.github.io/Zorgverleners/providers.json'
+  };
+
+  // ============================================================
+  // ZORGBUNDELS DATA (alle 16 probleemgebieden)
+  // ============================================================
   const zorgbundels = [
-    { nr: 1, naam: "Diabetes met verhoogd thuisrisico", medischLexicon: ["diabetes","DM2","insuline","hypoglycemie","hyperglycemie","HbA1c","diabetische","glucosecontrole","suikerziekte"], zorgverleners: ["Huisarts","POH/diabetesverpleegkundige","Thuisverpleging","Diëtist","Apotheker"] },
-    { nr: 2, naam: "Polyfarmacie & medicatieveiligheid", medischLexicon: ["polyfarmacie","medicatie","medicijn","bijwerkingen","therapietrouw","STOPP","START","pillen"], zorgverleners: ["Huisarts","Huisapotheker","Thuisverpleging"] },
-    { nr: 3, naam: "Cardiovasculair hoog risico", medischLexicon: ["hypertensie","bloeddruk","cholesterol","CVRM","hartinfarct","CVA","TIA","coronair"], zorgverleners: ["Huisarts","POH (CVRM)","Cardioloog","Diëtist"] },
-    { nr: 4, naam: "Cardiovasculaire instabiliteit", medischLexicon: ["atriumfibrilleren","AF","ritmestoornis","syncope","collaps","pacemaker","hypotensie"], zorgverleners: ["Huisarts","Cardioloog","Thuisverpleging"] },
-    { nr: 5, naam: "COPD/Astma", medischLexicon: ["COPD","astma","longaanval","dyspnoe","kortademig","inhalatie","puffer","zuurstof","emfyseem"], zorgverleners: ["Huisarts","Longarts","Fysiotherapeut"] },
-    { nr: 6, naam: "CNI/Hartfalen", medischLexicon: ["nierinsufficiëntie","CNI","eGFR","hartfalen","decompensatie","oedeem","diuretica"], zorgverleners: ["Huisarts","Nefroloog","Cardioloog","Diëtist"] },
-    { nr: 7, naam: "Valrisico & functionele achteruitgang", medischLexicon: ["valrisico","gevallen","mobiliteit","loopstoornis","frailty","kwetsbaar","ADL","sarcopenie"], zorgverleners: ["Huisarts","Kinesitherapeut","Ergotherapeut","Thuisverpleging"] },
-    { nr: 8, naam: "Ondervoeding", medischLexicon: ["ondervoeding","malnutritie","gewichtsverlies","eetlust","BMI","cachexie","dysfagie"], zorgverleners: ["Diëtist","Huisarts","Logopedist"] },
-    { nr: 9, naam: "Cognitieve kwetsbaarheid", medischLexicon: ["dementie","Alzheimer","cognitief","geheugen","verwardheid","delirium","MMSE"], zorgverleners: ["Huisarts","Geriater","Thuisverpleging","Casemanager"] },
-    { nr: 10, naam: "Psychosociaal lijden", medischLexicon: ["depressie","angst","somber","eenzaam","slaapproblemen","suïcide","rouw"], zorgverleners: ["Huisarts","POH-GGZ","Psycholoog","Maatschappelijk werker"] }
-  ];
-
-  // === PATIËNTEN DATA OPSLAG ===
-  let patienten = JSON.parse(localStorage.getItem('zorgstart_patienten') || '[]');
-  let patientCounter = patienten.length + 1;
-
-  // === DOM ELEMENTEN ===
-  const uploadBtn = document.querySelector('.btn-card:first-of-type') || 
-                    Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('uploaden'));
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = '.pdf,.doc,.docx,.txt';
-  fileInput.style.display = 'none';
-  document.body.appendChild(fileInput);
-
-  // === MODAL FUNCTIES ===
-  function showModal(content) {
-    let modal = document.getElementById('uploadModal');
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = 'uploadModal';
-      modal.className = 'modal';
-      modal.innerHTML = `
-        <div class="modal-content">
-          <span class="modal-close" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
-          <div id="modalBody"></div>
-        </div>
-      `;
-      document.body.appendChild(modal);
-    }
-    document.getElementById('modalBody').innerHTML = content;
-    modal.style.display = 'flex';
-  }
-
-  function hideModal() {
-    const modal = document.getElementById('uploadModal');
-    if (modal) modal.style.display = 'none';
-  }
-
-  // === UPLOAD WORKFLOW ===
-  if (uploadBtn) {
-    uploadBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      fileInput.click();
-    });
-  }
-
-  fileInput.addEventListener('change', async (e) => {
-    if (e.target.files.length === 0) return;
-    
-    const file = e.target.files[0];
-    const fileName = file.name;
-    
-    // Toon voortgangsmodal
-    showModal(`
-      <h2>📄 Ontslagbrief verwerken</h2>
-      <p style="color:#666;">Bestand: ${fileName}</p>
+    {
+      nr: 1,
+      naam: "Diabetes met verhoogd thuisrisico",
+      medischLexicon: ["diabetes", "DM2", "DM1", "insuline", "hypoglycemie", "hyperglycemie", "HbA1c", "diabetische", "glucosecontrole", "suikerziekte", "metformine", "glycemie"],
+      zorgverleners: ["Huisarts", "POH/diabetesverpleegkundige", "Thuisverpleging", "Diëtist", "Podotherapeut", "Apotheker"],
+      klinisch: "Glycemies (nuchter/postprandiaal), symptomen hypo/hyper, voetstatus, gewicht.",
+      educatie: "Hypo-/hyperherkenning + actieplan, correcte glucosemeting, medicatieschema.",
+      monitoring: "Herhaalde hypo's, glycemie >20 mmol/L → huisarts; levensbedreiging → 112."
+    },
+    {
+      nr: 2,
+      naam: "Polyfarmacie & medicatieveiligheid",
+      medischLexicon: ["polyfarmacie", "medicatie", "medicijn", "geneesmiddel", "bijwerkingen", "therapietrouw", "STOPP", "START", "pillen", "tablet", "interactie"],
+      zorgverleners: ["Huisarts", "Huisapotheker", "Thuisverpleging", "POH/ouderen", "Geriater"],
+      klinisch: "Bijwerkingen (sufheid, verwardheid, vallen), therapietrouw, aantal medicaties.",
+      educatie: "Nieuw schema uitleggen, gevaar dubbelgebruik, teach-back methode.",
+      monitoring: "Geen medicatieoverdracht, dubbelgebruik, ernstige bijwerkingen → huisarts + apotheker."
+    },
+    {
+      nr: 3,
+      naam: "Cardiovasculair hoog risico",
+      medischLexicon: ["hypertensie", "bloeddruk", "cholesterol", "CVRM", "hartinfarct", "myocardinfarct", "CVA", "TIA", "coronair", "angina", "statine"],
+      zorgverleners: ["Huisarts", "POH (CVRM)", "Cardioloog", "Diëtist", "Fysiotherapeut", "Apotheker"],
+      klinisch: "Bloeddruk, lipiden, gewicht, rookstatus, CVRM-profiel.",
+      educatie: "Persoonlijk risico uitleggen, belang leefstijl en medicatie.",
+      monitoring: "Zeer hoge bloeddruk, nieuwe angina/TIA → huisarts; pijn op de borst → 112."
+    },
+    {
+      nr: 4,
+      naam: "Cardiovasculaire instabiliteit / collapsrisico",
+      medischLexicon: ["atriumfibrilleren", "AF", "boezemfibrilleren", "ritmestoornis", "syncope", "collaps", "flauwvallen", "pacemaker", "ICD", "hypotensie", "bradycardie", "tachycardie"],
+      zorgverleners: ["Huisarts", "Cardioloog", "Thuisverpleging", "Kinesitherapeut", "Ergotherapeut", "Alarmcentrale"],
+      klinisch: "Bloeddruk (ook orthostatisch), pols/ritme, syncope-episodes.",
+      educatie: "Herkenning pijn op borst, dyspnoe, syncope; veilig opstaan.",
+      monitoring: "Syncope, ernstige hypotensie, ritmestoornis → huisarts; pijn op borst/dyspnoe → 112."
+    },
+    {
+      nr: 5,
+      naam: "Chronische respiratoire kwetsbaarheid (COPD/astma)",
+      medischLexicon: ["COPD", "astma", "longaanval", "exacerbatie", "dyspnoe", "kortademig", "ademhalingsmoeilijkheden", "inhalatie", "puffer", "zuurstof", "emfyseem", "bronchitis", "saturatie"],
+      zorgverleners: ["Huisarts", "POH/longverpleegkundige", "Longarts", "Fysiotherapeut", "Diëtist", "Apotheker"],
+      klinisch: "Ademfrequentie, dyspnoe-score, saturatie, hoest/sputum.",
+      educatie: "Actieplan, vroege exacerbatiesignalen, correcte inhalatietechniek, rookstop.",
+      monitoring: "Ernstige dyspnoe, cyanose, verwardheid → 112; toenemende benauwdheid → huisarts."
+    },
+    {
+      nr: 6,
+      naam: "Metabool-renale kwetsbaarheid (CNI, hartfalen)",
+      medischLexicon: ["nierinsufficiëntie", "CNI", "nierfalen", "eGFR", "creatinine", "hartfalen", "decompensatie", "oedeem", "vocht", "diuretica", "lasix", "furosemide"],
+      zorgverleners: ["Huisarts", "Nefroloog", "Cardioloog", "POH", "Diëtist", "Apotheker", "Thuisverpleging"],
+      klinisch: "eGFR, elektrolyten, bloeddruk, gewicht (dagelijks bij HF), oedeem, dyspnoe.",
+      educatie: "Vocht- en zoutbeperking, tekenen decompensatie herkennen.",
+      monitoring: "Hartfalen: +2kg in 3 dagen, ernstige dyspnoe → huisarts; snelle eGFR-daling → nefroloog."
+    },
+    {
+      nr: 7,
+      naam: "Functionele achteruitgang & valrisico",
+      medischLexicon: ["valrisico", "gevallen", "val", "mobiliteit", "loopstoornis", "frailty", "kwetsbaar", "ADL", "sarcopenie", "rollator", "loophulpmiddel"],
+      zorgverleners: ["Huisarts", "Kinesitherapeut", "Ergotherapeut", "Diëtist", "Thuisverpleging", "Maatschappelijk werker"],
+      klinisch: "Mobiliteit (TUG-test), ADL/iADL, spierkracht, valincidenten, visus.",
+      educatie: "Valrisico uitleggen, veilig bewegen, gebruik hulpmiddelen.",
+      monitoring: "≥2 vallen/jaar, snel ADL-verlies → huisarts/kine; ernstige val met letsel → SEH."
+    },
+    {
+      nr: 8,
+      naam: "Ondervoeding & verminderde voedselinname",
+      medischLexicon: ["ondervoeding", "malnutritie", "gewichtsverlies", "afgevallen", "eetlust", "anorexie", "BMI", "cachexie", "dysfagie", "slikproblemen", "sondevoeding"],
+      zorgverleners: ["Diëtist", "Huisarts", "Thuisverpleging", "Logopedist", "Maatschappelijk werker"],
+      klinisch: "Gewicht, MUST/SNAQ65+ screening, eetlust, intake, kauw-/slikproblemen.",
+      educatie: "Belang eiwit/energie, kleine frequente maaltijden, verrijking.",
+      monitoring: ">5kg verlies in 3 maanden, <50% intake, slikproblemen → huisarts + diëtist/logopedist."
+    },
+    {
+      nr: 9,
+      naam: "Cognitieve kwetsbaarheid",
+      medischLexicon: ["dementie", "Alzheimer", "cognitief", "geheugen", "vergeetachtig", "verwardheid", "delirium", "desoriëntatie", "MMSE", "MCI"],
+      zorgverleners: ["Huisarts", "Geriater", "Thuisverpleging", "Casemanager/dementiecoach", "Ergotherapeut", "Maatschappelijk werker"],
+      klinisch: "Oriëntatie, geheugen, uitvoerende functies, ADL-zelfstandigheid.",
+      educatie: "Uitleg geheugenproblemen, structuur en compensaties, veilig gedrag.",
+      monitoring: "Acuut delier, wegloopgedrag, ernstige verwaarlozing → huisarts/spoed."
+    },
+    {
+      nr: 10,
+      naam: "Psychosociaal lijden & eenzaamheid",
+      medischLexicon: ["depressie", "depressief", "somber", "angst", "angstig", "eenzaam", "isolement", "slaapproblemen", "insomnia", "suïcide", "suïcidaal", "rouw"],
+      zorgverleners: ["Huisarts", "POH-GGZ", "Eerstelijnspsycholoog", "Maatschappelijk werker", "Welzijnsorganisatie"],
+      klinisch: "Depressie-/angstscreening, suïcidaliteit, slaap, sociaal functioneren.",
+      educatie: "Psycho-educatie over depressie/angst, coping, info over hulp.",
+      monitoring: "Suïcidegedachten, ernstige depressie → huisarts/GGZ-crisis; acuut gevaar → 112."
+    },
+    {
+      nr: 11,
+      naam: "Mantelzorger-overbelasting",
+      medischLexicon: ["mantelzorg", "mantelzorger", "overbelast", "caregiver", "zorglast", "respijtzorg", "uitputting"],
+      zorgverleners: ["Huisarts", "Thuisverpleging", "Mantelzorgsteunpunt", "Maatschappelijk werker", "Psycholoog"],
+      klinisch: "Belasting, draagkracht, eigen gezondheid mantelzorger.",
+      educatie: "Risico's overbelasting, grenzen stellen, beschikbare ondersteuning.",
+      monitoring: "Ernstige uitputting, agressie, verwaarlozing → huisarts/maatschappelijk werker."
+    },
+    {
+      nr: 12,
+      naam: "Veiligheid & angst om alleen te zijn",
+      medischLexicon: ["valangst", "alleenwonend", "alleen", "onveilig", "nachtelijke onrust", "personenalarm", "valdetectie"],
+      zorgverleners: ["Thuisverpleging", "Ergotherapeut", "Huisarts", "Alarmcentrale", "Maatschappelijk werker"],
+      klinisch: "Valrisico, nachtelijke onrust, feitelijk gebruik alarm, angstniveau.",
+      educatie: "Werking alarm, noodnummers, stappenplan bij incident.",
+      monitoring: "Herhaalde vallen, paniekaanvallen → huisarts/ergotherapeut; ernstig letsel → 112."
+    },
+    {
+      nr: 13,
+      naam: "Palliatieve zorgnoden",
+      medischLexicon: ["palliatief", "palliatie", "terminaal", "levenseinde", "comfort", "DNR", "wilsverklaring", "pijnbestrijding", "morfine"],
+      zorgverleners: ["Huisarts", "Palliatief team", "Thuisverpleging", "Apotheker", "Diëtist", "Psycholoog", "Geestelijk verzorger"],
+      klinisch: "Symptomen (pijn, dyspnoe, misselijkheid, angst), functionele status.",
+      educatie: "Ziekteverloop, symptoomcontrole, wat te doen bij verslechtering.",
+      monitoring: "Onvoldoende symptoomcontrole, refractaire onrust → huisarts/palliatief team."
+    },
+    {
+      nr: 14,
+      naam: "Incontinentie & delirium-risico",
+      medischLexicon: ["incontinentie", "urineverlies", "plasmoeilijkheden", "katheter", "blaas", "delirium", "nachtelijke onrust", "verward"],
+      zorgverleners: ["Huisarts", "Thuisverpleging", "Continentieverpleegkundige", "Kinesitherapeut", "Ergotherapeut"],
+      klinisch: "Mictiepatroon, nachtelijke toiletgang, episodes delier/onrust.",
+      educatie: "Gebruik incontinentiemateriaal, toiletgedrag, vroege deliersignalen.",
+      monitoring: "Acute verwardheid, urineretentie, UWI met delier → huisarts/spoed."
+    },
+    {
+      nr: 15,
+      naam: "Ernstige zintuiglijke beperkingen",
+      medischLexicon: ["slechtziend", "blind", "visus", "gehoorverlies", "slechthorend", "doof", "hoortoestel", "bril", "glaucoom", "cataract", "maculadegeneratie"],
+      zorgverleners: ["Huisarts", "Oogarts", "Audioloog", "Thuisverpleging", "Ergotherapeut", "Maatschappelijk werker"],
+      klinisch: "Functioneren met bril/hoortoestel, impact op ADL/veiligheid.",
+      educatie: "Belang hulpmiddelen, onderhoud, aangepaste communicatie.",
+      monitoring: "Plots visusverlies, onveilige situaties → oogarts/audioloog/huisarts."
+    },
+    {
+      nr: 16,
+      naam: "Verslaving / psychosociaal ontwrichtend gedrag",
+      medischLexicon: ["alcohol", "alcoholmisbruik", "verslaving", "drugs", "intoxicatie", "ontwenning", "agressie", "huiselijk geweld"],
       
-      <div class="progress-steps">
-        <div class="progress-step completed" id="step1">
-          <span class="icon">✓</span> Document geüpload
-        </div>
-        <div class="progress-step active" id="step2">
-          <span class="icon">⏳</span> Verzenden naar OnePatient...
-        </div>
-        <div class="progress-step" id="step3">
-          <span class="icon">○</span> Medische gegevens extraheren
-        </div>
-        <div class="progress-step" id="step4">
-          <span class="icon">○</span> Probleemgebieden detecteren
-        </div>
-        <div class="progress-step" id="step5">
-          <span class="icon">○</span> Zorgplan genereren
-        </div>
-      </div>
-      
-      <div class="progress-bar">
-        <div class="progress-bar-fill" id="progressFill" style="width: 20%"></div>
-      </div>
-      
-      <p id="statusText" style="text-align:center; color:#3b82f6;">Verbinden met OnePatient...</p>
-    `);
-
-    // Simuleer de workflow stappen
-    await simulateWorkflow(file, fileName);
-    
-    fileInput.value = '';
-  });
-
-  async function simulateWorkflow(file, fileName) {
-    const steps = [
-      { id: 'step2', progress: 35, text: 'Document wordt geanalyseerd door OnePatient...' },
-      { id: 'step3', progress: 55, text: 'Medische gegevens worden geëxtraheerd...' },
-      { id: 'step4', progress: 75, text: 'Probleemgebieden worden gedetecteerd...' },
-      { id: 'step5', progress: 95, text: 'Zorgplan wordt gegenereerd...' }
-    ];
-
-    for (let i = 0; i < steps.length; i++) {
-      await delay(1200);
-      updateStep(steps[i].id, steps[i].progress, steps[i].text);
-    }
-
-    await delay(800);
-    
-    // Lees bestand en detecteer probleemgebieden
-    const documentText = await readFileContent(file);
-    const detectedBundels = detectProbleemgebieden(documentText);
-    
-    // Genereer patiëntgegevens (in productie uit OnePatient)
-    const patientData = generatePatientData(fileName, detectedBundels);
-    
-    // Toon resultaat
-    showResults(patientData, detectedBundels);
-  }
-
-  function updateStep(stepId, progress, text) {
-    // Markeer vorige stap als completed
-    const allSteps = document.querySelectorAll('.progress-step');
-    allSteps.forEach(step => {
-      if (step.classList.contains('active')) {
-        step.classList.remove('active');
-        step.classList.add('completed');
-        step.querySelector('.icon').textContent = '✓';
-      }
-    });
-    
-    // Markeer huidige stap als active
-    const currentStep = document.getElementById(stepId);
-    if (currentStep) {
-      currentStep.classList.add('active');
-      currentStep.querySelector('.icon').textContent = '⏳';
-    }
-    
-    // Update progress bar
-    const progressFill = document.getElementById('progressFill');
-    if (progressFill) progressFill.style.width = progress + '%';
-    
-    // Update status text
-    const statusText = document.getElementById('statusText');
-    if (statusText) statusText.textContent = text;
-  }
-
-  async function readFileContent(file) {
-    // Voor demo: simuleer tekst extractie
-    // In productie: gebruik PDF.js of server-side OCR
-    return
 
