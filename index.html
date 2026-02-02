@@ -1,277 +1,241 @@
 <!doctype html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <title>Zorgstart</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zorgstart — Professionals</title>
+  <meta name="description" content="Zorgstart helpt professionals om ontslagzorg snel en veilig te organiseren." />
+  <link rel="stylesheet" href="style.css?v=1" />
 </head>
+
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a href="#" class="logo">
-        <div class="logo-icon">Z</div>
-        <div class="logo-textblock">
-          <span class="logo-text">Zorgstart</span>
-          <span class="logo-subtitle">Veilig melden &amp; advies</span>
-        </div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="Zorgstart home">
+        <span class="brand-icon" aria-hidden="true">Z</span>
+        <span class="brand-text">
+          <span class="brand-name">Zorgstart</span>
+          <span class="brand-subtitle">VOOR PROFESSIONALS</span>
+        </span>
       </a>
 
-      <div class="nav-links">
-        <a href="#melden" class="nav-link">Melding doen</a>
-        <a href="#zorgbundels" class="nav-link">Zorgbundels</a>
-        <a href="#preventie" class="nav-link">Preventie</a>
-        <a href="#waarom" class="nav-link">Waarom</a>
-        <button class="btn btn-outline">Inloggen</button>
-        <button class="btn btn-primary">Registreer</button>
+      <nav class="site-nav" aria-label="Hoofdnavigatie">
+        <a href="#" aria-current="page">Dashboard</a>
+        <a href="#">Mijn patiënten</a>
+        <a href="#">Helpdesk</a>
+        <a href="#">Nurseline</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-primary" href="#">+ Nieuwe patiënt aanmelden</a>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        ☰
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-nav" hidden>
+      <div class="container mobile-nav-inner">
+        <a href="#" aria-current="page">Dashboard</a>
+        <a href="#">Mijn patiënten</a>
+        <a href="#">Helpdesk</a>
+        <a href="#">Nurseline</a>
+        <a class="btn btn-primary" href="#">+ Nieuwe patiënt aanmelden</a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <main>
-    <!-- Hero -->
-    <header class="hero">
-      <div class="hero-content">
-        <p class="breadcrumb">Voor zorgprofessionals</p>
-        <h1>Twijfel je over grensoverschrijdend gedrag in de zorg?</h1>
-        <p class="lead">
-          Meld je zorgen veilig en vertrouwelijk. We helpen je stap voor stap, 
-          van eerste twijfel tot concrete actie.
-        </p>
-        <div class="hero-actions">
-          <button class="btn btn-primary hero-cta">Direct melding starten</button>
-          <button class="btn btn-ghost">Eerst advies lezen</button>
-        </div>
-
-        <ul class="hero-highlights">
-          <li>Veilig en anoniem mogelijk</li>
-          <li>Begeleiding door vertrouwenspersonen</li>
-          <li>Specifiek voor zorgorganisaties</li>
-        </ul>
-      </div>
-
-      <aside class="hero-panel" aria-label="Snelle opties">
-        <div class="hero-panel-card">
-          <h2>Wat wil je nu doen?</h2>
-          <ul class="hero-panel-list">
-            <li>
-              <button class="panel-link">
-                <span class="panel-link-title">Melding starten</span>
-                <span class="panel-link-meta">10–15 minuten • veilig en stap-voor-stap</span>
-              </button>
-            </li>
-            <li>
-              <button class="panel-link">
-                <span class="panel-link-title">Twijfel bespreken</span>
-                <span class="panel-link-meta">Telefonisch of schriftelijk advies</span>
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-number">9,2</div>
-          <div class="stat-label">Tevredenheid over begeleiding</div>
-        </div>
-      </aside>
-    </header>
-
-    <!-- Twee hoofdopties -->
-    <section class="options-section" id="melden" aria-label="Kies je route">
-      <div class="options-grid">
-        <!-- Melding starten -->
-        <article class="option-card">
-          <header class="option-header">
-            <div>
-              <p class="option-eyebrow">Route 1</p>
-              <h2>Melding starten</h2>
-            </div>
-            <span class="chip chip-soft">10–15 minuten</span>
-          </header>
-
-          <p class="option-text">
-            Beantwoord een aantal gerichte vragen zodat we de situatie goed begrijpen 
-            en je gericht kunnen begeleiden.
+  <main class="site-main">
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <div class="breadcrumb">Ontslagmanagement</div>
+          <h1>Jouw tijd voor patiënten, niet voor administratie</h1>
+          <p class="lead">
+            Zorgstart helpt je om een veilige thuiskomst te organiseren.
+            Jij bent gerust wanneer je weet dat de juiste zorg wordt opgestart.
+            Geen eindeloze zoektochten, geen gemiste informatie. Gewoon de juiste zorg of dienst, op het juiste moment.
           </p>
 
-          <!-- Upload area -->
-          <div class="upload-area" aria-label="Voeg dossiermateriaal toe">
-            <div class="upload-inner">
-              <span class="upload-icon" aria-hidden="true">⬆️</span>
-              <p class="upload-text">
-                Sleep hier dossiermateriaal naartoe of
-                <button type="button" class="link-button">kies een bestand</button>.
-              </p>
-            </div>
-
-            <div class="upload-extra">
-              <button type="button" class="tooltip"
-                      data-tooltip="We slaan je documenten versleuteld op en delen niets zonder jouw toestemming.">
-                Hoe gaan we met je gegevens om?
-              </button>
-            </div>
-
-            <div class="file-info" aria-live="polite">
-              <span class="file-name">rapport_team_2025.pdf</span>
-              <span class="file-size">(1,2 MB)</span>
-              <button type="button" class="btn-remove" aria-label="Verwijder bestand">×</button>
-            </div>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#">Start nu</a>
+            <a class="btn btn-ghost" href="#">Hoe werkt het?</a>
           </div>
 
-          <button class="btn btn-primary option-cta">Start melding</button>
-        </article>
-
-        <!-- Direct hulp -->
-        <article class="option-card option-card-support">
-          <header class="option-header">
-            <div>
-              <p class="option-eyebrow">Route 2</p>
-              <h2>Direct hulp nodig?</h2>
+          <div class="hero-stats" role="list">
+            <div class="stat-card" role="listitem">
+              <div class="stat-number">87%</div>
+              <div class="stat-label">Tijdsbesparing bij matching</div>
             </div>
-            <span class="chip chip-outline">Gratis &amp; anoniem</span>
-          </header>
-
-          <p class="option-text">
-            Twijfel je of je een melding moet doen, of zit je zelf vast in een lastige situatie? 
-            Onze vertrouwenspersonen denken met je mee.
-          </p>
-
-          <div class="support-contact">
-            <a href="tel:012345678" class="phone-link">Bel 012 34 56 78</a>
-            <span class="availability">Vandaag nog iemand aan de lijn.</span>
+            <div class="stat-card" role="listitem">
+              <div class="stat-number">12u</div>
+              <div class="stat-label">Gemiddelde reactietijd zorgverleners</div>
+            </div>
           </div>
-
-          <p class="option-text small">
-            Liever schriftelijk? Stuur een bericht en we reageren binnen één werkdag.
-          </p>
-
-          <button class="btn btn-secondary option-cta">Stuur een bericht</button>
-        </article>
-      </div>
-    </section>
-
-    <!-- Zorgbundels / lexicons -->
-    <section class="zorgbundels-section" id="zorgbundels" aria-labelledby="zorgbundels-title">
-      <header class="zorgbundels-header">
-        <h2 id="zorgbundels-title">Zoek in zorgbundels en probleemgebieden</h2>
-        <p class="section-intro">
-          Typ een term of klik op een badge. Je kunt zoeken op medische termen én in taal 
-          die patienten zelf gebruiken.
-        </p>
-      </header>
-
-      <div class="zorg-search-shell">
-        <div class="zorg-toolbar">
-          <div class="toolbar-search">
-            <label for="searchInput" class="visually-hidden">Zoek in zorgbundels</label>
-            <input id="searchInput" type="search" autocomplete="off"
-                   placeholder="Bijvoorbeeld: ‘overbelasting’ of ‘agressie op de werkvloer’" />
-          </div>
-          <fieldset class="toolbar-filter">
-            <legend class="visually-hidden">Filtertype</legend>
-            <label for="lexiconFilter">Toon termen uit:</label>
-            <select id="lexiconFilter">
-              <option value="all">Alle velden</option>
-              <option value="medisch">Medisch lexicon</option>
-              <option value="patient">Patiententaal</option>
-            </select>
-          </fieldset>
         </div>
 
-        <div class="table-wrapper" role="region" aria-labelledby="zorgbundelsCaption" tabindex="0">
-          <table id="zorgbundelsTable" class="zorg-table">
-            <caption id="zorgbundelsCaption">Overzicht zorgbundels</caption>
-            <thead>
-              <tr>
-                <th scope="col">Nr</th>
-                <th scope="col">Naam</th>
-                <th scope="col">Medische termen</th>
-                <th scope="col">Patiententaal</th>
-                <th scope="col">Klinisch</th>
-                <th scope="col">Educatie</th>
-                <th scope="col">Functioneel</th>
-                <th scope="col">Coördinatie</th>
-                <th scope="col">Monitoring</th>
-                <th scope="col">Zorgverleners</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Gevuld door JS -->
-            </tbody>
-          </table>
+        <div class="hero-aside" aria-label="Snelkoppelingen">
+          <div class="aside-card">
+            <div class="aside-title">Snelle acties</div>
+            <div class="aside-actions">
+              <a class="btn btn-card" href="#">📄 Document uploaden</a>
+              <a class="btn btn-card" href="#">💬 Start vragenlijst</a>
+              <a class="btn btn-card" href="#">🔍 Direct zoeken</a>
+              <a class="btn btn-card" href="#">🤝 Contacteer Nurseline</a>
+            </div>
+            <p class="aside-note">
+              Tip: start met uploaden als je een ontslagbrief of verslag hebt.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Preventie -->
-    <section class="prevention-section" id="preventie">
-      <div class="prevention-content">
-        <div class="prevention-text">
-          <h2>Voorkom dat situaties escaleren</h2>
-          <p>
-            Herken signalen vroeg en zorg dat je als team op tijd het gesprek voert. 
-            Zo verklein je de kans op schade voor patienten én collega’s.
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Kies je werkwijze</h2>
+          <p class="section-intro">
+            Elke situatie is anders. Daarom bieden we vier flexibele manieren om de juiste zorg of dienst te vinden.
           </p>
-          <ul>
-            <li>Checklists met vroege signalen van grensoverschrijdend gedrag.</li>
-            <li>Praktische gesprekstips voor teams en leidinggevenden.</li>
-            <li>Voorbeelden van veilige meldprocedures in zorgorganisaties.</li>
-          </ul>
-          <button class="btn btn-outline">Bekijk preventietips</button>
         </div>
-        <div class="prevention-image">
-          <img src="preventie.jpg" alt="Teamoverleg in de zorg" />
+
+        <div class="grid cards-4">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">📄</div>
+            <h3>Upload &amp; Kies</h3>
+            <p class="card-description">
+              Heb je al een ontslagbrief of verslag? Upload het, en Zorgstart suggereert passende zorgbundels.
+            </p>
+            <div class="pill">
+              <span class="pill-icon" aria-hidden="true">⚡</span>
+              <span>In 30 seconden naar zorgvoorstel</span>
+            </div>
+            <a class="btn btn-primary" href="#">Document uploaden</a>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">💬</div>
+            <h3>Vragenlijst</h3>
+            <p class="card-description">
+              Gebruik onze slimme vragenlijst voor een gestructureerd ontslaggesprek.
+            </p>
+            <div class="pill">
+              <span class="pill-icon" aria-hidden="true">🎯</span>
+              <span>Mis nooit een belangrijk detail</span>
+            </div>
+            <a class="btn btn-primary" href="#">Start vragenlijst</a>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">🔍</div>
+            <h3>Direct zoeken</h3>
+            <p class="card-description">
+              Doorzoek zorgverleners met filters op beschikbaarheid en specialisatie.
+            </p>
+            <div class="pill">
+              <span class="pill-icon" aria-hidden="true">✨</span>
+              <span>Directe toegang tot zorgaanbod</span>
+            </div>
+            <a class="btn btn-primary" href="#">Begin met zoeken</a>
+          </article>
+
+          <article class="card card-accent">
+            <div class="card-icon" aria-hidden="true">🤝</div>
+            <h3>Zorgcoördinatie</h3>
+            <p class="card-description">
+              Weinig tijd of hoge complexiteit? Laat de afstemming van zorg en diensten over aan de Nurseline.
+            </p>
+            <div class="pill">
+              <span class="pill-icon" aria-hidden="true">📞</span>
+              <span>Één vast aanspreekpunt</span>
+            </div>
+            <a class="btn btn-primary" href="#">Contacteer Nurseline</a>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Waarom Zorgstart -->
-    <section class="trust-section" id="waarom">
-      <h2>Waarom professionals voor Zorgstart kiezen</h2>
-      <div class="trust-items">
-        <article class="trust-item">
-          <h3>Gemaakt voor zorgteams</h3>
-          <p>
-            De vragen en voorbeelden sluiten aan bij de praktijk in ziekenhuizen, VVT, GGZ 
-            en andere zorgorganisaties.
+    <section class="section section-contrast">
+      <div class="container">
+        <div class="quote">
+          <div class="quote-mark" aria-hidden="true">“</div>
+          <p class="quote-text">
+            Vroeger kostte het me uren om de juiste thuiszorg te vinden. Nu krijg ik in minuten een overzicht van beschikbare
+            zorgverleners die perfect matchen met mijn patiënt.
           </p>
-        </article>
+          <div class="quote-author">
+            <strong>Sarah Mertens</strong>
+            <span>Maatschappelijk werker, UZ Altrio</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <article class="trust-item">
-          <h3>Veilig en vertrouwelijk</h3>
-          <p>
-            Meldingen worden versleuteld opgeslagen en alleen gedeeld met wie jij daar 
-            expliciet toestemming voor geeft.
-          </p>
-        </article>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Wat maakt Zorgstart anders?</h2>
+        </div>
 
-        <article class="trust-item">
-          <h3>Begeleiding door experts</h3>
-          <p>
-            Je krijgt ondersteuning van ervaren vertrouwenspersonen die de zorgpraktijk 
-            van binnenuit kennen.
-          </p>
-        </article>
+        <div class="grid features-4">
+          <div class="feature">
+            <div class="feature-icon" aria-hidden="true">🤝</div>
+            <h4>Cultureel bewust</h4>
+            <p>Match op taal, geloof en culturele voorkeuren.</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon" aria-hidden="true">⏱️</div>
+            <h4>Real-time beschikbaarheid</h4>
+            <p>Zie direct wie capaciteit heeft.</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon" aria-hidden="true">📊</div>
+            <h4>Transparante kwaliteit</h4>
+            <p>Reviews en kwalificaties van zorgverleners.</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon" aria-hidden="true">🔒</div>
+            <h4>GDPR-proof</h4>
+            <p>Privacy en veiligheid als default.</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="footer-inner">
-      <span>© 2026 Zorgstart. Alle rechten voorbehouden.</span>
-      <a href="#" class="footer-link">Privacy &amp; cookies</a>
+    <div class="container footer-inner">
+      <p>Een initiatief van AVAD</p>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
     </div>
   </footer>
 
-  <!-- Toast -->
-  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
-    <span class="toast-icon" aria-hidden="true">✅</span>
-    <span class="toast-text">Je bestand is veilig toegevoegd.</span>
-  </div>
+  <script>
+    // Mobile menu toggle (klein en robuust)
+    const toggle = document.querySelector('.nav-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
 
-  <!-- JS -->
-  <script src="zorgbundels.js"></script>
+    if (toggle && mobileNav) {
+      toggle.addEventListener('click', () => {
+        const isOpen = mobileNav.hasAttribute('hidden') === false;
+        if (isOpen) {
+          mobileNav.setAttribute('hidden', '');
+          toggle.setAttribute('aria-expanded', 'false');
+        } else {
+          mobileNav.removeAttribute('hidden');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+  </script>
 </body>
 </html>
