@@ -207,8 +207,43 @@
             <div id="qrCode"></div>
         </div>
     </div>
+    </div>
 
     <script src="opmakenzorgplan.js"></script>
+    <script>
+    // Inline fallback voor tab switching als externe JS niet laadt
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab switching voor login/register
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                authTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                if (this.dataset.tab === 'login') {
+                    loginForm.style.display = 'block';
+                    registerForm.style.display = 'none';
+                } else {
+                    loginForm.style.display = 'none';
+                    registerForm.style.display = 'block';
+                }
+            });
+        });
+        
+        // Simple demo login/register
+        loginForm?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Login functionaliteit vereist de volledige JavaScript. Wacht tot GitHub Pages is bijgewerkt.');
+        });
+        
+        registerForm?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Registratie functionaliteit vereist de volledige JavaScript. Wacht tot GitHub Pages is bijgewerkt.');
+        });
+    });
+    </script>
 </body>
 </html>
-    </div>
