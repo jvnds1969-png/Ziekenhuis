@@ -494,3 +494,184 @@ document.addEventListener('DOMContentLoaded', function() {
         '<p style="margin:0;">
 
 
+      '<strong>Ontslagdatum:</strong> ' + patientData.ontslagdatum + '</p>' +
+      '</div>' +
+      
+      '<h3 style="margin:15px 0 10px; color:#1e40af;">Gedetecteerde probleemgebieden:</h3>' +
+      '<div style="margin-bottom:15px;">' + probleemHTML + '</div>' +
+      
+      '<h3 style="margin:15px 0 10px; color:#1e40af;">Aanbevolen zorgverleners:</h3>' +
+      '<div style="margin-bottom:20px;">' + zorgverlenersHTML + '</div>' +
+      
+      '<div style="display:flex; gap:10px; justify-content:center;">' +
+        '<button onclick="document.getElementById(\'uploadModal\').style.display=\'none\'" style="padding:10px 20px; background:#e5e7eb; border:none; border-radius:6px; cursor:pointer;">Sluiten</button>' +
+        '<button id="addPatientBtn" style="padding:10px 20px; background:#3b82f6; color:white; border:none; border-radius:6px; cursor:pointer;">Toevoegen aan patiënten</button>' +
+      '</div>'
+    );
+
+    // Event listener voor toevoegen aan tabel
+    setTimeout(function() {
+      var addBtn = document.getElementById('addPatientBtn');
+      if (addBtn) {
+        addBtn.addEventListener('click', function() {
+          addPatientToTable(patientData, detectedBundels);
+          hideModal();
+        });
+      }
+    }, 100);
+  }
+
+  // ============================================================
+  // PATIËNT TOEVOEGEN AAN TABEL
+  // ============================================================
+  
+  function addPatientToTable(patientData, detectedBundels) {
+    var tbody = document.querySelector('table tbody');
+    if (!tbody) return;
+
+    var zorgplanId = 'zorgplan-' + Date.now();
+    
+    var newRow = document.createElement('tr');
+    newRow.innerHTML = 
+      '<td>' + patientData.nr + '</td>' +
+      '<td>' + patientData.naam + '</td>' +
+      '<td>' + patientData.afdeling + '</td>' +
+      '<td>' + patientData.geboortedatum + '</td>' +
+      '<td>' + patientData.ontslagdatum + '</td>' +
+      '<td>' + patientData.specialist + '</td>' +
+      '<td><button class="zorgplan-btn" data-id="' + zorgplanId + '" style="background:#10b981; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;">Zorgplan</button></td>' +
+      '<td>Siilo</td>';
+    
+    tbody.appendChild(newRow);
+
+    // Opslaan in localStorage
+    patientData.detectedBundels = detectedBundels;
+    patienten.push(patientData);
+    localStorage.setItem('zorgstart_patienten', JSON.stringify(patienten));
+
+    // Event listener voor zorgplan knop
+    var zorgplanBtn = newRow.querySelector('.zorgplan-btn');
+    if (zorgplanBtn) {
+      zorgplanBtn.addEventListener('click', function() {
+        showZorgplanForPatient(patientData, detectedBundels);
+      });
+    }
+  }
+
+  // ============================================================
+  // ZORGPLAN TONEN (beide versies)
+  // ============================================================
+  
+  function showZorgplanForPatient(patientData, detectedBundels) {
+    var modal = document.getElementById('zorgplanModal');
+    var content = document.getElementById('zorgplanContent');
+    
+    if (!modal || !content) return;
+
+    // Genereer professionele versie
+    var professionalHTML = generateProfessionalZorgplan(patientData, detectedBundels);
+    
+    // Genereer patiënt versie (14-jarige taal)
+    var patientHTML = generatePatientZorgplan(patientData, detectedBundels);
+
+    content.innerHTML = 
+      '<div id="professionalContent">' + professionalHTML + '</div>' +
+      '<div id="patientContent" style="display:none;">' + patientHTML + '</div>';
+    
+    modal.style.display = 'flex';
+
+    // Tab switching
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tabBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        
+        var tab = btn.getAttribute('data-tab');
+        document.getElementById('professionalContent').style.display = tab === 'professional' ? 'block' : 'none';
+        document.getElementById('patientContent').style.display = tab === 'patient' ? 'block' : 'none';
+      });
+    });
+  }
+
+  function generateProfessionalZorgplan(patientData, detectedBundels) {
+    var html = '<h2 style="color:#1e40af; margin-top:0;">Zorgplan - ' + patientData.naam + '</h2>';
+    html += '<p><strong>Geboortedatum:</strong> ' + patientData.geboortedatum + ' | <strong>Ontslagdatum:</strong> ' + patientData.ontslagdatum + '</p>';
+    html += '<hr style="margin:15px 0;">';
+    
+    detectedBundels.forEach(function(item) {
+      html += '<div style="background:#f8fafc; padding:15px; border-radius:8px; margin-bottom:15px; border-left:4px solid #3b82f6;">';
+      html += '<h3 style="margin:0 0 10px; color:#1e40af;">' + item.bundel.naam + '</h3>';
+      html += '<p><strong>Klinische opvolging:</strong> ' + item.bundel.klinisch + '</p>';
+      html += '<p><strong>Educatie:</strong> ' + item.bundel.educatie + '</p>';
+      html += '<p><strong>Monitoring:</strong> ' + item.bundel.monitoring + '</p>';
+      html += '<p><strong>Zorgverleners:</strong> ' + item.bundel.zorgverleners.join(', ') + '</p>';
+      html += '</div>';
+    });
+    
+    return html;
+  }
+
+  function generatePatientZorgplan(patientData, detectedBundels) {
+    var html = '<div style="font-size:1.1rem; line-height:1.8;">';
+    html += '<h2 style="color:#059669;">Hallo! Dit is jouw zorgplan</h2>';
+    html += '<p>Je bent net uit het ziekenhuis gekomen. Hier staat wat er nu gaat gebeuren en wie je kan helpen.</p>';
+    
+    html += '<h3 style="color:#059669;">Waar gaat dit over?</h3>';
+    detectedBundels.forEach(function(item) {
+      html += '<div style="background:#f0fdf4; padding:15px; border-radius:8px; margin-bottom:15px;">';
+      html += '<h4 style="margin:0 0 10px;">' + item.bundel.naam + '</h4>';
+      html += '<p>Dit betekent dat we extra goed op je letten voor dit probleem.</p>';
+      html += '</div>';
+    });
+    
+    html += '<h3 style="color:#059669;">Wie kan je helpen?</h3>';
+    html += '<p>Deze mensen kunnen je helpen:</p><ul>';
+    var allZorgverleners = new Set();
+    detectedBundels.forEach(function(item) {
+      item.bundel.zorgverleners.forEach(function(zv) {
+        allZorgverleners.add(zv);
+      });
+    });
+    allZorgverleners.forEach(function(zv) {
+      html += '<li>' + zv + '</li>';
+    });
+    html += '</ul>';
+    
+    html += '<h3 style="color:#059669;">Wanneer moet je bellen?</h3>';
+    html += '<p>Bel <strong>je huisarts</strong> als je je niet goed voelt of vragen hebt.</p>';
+    html += '<p>Bel <strong>112</strong> als het echt heel erg is (pijn op de borst, niet kunnen ademen, ...).</p>';
+    
+    html += '</div>';
+    return html;
+  }
+
+  // ============================================================
+  // MODAL SLUITEN BIJ KLIK OP X
+  // ============================================================
+  
+  document.querySelectorAll('.modal-close').forEach(function(closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      this.closest('.modal').style.display = 'none';
+    });
+  });
+
+  // ============================================================
+  // INIT: Laad bestaande patiënten uit localStorage
+  // ============================================================
+  
+  function loadExistingPatients() {
+    var tbody = document.querySelector('table tbody');
+    if (!tbody || patienten.length === 0) return;
+    
+    patienten.forEach(function(patient) {
+      if (patient.detectedBundels) {
+        // Voeg toe aan tabel (zonder dubbele toevoeging)
+      }
+    });
+  }
+  
+  loadExistingPatients();
+
+}); // Einde DOMContentLoaded
+
