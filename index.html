@@ -1,204 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Zorgstart — Professionals</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <title>Zorgstart</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <header>
-    <div class="container">
-      <div class="logo">
-        <div class="logo-icon" aria-hidden="true">Z</div>
-        <div class="logo-textblock">
-          <div class="logo-title">Zorgstart</div>
-          <span class="subtitle">VOOR PROFESSIONALS</span>
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <div class="logo-icon">Z</div>
+      <div class="logo-textblock">
+        <span class="logo-text">Zorgstart</span>
+        <span class="logo-subtitle">Veilig melden & advies</span>
       </div>
+    </div>
 
-      <nav class="topnav" aria-label="Hoofdnavigatie">
-        <a href="#" aria-current="page">Dashboard</a>
-        <a href="#">Mijn patiënten</a>
-        <a href="#">Helpdesk</a>
-        <a
-          href="https://jvnds1969-png.github.io/Nurseline/"
-          target="_blank"
-          rel="noopener"
-        >
-          Nurseline
-        </a>
-      </nav>
+    <div class="nav-links">
+      <a href="#melden" class="nav-link">Melding doen</a>
+      <a href="#preventie" class="nav-link">Preventie</a>
+      <a href="#waarom" class="nav-link">Waarom Zorgstart</a>
+      <button class="btn btn-outline">Inloggen</button>
+      <button class="btn btn-primary">Registreer</button>
+    </div>
+  </nav>
 
-      <button class="btn-new-patient" type="button">
-        + Nieuwe patiënt aanmelden
-      </button>
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Maak je je zorgen over iemand in de zorg?</h1>
+      <p>
+        Met Zorgstart meld je vermoedens veilig, snel en met ondersteuning.
+        Je staat er niet alleen voor.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary">Direct melding starten</button>
+        <button class="btn btn-secondary">Eerst advies vragen</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="hero.jpg" alt="Zorgmedewerker in gesprek" />
     </div>
   </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-content">
-        <div class="breadcrumb">Ontslagmanagement</div>
-        <h1>Meer tijd voor ontslag, minder tijd aan telefoons.</h1>
-        <p class="lead">
-          Zorgstart helpt sociale diensten om een veilige thuiskomst snel en overzichtelijk te organiseren.
-          Geen eindeloze belrondes, geen versnipperde info, geen last-minute verrassingen.
-          Eén plek waar je de juiste zorg en diensten matcht, afspraken vastlegt en opvolging krijgt—zodat jij met vertrouwen kan ontslaan.
+  <!-- Actie sectie -->
+  <section class="action-section" id="melden">
+    <h2>Kies wat je nu wil doen</h2>
+
+    <div class="action-cards">
+      <!-- Kaart 1: Melding starten -->
+      <article class="action-card">
+        <header class="action-card-header">
+          <div class="action-card-main">
+            <span class="card-icon">📝</span>
+            <div class="card-title-group">
+              <h3>Melding starten</h3>
+              <small>Veilig en stap-voor-stap</small>
+            </div>
+          </div>
+          <div class="action-card-extra action-card-extra-blue">
+            10–15 minuten
+          </div>
+        </header>
+
+        <p>
+          Doorloop een korte vragenlijst zodat we de situatie goed begrijpen
+          en je stap voor stap kunnen begeleiden.
         </p>
-      </div>
 
-      <div class="hero-visual">
-        <div class="stat-card">
-          <div class="stat-number">87%</div>
-          <div class="stat-label">Tijdsbesparing bij matching</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">12u</div>
-          <div class="stat-label">Gemiddelde reactietijd zorgverleners</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="how-it-works">
-      <h2>Kies je werkwijze</h2>
-      <p class="section-intro">
-        Elke situatie is anders. Daarom bieden we vier flexibele manieren om de juiste zorg of dienst te vinden.
-      </p>
-
-      <div class="workflow-grid">
-        <!-- 1 -->
-        <div class="workflow-card">
-          <div class="card-icon" aria-hidden="true">📄</div>
-          <h3>Upload &amp; Kies</h3>
-          <p class="card-description">
-            Heb je al een ontslagbrief of verslag? Upload het meest recente document en Zorgstart vertaalt dit automatisch naar een duidelijk zorgplan.
-            Op basis van inhoud, zorgnoden en context stellen we een neutraal voorstel samen van geschikte zorg- en dienstverleners, afgestemd op hun kwaliteiten en specialisaties.
+        <div class="upload-area">
+          <span class="upload-icon">⬆️</span>
+          <p class="upload-text">
+            Sleep hier aanvullend dossiermateriaal naartoe of
+            <button class="link-button">kies een bestand</button>.
           </p>
-          <div class="card-benefit">
-            <span class="benefit-icon" aria-hidden="true">⚡</span>
-            <span>In 30 seconden naar zorgvoorstel</span>
+
+          <div class="upload-extra">
+            <small>
+              <span class="tooltip" data-tooltip="We slaan je documenten versleuteld op en delen niets zonder jouw toestemming.">
+                Hoe gaan we met je gegevens om?
+              </span>
+            </small>
           </div>
-          <a href="#" class="btn-card">Document uploaden</a>
-        </div>
 
-        <!-- 2 -->
-        <div class="workflow-card">
-          <div class="card-icon" aria-hidden="true">💬</div>
-          <h3>Vragenlijst</h3>
-          <p class="card-description">
-            Gebruik onze slimme vragenlijst als leidraad voor een gestructureerd ontslaggesprek met zorgplan en voorstel van zorg- en dienstverleners.
-          </p>
-          <div class="card-benefit">
-            <span class="benefit-icon" aria-hidden="true">🎯</span>
-            <span>Mis nooit een belangrijk detail</span>
+          <!-- Dynamisch: voorbeeld geselecteerd bestand -->
+          <div class="file-info">
+            <span class="file-name">rapport_team_2025.pdf</span>
+            <span class="file-size">(1.2 MB)</span>
+            <button class="btn-remove">×</button>
           </div>
-          <button class="btn-card" type="button">Start vragenlijst</button>
         </div>
+      </article>
 
-        <!-- 3 -->
-        <div class="workflow-card">
-          <div class="card-icon" aria-hidden="true">🔍</div>
-          <h3>Direct zoeken</h3>
-          <p class="card-description">
-            Doorzoek ons netwerk van 2.400+ zorgverleners met filters op beschikbaarheid en specialisatie.
-          </p>
-          <div class="card-benefit">
-            <span class="benefit-icon" aria-hidden="true">✨</span>
-            <span>Directe toegang tot zorgaanbod</span>
+      <!-- Kaart 2: Direct hulp nodig -->
+      <article class="action-card action-card-support">
+        <header class="action-card-header">
+          <div class="action-card-main">
+            <span class="card-icon">📞</span>
+            <div class="card-title-group">
+              <h3>Direct hulp nodig?</h3>
+              <small>Praat met een vertrouwenspersoon</small>
+            </div>
           </div>
-          <a
-            href="https://jvnds1969-png.github.io/Zorgverleners/"
-            class="btn-card"
-            target="_blank"
-            rel="noopener"
-          >
-            Begin met zoeken
-          </a>
-        </div>
-
-        <!-- 4 -->
-        <div class="workflow-card">
-          <div class="card-icon" aria-hidden="true">🤝</div>
-          <h3>Zorgcoördinatie</h3>
-          <p class="card-description">
-            Heb je weinig tijd of te maken met een complexe zorgsituatie? De Nurseline neemt de coördinatie van zorg en diensten graag van je over en houdt je stap voor stap geïnformeerd.
-          </p>
-          <div class="card-benefit">
-            <span class="benefit-icon" aria-hidden="true">📞</span>
-            <span>Onze nurseline met zorgcoaches als vast aanspreekpunt</span>
+          <div class="action-card-extra action-card-extra-outline">
+            Gratis & anoniem
           </div>
-          <button class="btn-card" type="button">Contacteer Nurseline</button>
-        </div>
-      </div>
+        </header>
 
-      <!-- CTA onder de 4 kaarten -->
-      <div class="example-plan-cta">
-        <a
-          href="https://docs.google.com/document/d/1N1z_8p6vV1Y-mK0FotVXK1WR9Zr27bqY6pBDE0BgDjk/edit?usp=sharing"
-          target="_blank"
-          rel="noopener"
-          class="example-plan-button"
-        >
-          📄 Bekijk voorbeeld zorgplan ↗
-        </a>
-      </div>
-    </section>
-
-    <!-- TESTIMONIAL -->
-    <section class="testimonial">
-      <div class="testimonial-content">
-        <div class="quote-icon" aria-hidden="true">"</div>
-        <p class="quote-text">
-          Vroeger kostte het me uren om de juiste thuiszorg te vinden. Nu krijg ik in minuten een overzicht van beschikbare zorgverleners
-          die perfect matchen met mijn patiënt.
+        <p>
+          Twijfel je of je een melding moet doen, of loop je zelf vast in een
+          lastige situatie? Onze vertrouwenspersonen denken met je mee.
         </p>
-        <div class="testimonial-author">
-          <strong>Sarah Mertens</strong>
-          <span>Maatschappelijk werker, UZ Altrio</span>
+
+        <div class="support-contact">
+          <a href="tel:012345678" class="phone-link">012 34 56 78</a>
+          <span class="availability">Vandaag nog iemand aan de lijn.</span>
         </div>
+
+        <small>
+          Liever schriftelijk? Stuur een bericht en we reageren binnen één werkdag.
+        </small>
+      </article>
+    </div>
+  </section>
+
+  <!-- Preventie sectie -->
+  <section class="prevention-section" id="preventie">
+    <div class="prevention-content">
+      <div class="prevention-text">
+        <h2>Voorkom dat situaties uit de hand lopen</h2>
+        <p>
+          Hoe vroeger je signalen herkent, hoe groter de kans dat je problemen
+          samen kunt oplossen voordat er schade ontstaat.
+        </p>
+        <ul>
+          <li>Checklists om signalen van grensoverschrijdend gedrag te herkennen.</li>
+          <li>Praktische gesprekstips voor in het team en met leidinggevenden.</li>
+          <li>Voorbeelden van veilige meldprocedures in zorgorganisaties.</li>
+        </ul>
+        <button class="btn btn-outline">Bekijk preventietips</button>
       </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="features">
-      <h2>Wat maakt Zorgstart anders?</h2>
-
-      <div class="features-grid">
-        <div class="feature">
-          <div class="feature-icon" aria-hidden="true">🤝</div>
-          <h4>Cultureel bewust</h4>
-          <p>Match op taal, geloof en culturele voorkeuren</p>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon" aria-hidden="true">⏱️</div>
-          <h4>Real-time beschikbaarheid</h4>
-          <p>Zie direct wie capaciteit heeft</p>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon" aria-hidden="true">📊</div>
-          <h4>Transparante kwaliteit</h4>
-          <p>Reviews en kwalificaties van zorgverleners</p>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon" aria-hidden="true">🔒</div>
-          <h4>GDPR-proof</h4>
-          <p>Volledige privacy en veiligheid gegarandeerd</p>
-        </div>
+      <div class="prevention-image">
+        <img src="preventie.jpg" alt="Teamoverleg in de zorg" />
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
+  <!-- Waarom Zorgstart -->
+  <section class="trust-section" id="waarom">
+    <h2>Waarom professionals voor Zorgstart kiezen</h2>
+    <div class="trust-items">
+      <article class="trust-item">
+        <h3>Specifiek voor de zorg</h3>
+        <p>
+          De vragen en voorbeelden zijn afgestemd op zorgteams, van ziekenhuis
+          tot woonzorgcentrum.
+        </p>
+      </article>
+
+      <article class="trust-item">
+        <h3>Veilig en vertrouwelijk</h3>
+        <p>
+          Meldingen worden versleuteld opgeslagen en alleen gedeeld met wie jij
+          expliciet toestemming geeft.
+        </p>
+      </article>
+
+      <article class="trust-item">
+        <h3>Ondersteuning door experts</h3>
+        <p>
+          Je krijgt begeleiding van ervaren vertrouwenspersonen die de
+          zorgpraktijk goed kennen.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <p>Een initiatief van AVAD</p>
+    © 2026 Zorgstart. Alle rechten voorbehouden.
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✅</span>
+    <span class="toast-text">Je bestand is veilig toegevoegd.</span>
+  </div>
 </body>
 </html>
