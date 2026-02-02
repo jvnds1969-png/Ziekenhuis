@@ -146,6 +146,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 100%;
 }
 
 .method-icon {
@@ -382,4 +383,18 @@ label.button {
   font-weight: 400;
   margin-top: 2px;
 }
+}
+
+/* Method Card Layout Alignment */
+.method-card .method-tagline {
+  flex-grow: 1;
+}
+
+.method-card .button {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.method-benefits {
+  margin-bottom: 1rem;
 }
