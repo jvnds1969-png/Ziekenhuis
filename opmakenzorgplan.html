@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zorgplan Opmaken - Zorgstart</title>
+    <link rel="stylesheet" href="opmakenzorgplan.css">
+</head>
+<body>
+    <!-- Login/Registratie Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content auth-modal">
+            <h2>Welkom bij Zorgstart</h2>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Inloggen</button>
+                <button class="auth-tab" data-tab="register">Registreren</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginHospital">Ziekenhuis Code</label>
+                    <input type="text" id="loginHospital" placeholder="bv. UZALTRIO" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginEmail">E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="naam@ziekenhuis.be" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Wachtwoord</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Inloggen</button>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" style="display:none;">
+                <div class="form-group">
+                    <label for="regHospital">Ziekenhuis Code</label>
+                    <input type="text" id="regHospital" placeholder="bv. UZALTRIO" required>
+                </div>
+                <div class="form-group">
+                    <label for="regHospitalName">Ziekenhuis Naam</label>
+                    <input type="text" id="regHospitalName" placeholder="UZ Altrio" required>
+                </div>
+                <div class="form-group">
+                    <label for="regName">Uw Naam</label>
+                    <input type="text" id="regName" placeholder="Jan Janssens" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">E-mail</label>
+                    <input type="email" id="regEmail" placeholder="naam@ziekenhuis.be" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Wachtwoord</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Registreren</button>
+            </form>
+            
+            <div class="patient-access">
+                <p>Bent u een patient?</p>
+                <a href="#" id="patientAccessLink">Toegang met uw persoonlijke link</a>
+            </div>
+        </div>
+
+    <!-- Hoofdapplicatie (verborgen tot login) -->
+    <div id="mainApp" style="display:none;">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Zorgstart</h1>
+                    <span class="hospital-name" id="hospitalName"></span>
+                </div>
+                <div class="user-info">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn-secondary">Uitloggen</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Sectie -->
+            <section class="upload-section">
+                <h2>Ontslagbrief Uploaden</h2>
+                <div class="upload-area" id="dropZone">
+                    <div class="upload-icon">📄</div>
+                    <p>Sleep een document hierheen of klik om te selecteren</p>
+                    <p class="file-types">PDF, DOC, DOCX, TXT</p>
+                    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt" style="display:none;">
+                </div>
+                
+                <!-- Patient Info Form -->
+                <div id="patientInfoForm" class="patient-form" style="display:none;">
+                    <h3>Patientgegevens</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientINSZ">Rijksregisternummer (INSZ)</label>
+                            <input type="text" id="patientINSZ" placeholder="YY.MM.DD-XXX.XX" required>
+                            <small>Unieke identificatie voor de patient</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientName">Naam Patient</label>
+                            <input type="text" id="patientName" placeholder="Achternaam, Voornaam" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientDOB">Geboortedatum</label>
+                            <input type="date" id="patientDOB" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientDepartment">Afdeling</label>
+                            <input type="text" id="patientDepartment" placeholder="bv. Cardiologie">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dischargeDate">Ontslagdatum</label>
+                            <input type="date" id="dischargeDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="specialist">Behandelend Arts</label>
+                            <input type="text" id="specialist" placeholder="Dr. ...">
+                        </div>
+                    </div>
+                    <button id="processDocBtn" class="btn-primary">Document Verwerken</button>
+                </div>
+            </section>
+
+            <!-- Progress Sectie -->
+            <section id="progressSection" class="progress-section" style="display:none;">
+                <h3>Document wordt verwerkt...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">Initialiseren...</p>
+            </section>
+
+            <!-- Resultaten Sectie -->
+            <section id="resultsSection" class="results-section" style="display:none;">
+                <h3>Gedetecteerde Probleemgebieden</h3>
+                <div id="detectedProblems" class="problems-grid"></div>
+                
+                <h3>Aanbevolen Zorgverleners</h3>
+                <div id="recommendedProviders" class="providers-list"></div>
+                
+                <div class="action-buttons">
+                    <button id="generateZorgplanBtn" class="btn-primary">Zorgplan Genereren</button>
+                    <button id="addToPatients" class="btn-secondary">Toevoegen aan Patienten</button>
+                </div>
+            </section>
+
+            <!-- Patienten Overzicht -->
+            <section class="patients-section">
+                <h2>Mijn Patienten</h2>
+                <div class="patients-filter">
+                    <input type="text" id="searchPatient" placeholder="Zoek patient...">
+                </div>
+                <table class="patients-table" id="patientsTable">
+                    <thead>
+                        <tr>
+                            <th>Nr</th>
+                            <th>INSZ</th>
+                            <th>Naam</th>
+                            <th>Afdeling</th>
+                            <th>Geboortedatum</th>
+                            <th>Ontslagdatum</th>
+                            <th>Zorgplan</th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientsBody"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Zorgplan Modal -->
+    <div id="zorgplanModal" class="modal" style="display:none;">
+        <div class="modal-content modal-large">
+            <span class="modal-close">&times;</span>
+            <div class="zorgplan-tabs">
+                <button class="zorgplan-tab active" data-tab="professional">Voor Zorgverleners</button>
+                <button class="zorgplan-tab" data-tab="patient">Voor Patient</button>
+            </div>
+            <div id="zorgplanContent"></div>
+            <div class="zorgplan-actions">
+                <button id="printZorgplan" class="btn-secondary">Afdrukken</button>
+                <button id="shareWithPatient" class="btn-primary">Deel met Patient</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Link Modal -->
+    <div id="patientLinkModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3>Patient Toegangslink</h3>
+            <p>Deel deze link met de patient om toegang te geven tot het zorgplan:</p>
+            <div class="link-box">
+                <input type="text" id="patientLink" readonly>
+                <button id="copyLink" class="btn-secondary">Kopieren</button>
+            </div>
+            <div id="qrCode"></div>
+        </div>
+    </div>
+
+    <script src="opmakenzorgplan.js"></script>
+</body>
+</html>
+    </div>
