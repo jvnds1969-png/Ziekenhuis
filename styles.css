@@ -418,7 +418,7 @@ label.button {
 
 .patients-table th,
 .patients-table td {
-    padding: 1rem;
+    padding: 1.25rem 1.5rem;
     text-align: left;
     border-bottom: 1px solid var(--border-soft);
 }
@@ -428,7 +428,7 @@ label.button {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-}
+}}
 
 .patients-table tbody tr:hover {
     background: var(--primary-soft);
