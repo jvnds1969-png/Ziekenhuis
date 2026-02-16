@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Zorgstart — Slimme intake (probleemgebieden → zorgbundels)</title>
-  <meta name="description" content="Slimme, dynamische intake: bijkomende vragen klappen open op basis van antwoorden. Output: probleemgebieden + voorstel zorgbundels + samenvatting voor matching." />
+  <title>Zorgstart — Slimme intake (wizard + openklappers + print)</title>
+  <meta name="description" content="Slimme, dynamische intake: wizard flow + bijkomende vragen op basis van antwoorden en score. Output: probleemgebieden + zorgbundels + samenvatting." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root{
-      --bg: #0b1020;
+      --bg:#0b1020;
       --panel: rgba(255,255,255,.06);
       --panel2: rgba(255,255,255,.08);
       --border: rgba(255,255,255,.14);
@@ -19,48 +19,59 @@
       --muted: rgba(255,255,255,.70);
       --faint: rgba(255,255,255,.55);
       --accent: #7dd3fc;
-      --accent2: #a78bfa;
-      --good: #34d399;
-      --warn: #fbbf24;
-      --bad: #fb7185;
-
-      --r: 18px;
+      --accent2:#a78bfa;
+      --good:#34d399;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --r:18px;
       --shadow: 0 22px 60px rgba(0,0,0,.45);
-      --max: 1160px;
+      --max:1160px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
-      color: var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",sans-serif;
+      color:var(--text);
       background:
         radial-gradient(1200px 700px at 10% 10%, rgba(125,211,252,.20), transparent 55%),
         radial-gradient(900px 600px at 85% 18%, rgba(167,139,250,.18), transparent 60%),
         radial-gradient(800px 560px at 60% 90%, rgba(52,211,153,.10), transparent 55%),
-        linear-gradient(180deg, #070a14, #0b1020 45%, #070a14);
+        linear-gradient(180deg,#070a14,#0b1020 45%,#070a14);
     }
-    a{color:inherit}
+
+    /* Print-friendly */
+    @media print{
+      body{background:#fff;color:#111}
+      .topbar,.hero,.btnbar,.navsteps,.right-actions{display:none!important}
+      .wrap{max-width:100%; padding:0}
+      .grid{grid-template-columns:1fr!important}
+      .card{box-shadow:none!important; border:1px solid #ddd!important; background:#fff!important}
+      input,select,textarea{background:#fff!important; color:#111!important; border:1px solid #ccc!important}
+      .item,.stat,.section{background:#fff!important; border:1px solid #ddd!important}
+      pre{white-space:pre-wrap!important; background:#fff!important; color:#111!important; border:1px solid #ddd!important}
+    }
+
     .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 60px}
     .topbar{
-      position: sticky; top:0; z-index:20;
+      position:sticky; top:0; z-index:20;
       backdrop-filter: blur(12px);
       background: rgba(7,10,20,.55);
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
     .topbar-inner{max-width:var(--max); margin:0 auto; padding:12px 18px; display:flex; align-items:center; gap:14px}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px}
-    .dot{width:11px; height:11px; border-radius:50%;
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px}
+    .dot{width:11px;height:11px;border-radius:50%;
       background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2) 35%, transparent 70%),
-                  linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(125,211,252,.12);
+                 linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 4px rgba(125,211,252,.12);
     }
     .badge{
       font-size:12px; padding:4px 9px; border-radius:999px;
       background: rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.12);
       color: var(--muted);
-      font-weight:600;
+      font-weight:700;
     }
     .spacer{flex:1}
     .pill{
@@ -69,9 +80,9 @@
       background: rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.12);
       color: var(--muted);
+      font-weight:600;
     }
 
-    /* HERO */
     .hero{
       margin-top:22px;
       background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
@@ -82,8 +93,7 @@
       position:relative;
     }
     .hero::after{
-      content:"";
-      position:absolute; inset:-2px;
+      content:""; position:absolute; inset:-2px;
       background:
         radial-gradient(520px 260px at 18% 0%, rgba(125,211,252,.22), transparent 55%),
         radial-gradient(520px 260px at 82% 0%, rgba(167,139,250,.20), transparent 55%);
@@ -101,13 +111,51 @@
       border:1px solid rgba(255,255,255,.12);
       color: var(--muted);
       font-size:12px;
-      font-weight:600;
+      font-weight:700;
     }
-    .chip b{color: var(--text)}
-    .chip .k{opacity:.9}
+    .chip b{color:var(--text)}
 
-    /* GRID */
-    .grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:14px; margin-top:16px}
+    /* Wizard steps */
+    .navsteps{
+      margin-top:14px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      padding:12px;
+      border-radius: var(--r);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 18px 45px rgba(0,0,0,.20);
+    }
+    .step{
+      display:flex; gap:10px; align-items:center;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      cursor:pointer;
+      user-select:none;
+    }
+    .step .num{
+      width:26px; height:26px; border-radius:10px;
+      display:grid; place-items:center;
+      font-weight:900;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+    }
+    .step b{font-size:13px}
+    .step span{font-size:12px; color:var(--muted); display:block; margin-top:2px}
+    .step.active{
+      border-color: rgba(125,211,252,.35);
+      background: linear-gradient(135deg, rgba(125,211,252,.16), rgba(167,139,250,.12));
+    }
+    .step.active .num{color:var(--text); border-color: rgba(125,211,252,.35)}
+    .step.done .num{
+      color: rgba(52,211,153,.95);
+      border-color: rgba(52,211,153,.30);
+      background: rgba(52,211,153,.10);
+    }
+
+    .grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:14px; margin-top:14px}
     @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
 
     .card{
@@ -126,7 +174,6 @@
     .sub{margin:4px 0 0; color: var(--muted); font-size:12px; line-height:1.35}
     .card-b{padding:16px}
 
-    /* FORM */
     .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
     @media (max-width: 760px){ .form-grid{grid-template-columns:1fr} }
     label{display:block; font-size:12px; color: var(--muted); margin:0 0 6px}
@@ -159,7 +206,7 @@
     }
     .sec-h .ttl{
       display:flex; gap:10px; align-items:center;
-      font-weight:700; letter-spacing:.15px;
+      font-weight:800; letter-spacing:.15px;
       font-size:13px;
     }
     .ico{
@@ -168,7 +215,7 @@
       background: rgba(125,211,252,.10);
       border:1px solid rgba(125,211,252,.18);
       color: var(--accent);
-      font-weight:800;
+      font-weight:900;
       font-size:13px;
     }
     .sec-h .meta{color: var(--muted); font-size:12px}
@@ -206,7 +253,7 @@
       color: var(--text);
       padding:10px 12px;
       border-radius: 14px;
-      font-weight:700;
+      font-weight:800;
       cursor:pointer;
     }
     .btn.primary{
@@ -215,8 +262,8 @@
     }
     .btn:active{transform: translateY(1px)}
     .mini{font-size:12px; color: var(--muted)}
+    .right-actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
 
-    /* RIGHT PANEL */
     .kpi{
       display:grid; grid-template-columns: 1fr 1fr;
       gap:10px;
@@ -227,12 +274,9 @@
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.18);
     }
-    .stat .n{font-size:22px; font-weight:800; letter-spacing:-.2px}
+    .stat .n{font-size:22px; font-weight:900; letter-spacing:-.2px}
     .stat .t{font-size:12px; color: var(--muted); margin-top:2px}
-    .list{
-      margin-top:12px;
-      display:flex; flex-direction:column; gap:10px
-    }
+    .list{margin-top:12px; display:flex; flex-direction:column; gap:10px}
     .item{
       padding:12px;
       border-radius: 16px;
@@ -241,7 +285,7 @@
     }
     .item .h{display:flex; justify-content:space-between; align-items:center; gap:10px}
     .tag{
-      font-size:11px; font-weight:800;
+      font-size:11px; font-weight:900;
       padding:5px 9px; border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
@@ -252,7 +296,6 @@
     .tag.warn{border-color: rgba(251,191,36,.30); color: rgba(251,191,36,.95); background: rgba(251,191,36,.10)}
     .tag.bad{border-color: rgba(251,113,133,.30); color: rgba(251,113,133,.95); background: rgba(251,113,133,.10)}
     .item p{margin:8px 0 0; color: var(--muted); font-size:12px; line-height:1.4}
-
     pre{
       margin:12px 0 0;
       padding:12px;
@@ -265,7 +308,7 @@
       line-height:1.45;
     }
 
-    .footer-note{margin-top:14px; color: var(--faint); font-size:12px; line-height:1.45}
+    .hidden{display:none!important;}
   </style>
 </head>
 
@@ -278,73 +321,104 @@
         <span class="badge">Slimme intake</span>
       </div>
       <div class="spacer"></div>
-      <span class="pill">Probleemgebieden → Zorgbundels → Matching</span>
+      <span class="pill">Wizard • Openklappers • Print/PDF</span>
     </div>
   </div>
 
   <div class="wrap">
     <section class="hero">
       <div class="hero-inner">
-        <h1>Intake met slimme openklappers</h1>
+        <h1>Intake met slimme openklappers — in 3 stappen</h1>
         <p class="lead">
-          Deze vragenlijst opent automatisch bijkomende vragen wanneer nodig, en stelt op basis van antwoorden
-          <b>probleemgebieden</b> en <b>zorgbundels</b> voor — klaar voor Zorgstart V1 en de uitbreidingslogica richting matching.
+          Progressieve vragenlijst: alleen relevante vervolgvragen verschijnen. Output: <b>probleemgebieden</b> + <b>zorgbundels</b> +
+          samenvatting voor matching/registratie.
         </p>
         <div class="row">
-          <span class="chip"><span class="k">Output:</span> <b>probleemgebieden</b> + <b>zorgbundels</b></span>
-          <span class="chip"><span class="k">Doel:</span> <b>sneller ontslag</b> + <b>duidelijk takenpakket</b></span>
-          <span class="chip"><span class="k">Gebruik:</span> sociale dienst / coördinatieplatform</span>
+          <span class="chip"><b>Stap 1</b> Basis</span>
+          <span class="chip"><b>Stap 2</b> Probleemgebieden</span>
+          <span class="chip"><b>Stap 3</b> Samenvatting</span>
         </div>
       </div>
     </section>
 
+    <!-- Wizard navigation -->
+    <div class="navsteps" id="navSteps">
+      <div class="step active" data-step="1" role="button" tabindex="0">
+        <div class="num">1</div>
+        <div><b>Basis</b><span>identiteit & context</span></div>
+      </div>
+      <div class="step" data-step="2" role="button" tabindex="0">
+        <div class="num">2</div>
+        <div><b>Probleemgebieden</b><span>openklappers & score</span></div>
+      </div>
+      <div class="step" data-step="3" role="button" tabindex="0">
+        <div class="num">3</div>
+        <div><b>Samenvatting</b><span>bundels & export</span></div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="right-actions">
+        <button class="btn" type="button" id="btnPrint">Print/PDF</button>
+        <button class="btn" type="button" id="btnCopy">Kopieer JSON</button>
+        <button class="btn" type="button" id="btnReset">Reset</button>
+      </div>
+    </div>
+
     <div class="grid">
-      <!-- LEFT: FORM -->
+      <!-- LEFT: FORM/WIZARD -->
       <section class="card">
         <div class="card-h">
           <div>
-            <h2>1) Basisinfo & Intake</h2>
-            <p class="sub">Start met minimale gegevens. Daarna probleemgebieden: enkel wat relevant is klapt open.</p>
+            <h2 id="leftTitle">Stap 1 — Basis</h2>
+            <p class="sub" id="leftSub">Vul minimale gegevens in. Daarna ga je naar probleemgebieden.</p>
           </div>
-          <div class="mini" id="autosaveHint">Lokaal concept (geen server)</div>
+          <span class="badge" id="statusBadge">Start</span>
         </div>
 
         <div class="card-b">
           <form id="zsForm" autocomplete="on">
-            <div class="form-grid">
-              <div>
-                <label>Naam</label>
-                <input name="naam" placeholder="Voornaam + naam" />
+            <!-- STEP 1 -->
+            <div id="step1">
+              <div class="form-grid">
+                <div>
+                  <label>Naam</label>
+                  <input name="naam" placeholder="Voornaam + naam" />
+                </div>
+                <div>
+                  <label>Rijksregisternummer</label>
+                  <input name="rrn" placeholder="xx.xx.xx-xxx.xx" />
+                </div>
+                <div>
+                  <label>Telefoon</label>
+                  <input name="tel" placeholder="+32..." />
+                </div>
+                <div>
+                  <label>Mutualiteit</label>
+                  <input name="mut" placeholder="bv. CM, Solidaris..." />
+                </div>
+                <div style="grid-column:1/-1">
+                  <label>Adres</label>
+                  <input name="adres" placeholder="Straat + nr, postcode, gemeente" />
+                </div>
+                <div>
+                  <label>Huisarts</label>
+                  <input name="huisarts" placeholder="Naam arts (optioneel)" />
+                </div>
+                <div>
+                  <label>Mantelzorg / contactpersoon</label>
+                  <input name="mantel" placeholder="Naam + telefoon (optioneel)" />
+                </div>
               </div>
-              <div>
-                <label>Rijksregisternummer</label>
-                <input name="rrn" placeholder="xx.xx.xx-xxx.xx" />
+
+              <div class="btnbar">
+                <button type="button" class="btn primary" id="next1">Naar probleemgebieden</button>
               </div>
-              <div>
-                <label>Telefoon</label>
-                <input name="tel" placeholder="+32..." />
-              </div>
-              <div>
-                <label>Mutualiteit</label>
-                <input name="mut" placeholder="bv. CM, Solidaris..." />
-              </div>
-              <div style="grid-column:1/-1">
-                <label>Adres</label>
-                <input name="adres" placeholder="Straat + nr, postcode, gemeente" />
-              </div>
-              <div>
-                <label>Huisarts</label>
-                <input name="huisarts" placeholder="Naam arts (optioneel)" />
-              </div>
-              <div>
-                <label>Mantelzorg / contactpersoon</label>
-                <input name="mantel" placeholder="Naam + telefoon (optioneel)" />
-              </div>
+              <div class="help">Tip: je kan later validatie toevoegen (RRN/telefoon) zodra dit aan backend gekoppeld wordt.</div>
             </div>
 
-            <!-- PROBLEEMGEBIEDEN -->
-            <div style="margin-top:14px;">
-              <div class="mini">2) Probleemgebieden (klik om open te klappen)</div>
+            <!-- STEP 2 -->
+            <div id="step2" class="hidden">
+              <div class="mini">Klik op een probleemgebied om open te klappen. Bijkomende vragen verschijnen automatisch.</div>
 
               <!-- COGNITIE -->
               <div class="section" data-open="1" data-section="cognitie">
@@ -355,21 +429,47 @@
                 <div class="sec-b">
                   <div class="checks">
                     <label class="check">
-                      <input type="checkbox" name="cog_desorient" data-pb="Cognitie" data-score="2" />
+                      <input type="checkbox" name="cog_desorient" data-pb="Cognitie" data-score="2" data-reveal="#rev-cog-details" />
                       <div><b>Desoriëntatie</b><span>tijd/plaats/personen; wisselend bewustzijn</span></div>
                     </label>
                     <label class="check">
-                      <input type="checkbox" name="cog_dementie" data-pb="Cognitie" data-score="2" />
+                      <input type="checkbox" name="cog_dementie" data-pb="Cognitie" data-score="2" data-reveal="#rev-cog-details" />
                       <div><b>Dementie gekend</b><span>diagnose of duidelijke signalen</span></div>
                     </label>
                     <label class="check">
-                      <input type="checkbox" name="cog_delir" data-pb="Cognitie" data-score="3" />
+                      <input type="checkbox" name="cog_delir" data-pb="Cognitie" data-score="3" data-reveal="#rev-cog-details" />
                       <div><b>Delirium recent</b><span>tijdens opname of recent thuis</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="cog_medicatievergeet" data-pb="Medicatie" data-score="2" data-reveal="#rev-medicatie-adherentie" />
                       <div><b>Medicatie wordt vergeten</b><span>therapietrouw onzeker</span></div>
                     </label>
+                  </div>
+
+                  <div class="reveal" id="rev-cog-details">
+                    <div class="form-grid">
+                      <div>
+                        <label>Is er toezicht in huis?</label>
+                        <select name="cog_toezicht">
+                          <option value="">Kies…</option>
+                          <option>Ja, permanent</option>
+                          <option>Ja, gedeeltelijk</option>
+                          <option>Nee</option>
+                          <option>Onbekend</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label>Risico op verdwalen/veiligheid?</label>
+                        <select name="cog_veilig">
+                          <option value="">Kies…</option>
+                          <option>Laag</option>
+                          <option>Middel</option>
+                          <option>Hoog</option>
+                          <option>Onbekend</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="help">Deze antwoorden sturen “veiligheid thuis” en “medicatiebegeleiding” aan.</div>
                   </div>
 
                   <div class="reveal" id="rev-medicatie-adherentie">
@@ -395,8 +495,20 @@
                         </select>
                       </div>
                     </div>
-                    <div class="help">Wordt gebruikt om zorgbundel “medicatiebegeleiding” zwaarder of lichter te maken.</div>
                   </div>
+
+                  <!-- Score-based reveal (alleen tonen als Cognitie-score >= 4) -->
+                  <div class="reveal" id="rev-cog-score4" data-show="0">
+                    <label>Extra: heeft patiënt nood aan dagelijks contactmoment?</label>
+                    <select name="cog_dailycheck">
+                      <option value="">Kies…</option>
+                      <option>Ja</option>
+                      <option>Nee</option>
+                      <option>Onbekend</option>
+                    </select>
+                    <div class="help">Verschijnt enkel wanneer Cognitie-score hoog genoeg is (drempel).</div>
+                  </div>
+
                 </div>
               </div>
 
@@ -410,11 +522,11 @@
                   <div class="checks">
                     <label class="check">
                       <input type="checkbox" name="mob_stappen" data-pb="Mobiliteit" data-score="2" data-reveal="#rev-mob-hulpmiddel" />
-                      <div><b>Moeilijk stappen</b><span>kortademig, instabiel, beperkte afstand</span></div>
+                      <div><b>Moeilijk stappen</b><span>instabiel, beperkte afstand</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="mob_transfers" data-pb="Mobiliteit" data-score="2" data-reveal="#rev-mob-transfers" />
-                      <div><b>Transfers moeilijk</b><span>bed/stoel/toilet, hulp nodig</span></div>
+                      <div><b>Transfers moeilijk</b><span>bed/stoel/toilet</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="mob_val" data-pb="Valrisico" data-score="3" data-reveal="#rev-val-details" />
@@ -486,7 +598,6 @@
                         </select>
                       </div>
                     </div>
-                    <div class="help">Val + alleenwonend = hogere prioriteit voor valpreventie + personenalarm.</div>
                   </div>
 
                   <div class="reveal" id="rev-woning-trap">
@@ -511,6 +622,18 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- Score-based reveal (alleen tonen als Valrisico-score >= 3) -->
+                  <div class="reveal" id="rev-val-score3" data-show="0">
+                    <label>Extra: Personenalarm automatisch voorstellen?</label>
+                    <select name="val_alarm_suggest">
+                      <option value="">Kies…</option>
+                      <option>Ja</option>
+                      <option>Nee</option>
+                      <option>Onbekend</option>
+                    </select>
+                    <div class="help">Verschijnt enkel wanneer Valrisico-score hoog genoeg is.</div>
+                  </div>
                 </div>
               </div>
 
@@ -525,7 +648,7 @@
                     <div>
                       <label>Aantal medicaties</label>
                       <input type="number" name="med_aantal" min="0" placeholder="bv. 7" />
-                      <div class="help">Vanaf &gt;5 wordt “polyfarmacie” geactiveerd.</div>
+                      <div class="help">Vanaf >5 wordt polyfarmacie-score automatisch toegevoegd.</div>
                     </div>
                     <div>
                       <label>Complex schema?</label>
@@ -542,7 +665,7 @@
                   <div class="checks" style="margin-top:10px;">
                     <label class="check">
                       <input type="checkbox" name="med_anticoag" data-pb="Medicatie" data-score="2" data-reveal="#rev-med-anticoag" />
-                      <div><b>Anticoagulatie</b><span>NOAC/Marcoumar… (monitoring / risico)</span></div>
+                      <div><b>Anticoagulatie</b><span>NOAC/Marcoumar…</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="med_inject" data-pb="Technische zorg" data-score="2" data-reveal="#rev-med-inject" />
@@ -564,9 +687,9 @@
                         <label>Type</label>
                         <select name="anticoag_type">
                           <option value="">Kies…</option>
-                          <option>NOAC (bv. apixaban, rivaroxaban…)</option>
-                          <option>Vitamine K antagonist (Marcoumar/Sintrom)</option>
-                          <option>LMWH (spuitjes)</option>
+                          <option>NOAC</option>
+                          <option>Vitamine K antagonist</option>
+                          <option>LMWH</option>
                           <option>Onbekend</option>
                         </select>
                       </div>
@@ -617,10 +740,22 @@
                       <option>Onbekend</option>
                     </select>
                   </div>
+
+                  <!-- Score-based reveal: als med_aantal >= 10 -->
+                  <div class="reveal" id="rev-med-10" data-show="0">
+                    <label>Extra: voorstel voor medicatiereview (huisarts/apotheek)?</label>
+                    <select name="med_review">
+                      <option value="">Kies…</option>
+                      <option>Ja</option>
+                      <option>Nee</option>
+                      <option>Onbekend</option>
+                    </select>
+                    <div class="help">Verschijnt wanneer medicaties ≥ 10 (prototype-drempel).</div>
+                  </div>
                 </div>
               </div>
 
-              <!-- WOND/TECH -->
+              <!-- TECHNISCH -->
               <div class="section" data-open="0" data-section="technisch">
                 <div class="sec-h" role="button" tabindex="0">
                   <div class="ttl"><span class="ico">🩺</span> Wondzorg & technische zorg</div>
@@ -734,10 +869,10 @@
                 </div>
               </div>
 
-              <!-- SOCIAAL/WONEN -->
+              <!-- SOCIAAL -->
               <div class="section" data-open="0" data-section="sociaal">
                 <div class="sec-h" role="button" tabindex="0">
-                  <div class="ttl"><span class="ico">🏠</span> Wooncontext, netwerk & kwetsbaarheid</div>
+                  <div class="ttl"><span class="ico">🏠</span> Wooncontext & kwetsbaarheid</div>
                   <div class="meta" id="meta-sociaal">—</div>
                 </div>
                 <div class="sec-b">
@@ -748,19 +883,19 @@
                     </label>
                     <label class="check">
                       <input type="checkbox" name="soc_mantel_overlast" data-pb="Mantelzorg" data-score="2" data-reveal="#rev-mantel" />
-                      <div><b>Mantelzorger overbelast</b><span>dreigt uitval / conflict / draagkracht laag</span></div>
+                      <div><b>Mantelzorger overbelast</b><span>draagkracht laag / conflict</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="soc_fin" data-pb="Financieel" data-score="2" />
-                      <div><b>Financiële problemen</b><span>zorgkosten, administratie, VT?</span></div>
+                      <div><b>Financiële problemen</b><span>zorgkosten, administratie</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="soc_taal" data-pb="Communicatie" data-score="1" data-reveal="#rev-taal" />
-                      <div><b>Taal/gezondheidsgeletterdheid</b><span>uitleg moeilijk, extra ondersteuning</span></div>
+                      <div><b>Taal/gezondheidsgeletterdheid</b><span>extra ondersteuning</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="soc_psych" data-pb="Psychisch" data-score="2" data-reveal="#rev-psych" />
-                      <div><b>Psychische kwetsbaarheid</b><span>angst/depressie/verslaving/isolatie</span></div>
+                      <div><b>Psychische kwetsbaarheid</b><span>angst/depressie/verslaving</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="soc_alarm" data-pb="Veiligheid" data-score="2" data-reveal="#rev-alarm" />
@@ -780,7 +915,7 @@
                         </select>
                       </div>
                       <div>
-                        <label>Toegang tot woning veilig (sleutel/kluis)?</label>
+                        <label>Toegang veilig (sleutel/kluis)?</label>
                         <select name="toegang">
                           <option value="">Kies…</option>
                           <option>Ja</option>
@@ -792,7 +927,7 @@
                   </div>
 
                   <div class="reveal" id="rev-mantel">
-                    <label>Wat is de hoofdreden van belasting?</label>
+                    <label>Hoofdreden belasting</label>
                     <select name="mantel_reason">
                       <option value="">Kies…</option>
                       <option>Tijd/overname zorgtaken</option>
@@ -843,10 +978,22 @@
                       <option>Onbekend</option>
                     </select>
                   </div>
+
+                  <!-- Score-based reveal: als (Wooncontext+Valrisico) hoog -->
+                  <div class="reveal" id="rev-netwerk-high" data-show="0">
+                    <label>Extra: nood aan actieve coördinatie (case manager / zorgcoördinator)?</label>
+                    <select name="coord_need">
+                      <option value="">Kies…</option>
+                      <option>Ja</option>
+                      <option>Nee</option>
+                      <option>Onbekend</option>
+                    </select>
+                    <div class="help">Verschijnt bij combinatie “alleen + valrisico” of hoge contextscore.</div>
+                  </div>
                 </div>
               </div>
 
-              <!-- VRIJE TEKST -->
+              <!-- OPM -->
               <div class="section" data-open="0" data-section="opm">
                 <div class="sec-h" role="button" tabindex="0">
                   <div class="ttl"><span class="ico">📝</span> Aanvullende info</div>
@@ -854,20 +1001,26 @@
                 </div>
                 <div class="sec-b">
                   <label>Vrije opmerkingen (kort)</label>
-                  <textarea name="opm" placeholder="Wat moeten we zeker weten? (bv. ontslagdatum, huisarts bereikt, materiaal besteld, ...)"></textarea>
-                  <div class="help">Vrije tekst blijft, maar de kerninfo zit in de probleemgebieden + openklappers.</div>
+                  <textarea name="opm" placeholder="Wat moeten we zeker weten? (bv. ontslagdatum, materiaal besteld, huisarts bereikt, ...)"></textarea>
                 </div>
               </div>
 
               <div class="btnbar">
-                <button type="button" class="btn primary" id="btnCompute">Genereer zorgbundels & samenvatting</button>
-                <button type="button" class="btn" id="btnReset">Reset</button>
-                <button type="button" class="btn" id="btnCopy">Kopieer samenvatting</button>
+                <button type="button" class="btn" id="back2">Terug</button>
+                <button type="button" class="btn primary" id="next2">Naar samenvatting</button>
               </div>
-              <div class="footer-note">
-                Tip: dit is een “single-file” prototype. Je kan dit later koppelen aan Zorgstart (API/EPD), of de output naar een
-                “takenpakket + matching” pipeline sturen.
+              <div class="help">Je hoeft niets “te genereren”: rechts wordt live bijgewerkt.</div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div id="step3" class="hidden">
+              <div class="mini">Controleer de output. Kopieer JSON of print als PDF.</div>
+              <div class="btnbar">
+                <button type="button" class="btn" id="back3">Terug</button>
+                <button type="button" class="btn primary" id="btnFinalCopy">Kopieer JSON</button>
+                <button type="button" class="btn" id="btnFinalPrint">Print/PDF</button>
               </div>
+              <div class="help">Stap 3 is bewust “read-only”: de inhoud komt uit stap 1–2.</div>
             </div>
           </form>
         </div>
@@ -877,10 +1030,10 @@
       <aside class="card">
         <div class="card-h">
           <div>
-            <h2>2) Output: Probleemgebieden & Zorgbundels</h2>
-            <p class="sub">Realtime score + suggesties. Dit paneel is wat je later als “Zorgstart V1 output” kan registreren.</p>
+            <h2>Output (live)</h2>
+            <p class="sub">Probleemgebieden + zorgbundels + JSON (later 1-op-1 door te sturen naar Zorgstart/EPD).</p>
           </div>
-          <span class="badge" id="statusBadge">Wacht op input</span>
+          <span class="badge" id="severityBadge">—</span>
         </div>
 
         <div class="card-b">
@@ -901,7 +1054,7 @@
                 <b>Geen bundels (nog)</b>
                 <span class="tag">—</span>
               </div>
-              <p>Vul links de probleemgebieden in. Klik daarna op “Genereer zorgbundels & samenvatting”.</p>
+              <p>Vul de vragen in. Zorgbundels verschijnen automatisch zodra signalen aanwezig zijn.</p>
             </div>
           </div>
 
@@ -913,11 +1066,12 @@
 
 <script>
 /* ===========================
-   Zorgstart Slimme Intake
-   - Progressive disclosure (reveal blocks)
-   - Probleemgebieden + scores
-   - Bundel-voorstel (rules)
-   - JSON output + copy
+   Zorgstart Slimme Intake (V1 prototype)
+   - Wizard (3 stappen)
+   - Openklappers (checkbox -> reveal)
+   - Score-based reveals (drempels)
+   - Live output (bundels + JSON)
+   - Print/PDF
    =========================== */
 
 const $ = (sel, root=document) => root.querySelector(sel);
@@ -925,36 +1079,47 @@ const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
 const form = $("#zsForm");
 const statusBadge = $("#statusBadge");
+const severityBadge = $("#severityBadge");
 const scoreTotalEl = $("#scoreTotal");
 const pbCountEl = $("#pbCount");
 const bundleList = $("#bundleList");
 const jsonOut = $("#jsonOut");
 
-const PB = {
-  Cognitie: {label:"Cognitie & oriëntatie"},
-  Mobiliteit: {label:"Mobiliteit"},
-  Valrisico: {label:"Valrisico"},
-  Medicatie: {label:"Medicatie & polyfarmacie"},
-  Wondzorg: {label:"Wondzorg"},
-  "Technische zorg": {label:"Technische zorg"},
-  Wooncontext: {label:"Wooncontext"},
-  Mantelzorg: {label:"Mantelzorgbelasting"},
-  Financieel: {label:"Financiële kwetsbaarheid"},
-  Communicatie: {label:"Taal/gezondheidsgeletterdheid"},
-  Psychisch: {label:"Psychisch welzijn"},
-  Veiligheid: {label:"Veiligheid / personenalarm"}
+const leftTitle = $("#leftTitle");
+const leftSub = $("#leftSub");
+
+const stepEls = {
+  1: $("#step1"),
+  2: $("#step2"),
+  3: $("#step3")
 };
 
-function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+const stepsNav = $$(".step", $("#navSteps"));
+
+const PB = {
+  Cognitie:{label:"Cognitie & oriëntatie"},
+  Mobiliteit:{label:"Mobiliteit"},
+  Valrisico:{label:"Valrisico"},
+  Medicatie:{label:"Medicatie & polyfarmacie"},
+  Wondzorg:{label:"Wondzorg"},
+  "Technische zorg":{label:"Technische zorg"},
+  Woonomgeving:{label:"Woonomgeving"},
+  Wooncontext:{label:"Wooncontext"},
+  Mantelzorg:{label:"Mantelzorgbelasting"},
+  Financieel:{label:"Financiële kwetsbaarheid"},
+  Communicatie:{label:"Taal/gezondheidsgeletterdheid"},
+  Psychisch:{label:"Psychisch welzijn"},
+  Veiligheid:{label:"Veiligheid thuis"}
+};
 
 function severityTag(score){
-  if(score >= 9) return {cls:"bad", txt:"hoog"};
-  if(score >= 5) return {cls:"warn", txt:"matig"};
+  if(score >= 10) return {cls:"bad", txt:"hoog"};
+  if(score >= 6)  return {cls:"warn", txt:"matig"};
   return {cls:"good", txt:"laag"};
 }
 
-function toggleSection(el){
-  const sec = el.closest(".section");
+function toggleSection(headerEl){
+  const sec = headerEl.closest(".section");
   const open = sec.getAttribute("data-open") === "1";
   sec.setAttribute("data-open", open ? "0" : "1");
 }
@@ -969,7 +1134,6 @@ function updateRevealForInput(inp){
 }
 
 function updateMeta(){
-  // Simple per-section meta: count checked
   const sections = $$(".section");
   sections.forEach(sec => {
     const id = sec.getAttribute("data-section");
@@ -985,13 +1149,9 @@ function collectData(){
   const data = {};
   const fd = new FormData(form);
   for(const [k,v] of fd.entries()){
-    // keep empty fields out (except we still want present? -> keep non-empty)
     if(v !== "") data[k] = v;
   }
-  // add checkboxes explicitly
-  $$("input[type=checkbox]", form).forEach(c => {
-    data[c.name] = !!c.checked;
-  });
+  $$("input[type=checkbox]", form).forEach(c => data[c.name] = !!c.checked);
   return data;
 }
 
@@ -999,45 +1159,39 @@ function computePB(){
   const pbScores = {};
   let total = 0;
 
-  // Checkbox-driven scoring
   $$("input[type=checkbox][data-pb]", form).forEach(c => {
     if(!c.checked) return;
     const pb = c.getAttribute("data-pb");
-    const s = Number(c.getAttribute("data-score") || "1");
+    const s  = Number(c.getAttribute("data-score") || "1");
     pbScores[pb] = (pbScores[pb] || 0) + s;
     total += s;
   });
 
   // Medicatie count rule (polyfarmacie)
-  const medAantal = Number($("input[name=med_aantal]").value || "0");
-  if(medAantal > 5){
-    pbScores["Medicatie"] = (pbScores["Medicatie"] || 0) + 2;
-    total += 2;
-  }
-  // Complex schema rule
-  const medComplex = ($("select[name=med_complex]").value || "");
+  const medAantal = Number($("input[name=med_aantal]")?.value || "0");
+  if(medAantal > 5){ pbScores["Medicatie"] = (pbScores["Medicatie"] || 0) + 2; total += 2; }
+
+  // Complex schema adds
+  const medComplex = ($("select[name=med_complex]")?.value || "");
   if(medComplex.includes("Ja")){ pbScores["Medicatie"] = (pbScores["Medicatie"] || 0) + 1; total += 1; }
 
   // Safety amplification: alone + falls
-  const alleen = $("input[name=soc_alleen]").checked;
-  const val = $("input[name=mob_val]").checked;
+  const alleen = $("input[name=soc_alleen]")?.checked;
+  const val    = $("input[name=mob_val]")?.checked;
   if(alleen && val){
     pbScores["Veiligheid"] = (pbScores["Veiligheid"] || 0) + 2;
     total += 2;
   }
 
-  return {pbScores, total};
+  return {pbScores, total, medAantal};
 }
 
-function suggestBundles(pbScores, data){
-  // RULES -> bundles
+function suggestBundles(pbScores, data, medAantal){
   const bundles = [];
-
   const has = (k, min=1) => (pbScores[k] || 0) >= min;
 
   // 1) Medicatiebegeleiding
-  const medAantal = Number(data.med_aantal || "0");
-  const medRisk = has("Medicatie", 2) || medAantal > 5 || (data.med_confusion === "Hoog") || data.cog_medicatievergeet;
+  const medRisk = has("Medicatie",2) || medAantal > 5 || (data.med_confusion === "Hoog") || data.cog_medicatievergeet;
   if(medRisk){
     bundles.push({
       name:"Zorgbundel: Medicatiebegeleiding",
@@ -1047,11 +1201,11 @@ function suggestBundles(pbScores, data){
         data.med_confusion ? `Verwarringsrisico: ${data.med_confusion}` : null,
         data.cog_medicatievergeet ? "Therapietrouw onzeker" : null
       ].filter(Boolean),
-      prio: medAantal > 8 || data.med_confusion==="Hoog" ? "hoog" : "matig"
+      prio: (medAantal >= 10 || data.med_confusion==="Hoog") ? "hoog" : "matig"
     });
   }
 
-  // 2) Valpreventie / mobiliteit
+  // 2) Mobiliteit/Valpreventie
   if(has("Valrisico",2) || has("Mobiliteit",2)){
     bundles.push({
       name:"Zorgbundel: Mobiliteit & valpreventie",
@@ -1065,7 +1219,7 @@ function suggestBundles(pbScores, data){
     });
   }
 
-  // 3) Technische thuisverpleging
+  // 3) Technische thuisverpleging / Wondzorg
   if(has("Wondzorg",2) || has("Technische zorg",2)){
     bundles.push({
       name:"Zorgbundel: Technische thuisverpleging",
@@ -1080,60 +1234,79 @@ function suggestBundles(pbScores, data){
     });
   }
 
-  // 4) Veiligheid / personenalarm
-  const safety = has("Veiligheid",2) || (data.soc_alarm) || (data.soc_alleen && data.mob_val);
+  // 4) Veiligheid thuis
+  const safety = has("Veiligheid",2) || data.soc_alarm || (data.soc_alleen && data.mob_val) || (data.cog_veilig === "Hoog");
   if(safety){
     bundles.push({
       name:"Zorgbundel: Veiligheid thuis",
       why:[
         data.soc_alarm ? `Personenalarm: ${data.alarm_status || "onbekend"}` : null,
         (data.soc_alleen && data.mob_val) ? "Alleenwonend + valrisico (prioriteit)" : null,
-        data.cog_desorient ? "Desoriëntatie" : null
+        data.cog_veilig === "Hoog" ? "Cognitieve veiligheidsrisico’s (hoog)" : null
       ].filter(Boolean),
-      prio: (data.soc_alleen && data.mob_val) ? "hoog" : "matig"
+      prio: (data.soc_alleen && data.mob_val) || (data.cog_veilig === "Hoog") ? "hoog" : "matig"
     });
   }
 
-  // 5) Netwerk / mantelzorg / communicatie
-  if(has("Wooncontext",2) || has("Mantelzorg",2) || has("Communicatie",1) || has("Financieel",1)){
+  // 5) Coördinatie & netwerk
+  if(has("Wooncontext",2) || has("Mantelzorg",2) || has("Communicatie",1) || has("Financieel",1) || data.coord_need==="Ja"){
     bundles.push({
       name:"Zorgbundel: Coördinatie & netwerkondersteuning",
       why:[
         data.soc_alleen ? `Alleenwonend (contact: ${data.alleen_contact || "onbekend"})` : null,
         data.soc_mantel_overlast ? `Mantelzorger overbelast (${data.mantel_reason || "reden onbekend"})` : null,
         data.soc_taal ? `Communicatie: taal ${data.taal || "onbekend"}, tolk ${data.tolk || "onbekend"}` : null,
-        data.soc_fin ? "Financiële kwetsbaarheid" : null
+        data.soc_fin ? "Financiële kwetsbaarheid" : null,
+        data.coord_need==="Ja" ? "Actieve coördinatie gevraagd" : null
       ].filter(Boolean),
       prio: (data.soc_alleen && data.soc_mantel_overlast) ? "hoog" : "matig"
     });
   }
 
-  // If none: suggest minimal
   if(!bundles.length){
-    bundles.push({
-      name:"Geen bundel (nog) — minimale opvolging",
-      why:["Onvoldoende signalen aangevinkt om een bundel te activeren."],
-      prio:"laag"
-    });
+    bundles.push({name:"Geen bundel (nog) — minimale opvolging", why:["Onvoldoende signalen om een bundel te activeren."], prio:"laag"});
   }
-
   return bundles;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
+}
+
+function setScoreBasedReveals(pbScores, medAantal){
+  // 1) Cognitie-score >= 4 => toon extra (rev-cog-score4)
+  const cogScore = pbScores["Cognitie"] || 0;
+  $("#rev-cog-score4")?.setAttribute("data-show", (cogScore >= 4) ? "1" : "0");
+
+  // 2) Valrisico-score >= 3 => toon extra (rev-val-score3)
+  const valScore = pbScores["Valrisico"] || 0;
+  $("#rev-val-score3")?.setAttribute("data-show", (valScore >= 3) ? "1" : "0");
+
+  // 3) Medicaties >= 10 => toon extra (rev-med-10)
+  $("#rev-med-10")?.setAttribute("data-show", (medAantal >= 10) ? "1" : "0");
+
+  // 4) (Alleen + valrisico) => toon netwerk-high
+  const alone = $("input[name=soc_alleen]")?.checked;
+  const fall  = $("input[name=mob_val]")?.checked;
+  $("#rev-netwerk-high")?.setAttribute("data-show", (alone && fall) ? "1" : "0");
 }
 
 function renderOutput(){
   const data = collectData();
-  const {pbScores, total} = computePB();
+  const {pbScores, total, medAantal} = computePB();
+  setScoreBasedReveals(pbScores, medAantal);
+
   const pbKeys = Object.keys(pbScores).sort((a,b)=> (pbScores[b]-pbScores[a]));
-  const bundles = suggestBundles(pbScores, data);
+  const bundles = suggestBundles(pbScores, data, medAantal);
 
   const sev = severityTag(total);
-  statusBadge.textContent = `Kwetsbaarheid: ${sev.txt}`;
-  statusBadge.className = `badge`;
+  severityBadge.textContent = `Kwetsbaarheid: ${sev.txt}`;
+  severityBadge.className = `badge tag ${sev.cls}`;
 
+  statusBadge.textContent = (total===0) ? "Start" : `Score ${total}`;
   scoreTotalEl.textContent = String(total);
   pbCountEl.textContent = String(pbKeys.length);
 
-  // Bundles cards
   bundleList.innerHTML = "";
   bundles.forEach(b => {
     const pr = b.prio === "hoog" ? "bad" : (b.prio === "matig" ? "warn" : "good");
@@ -1172,15 +1345,36 @@ function renderOutput(){
   jsonOut.textContent = JSON.stringify(out, null, 2);
 }
 
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
+function setStep(n){
+  // show/hide
+  Object.keys(stepEls).forEach(k => stepEls[k].classList.toggle("hidden", Number(k)!==n));
+
+  // update nav states
+  stepsNav.forEach(s => {
+    const sn = Number(s.getAttribute("data-step"));
+    s.classList.toggle("active", sn === n);
+    s.classList.toggle("done", sn < n);
+  });
+
+  // header text
+  if(n===1){
+    leftTitle.textContent = "Stap 1 — Basis";
+    leftSub.textContent = "Vul minimale gegevens in. Daarna ga je naar probleemgebieden.";
+  }else if(n===2){
+    leftTitle.textContent = "Stap 2 — Probleemgebieden";
+    leftSub.textContent = "Openklappers verschijnen automatisch. Output rechts wordt live bijgewerkt.";
+  }else{
+    leftTitle.textContent = "Stap 3 — Samenvatting";
+    leftSub.textContent = "Kopieer JSON of print naar PDF. (Inhoud komt uit stap 1–2.)";
+  }
+  // scroll top of card on step change (nice UX)
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
 /* --------------------------
    EVENTS
 --------------------------- */
-
-// Accordion toggles
+// Accordion
 $$(".sec-h").forEach(h => {
   h.addEventListener("click", ()=> toggleSection(h));
   h.addEventListener("keydown", (e)=> {
@@ -1188,7 +1382,7 @@ $$(".sec-h").forEach(h => {
   });
 });
 
-// Reveal logic for checkboxes & selects (if any with data-reveal)
+// Reveal logic + auto-open + LIVE render
 form.addEventListener("change", (e) => {
   const t = e.target;
   if(!(t instanceof HTMLElement)) return;
@@ -1196,56 +1390,70 @@ form.addEventListener("change", (e) => {
   if(t.matches("input[type=checkbox][data-reveal]")){
     updateRevealForInput(t);
   }
-
-  // auto-open section if something checked inside
   if(t.matches("input[type=checkbox]")){
     const sec = t.closest(".section");
     if(sec && t.checked) sec.setAttribute("data-open","1");
   }
-
-  // update meta counts
   updateMeta();
+  renderOutput();
+});
+form.addEventListener("input", () => {
+  updateMeta();
+  renderOutput();
 });
 
-// Initialize reveal blocks based on default state
+// Init reveal blocks
 $$("input[type=checkbox][data-reveal]").forEach(updateRevealForInput);
 updateMeta();
+renderOutput();
 
-// Button actions
-$("#btnCompute").addEventListener("click", () => {
-  renderOutput();
-  // also auto-open right-side by updating badge state visually
+// Wizard controls
+$("#next1").addEventListener("click", ()=> setStep(2));
+$("#back2").addEventListener("click", ()=> setStep(1));
+$("#next2").addEventListener("click", ()=> setStep(3));
+$("#back3").addEventListener("click", ()=> setStep(2));
+
+// Click nav steps
+stepsNav.forEach(s => {
+  s.addEventListener("click", ()=> setStep(Number(s.getAttribute("data-step"))));
+  s.addEventListener("keydown", (e)=>{
+    if(e.key==="Enter" || e.key===" "){ e.preventDefault(); setStep(Number(s.getAttribute("data-step"))); }
+  });
 });
 
+// Copy JSON
+async function copyJson(){
+  const txt = jsonOut.textContent || "{}";
+  try{
+    await navigator.clipboard.writeText(txt);
+    statusBadge.textContent = "JSON gekopieerd ✔";
+    setTimeout(()=> renderOutput(), 900);
+  }catch(err){
+    alert("Kopiëren lukt niet in deze browser-context. Selecteer en kopieer handmatig.");
+  }
+}
+$("#btnCopy").addEventListener("click", copyJson);
+$("#btnFinalCopy").addEventListener("click", copyJson);
+
+// Print/PDF
+function doPrint(){ window.print(); }
+$("#btnPrint").addEventListener("click", doPrint);
+$("#btnFinalPrint").addEventListener("click", doPrint);
+
+// Reset
 $("#btnReset").addEventListener("click", () => {
   form.reset();
   // close optional sections except first
   $$(".section").forEach((s,i)=> s.setAttribute("data-open", i===0 ? "1":"0"));
   // hide all reveals
   $$(".reveal").forEach(r => r.setAttribute("data-show","0"));
-  // reset right panel
-  statusBadge.textContent = "Wacht op input";
-  scoreTotalEl.textContent = "0";
-  pbCountEl.textContent = "0";
-  bundleList.innerHTML = `
-    <div class="item">
-      <div class="h"><b>Geen bundels (nog)</b><span class="tag">—</span></div>
-      <p>Vul links de probleemgebieden in. Klik daarna op “Genereer zorgbundels & samenvatting”.</p>
-    </div>`;
-  jsonOut.textContent = "{}";
+  setStep(1);
   updateMeta();
+  renderOutput();
 });
 
-$("#btnCopy").addEventListener("click", async () => {
-  const txt = jsonOut.textContent || "{}";
-  try{
-    await navigator.clipboard.writeText(txt);
-    $("#autosaveHint").textContent = "Samenvatting gekopieerd ✔";
-    setTimeout(()=> $("#autosaveHint").textContent = "Lokaal concept (geen server)", 1800);
-  }catch(err){
-    alert("Kopiëren lukt niet in deze browser-context. Selecteer en kopieer handmatig.");
-  }
-});
+// start at step 1
+setStep(1);
 </script>
 </body>
 </html>
