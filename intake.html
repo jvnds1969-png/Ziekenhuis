@@ -1349,13 +1349,14 @@ tabBtns.forEach(btn=>{
 function buildTasks(pbScores, data, bundles){
   const tasks = [];
 
-  const add = (group, title, detail, owner="Servicedesk", when="Binnen 24u")=>{
-    tasks.push({group, title, detail, owner, when});
+  const DEFAULT_COORD = "Zorgstart-coördinatie";
+  const add = (group, title, detail, uitvoerder,when="Binnen 24u",coord=DEFAULT_COORD)=>{
+    tasks.push({ group, title, detail, uitvoerder, when, coord });
   };
-
+    
   // Medicatie
   if(bundles.some(b=> b.name.includes("Medicatiebegeleiding"))){
-    add("Medicatiebegeleiding","Medicatieschema opvragen/valideren","Vraag actueel schema op (huisarts/apotheek/ontslagbrief) en bevestig laatste wijzigingen.","Servicedesk","Vandaag");
+    add("Medicatiebegeleiding","Medicatieschema opvragen/valideren","Vraag actueel schema op (huisarts/apotheek/ontslagbrief) en bevestig laatste wijzigingen.","Apotheker / huisarts","Vandaag");
     add("Medicatiebegeleiding","Innamemomenten structureren","Maak overzicht (ochtend/middag/avond) en detecteer risicomedicatie (anticoagulantia, insuline).","Verpleegkundige (N6)","Binnen 48u");
     if(data.med_confusion === "Hoog" || (Number(data.med_aantal||"0")>=10)){
       add("Medicatiebegeleiding","Medicatiereview voorstellen","Contacteer huisarts/apotheek voor review (polyfarmacie/risico).","Verpleegkundige (N6)","Binnen 7 dagen");
@@ -1368,7 +1369,7 @@ function buildTasks(pbScores, data, bundles){
   // Mobiliteit/Valpreventie
   if(bundles.some(b=> b.name.includes("Mobiliteit & valpreventie"))){
     add("Valpreventie","Valrisico-inschatting bevestigen","Val-geschiedenis + letsel + trapcontext kort bevestigen.","Servicedesk","Vandaag");
-    add("Valpreventie","Hulpmiddel checken/voorzien","Rollator/rolstoel/tillift: aanwezig? zo niet: aanvraag via mutualiteit/leverancier.","Ergo/Servicedesk","Binnen 72u");
+    add("Valpreventie","Hulpmiddel checken/voorzien","Rollator/rolstoel/tillift: aanwezig? zo niet: aanvraag via mutualiteit/leverancier.","Ergotherapeut","Binnen 72u");
     if(data.soc_alleen && data.mob_val){
       add("Valpreventie","Personenalarm activeren","Voorstel + praktische opstart + contactpersonen instellen.","Servicedesk","Binnen 48u");
     }
@@ -1398,9 +1399,9 @@ function buildTasks(pbScores, data, bundles){
 
   // Coordinatie & netwerk
   if(bundles.some(b=> b.name.includes("Coordinatie & netwerk") || b.name.includes("netwerk"))){
-    add("Coordinatie","Netwerk in kaart brengen","Wie doet wat? Mantelzorger + huisarts + andere hulpverleners.","Servicedesk","Binnen 72u");
+    add("Coordinatie","Netwerk in kaart brengen","Wie doet wat? Mantelzorger + huisarts + andere hulpverleners.","Zorgcoördinator","Binnen 72u");
     if(data.soc_mantel_overlast){
-      add("Coordinatie","Mantelzorgbelasting bespreken","Duidelijke afspraken, grenzen, respite-opties.","Zorgcoordinator","Binnen 7 dagen");
+      add("Coordinatie","Mantelzorgbelasting bespreken","Duidelijke afspraken, grenzen, respite-opties.","Zorgcoördinator","Binnen 7 dagen");
     }
     if(data.soc_taal){
       add("Coordinatie","Communicatie-afspraken","Voorkeurstaal + tolk/ondersteuner vastleggen voor afspraken.","Servicedesk","Vandaag");
@@ -1483,8 +1484,8 @@ function renderTasks(tasks){
               <b>${escapeHtml(t.title)}</b>
               <span>${escapeHtml(t.detail)}</span>
               <span style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
-                <span class="whyChip">Owner: ${escapeHtml(t.owner)}</span>
-                <span class="whyChip">Timing: ${escapeHtml(t.when)}</span>
+                <span class="whyChip">Uitvoerder: ${escapeHtml(t.uitvoerder)}</span>
+                <span class="whyChip">Timing: ${escapeHtml(t.when)}</span>                     <span class="whyChip">Coördinatie: ${escapeHtml(t.coord)}</span>
               </span>
             </div>
           </div>
@@ -1740,8 +1741,8 @@ function carePlanHTML(out){
                   </div>
                   <div class="zp-tasksmall">${esc(t.detail || "")}</div>
                   <div class="zp-pillrow">
-                    <span class="zp-pill">Uitvoerder: ${esc(providerLabel(t.owner))}</span>
-                    ${t.owner && String(t.owner).includes("N6") ? `<span class="zp-pill">Supervisie: N6</span>` : ``}
+                    <span class="zp-pill">Uitvoerder: ${esc(t.uitvoerder)}</span>
+                    <span class="zp-pill">Coördinatie: ${esc(t.coord)}</span>
                   </div>
                 </div>
               `).join("")}
@@ -1801,7 +1802,7 @@ function carePlanHTML(out){
         <p><b>Top-probleemgebieden:</b> ${esc(pbTop)}</p>
       </div>
       <div class="zp-section">
-        <h2>Takenpakket & uitvoerders</h2>
+        <h2>Zorgnetwerk — Takenpakket & uitvoerders</h2>
         <p>Onderstaande taken zijn automatisch afgeleid uit probleemgebieden en zorgbundels. Elke taak bevat een aanbevolen uitvoerder/dienstverlener.</p>
         <div class="zp-grid">
           ${taskBlocks}
