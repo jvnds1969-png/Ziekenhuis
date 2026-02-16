@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zorgstart — Van Document naar Zorgplan</title>
+
+  <link rel="stylesheet" href="style.css?v=3">
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- Mammoth.js (DOCX) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="logo">Z</div>
+    <div class="header-text">
+      <h1>Zorgstart</h1>
+      <p>Van document naar persoonlijk zorgplan</p>
+    </div>
+    <nav>
+      <a href="https://jvnds1969-png.github.io/Zorgbundels-en-probleemgebieden/" target="_blank" rel="noopener">Zorgbundels</a>
+      <a href="https://jvnds1969-png.github.io/Zorgverleners/" target="_blank" rel="noopener">Zorgverleners</a>
+      <a href="https://test.onepatient.bingli.be/dashboard" target="_blank" rel="noopener">OnePatient</a>
+      <a href="https://www.bcfi.be/nl/chapters" target="_blank" rel="noopener">BCFI</a>
+      <a href="https://jvnds1969-png.github.io/zorgstart-demo/index.html" target="_blank" rel="noopener">Demo</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STAP 1 -->
+    <section class="workflow-step active" id="stap1">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <h2>Documenten uploaden & patiëntgegevens</h2>
+      </div>
+
+      <div class="step-content">
+        <div class="patient-form">
+          <div class="form-group">
+            <label for="patientNaam">Naam patiënt</label>
+            <input type="text" id="patientNaam" placeholder="Voornaam Achternaam" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="patientGeboortedatum">Geboortedatum</label>
+            <input type="date" id="patientGeboortedatum">
+          </div>
+          <div class="form-group">
+            <label>Leeftijd</label>
+            <div id="patientLeeftijd" class="readonly-field">-</div>
+          </div>
+        </div>
+
+        <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload documenten">
+          <div class="upload-icon">+</div>
+          <p><strong>Sleep PDF/DOCX/TXT hierheen</strong> of klik om te uploaden</p>
+          <p class="upload-hint">Je kan meerdere documenten tegelijk toevoegen</p>
+
+          <input
+            type="file"
+            id="fileInput"
+            accept=".pdf,.docx,.txt"
+            multiple
+            style="display:none"
+          />
+        </div>
+
+        <div class="uploaded-documents-section">
+          <h4 class="uploaded-docs-title" id="uploadedDocsTitle" style="display:none;">Opgeladen documenten</h4>
+          <ul id="documentList" class="uploaded-documents-list"></ul>
+        </div>
+
+        <div id="documentPreviewSection" class="document-preview-section" style="display:none;">
+          <h4 class="preview-title">Preview</h4>
+          <div id="documentPreviewContainer" class="document-preview-container"></div>
+        </div>
+
+        <div id="analysisStatus" class="status-box" style="display:none;"></div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button id="extractTerms" class="btn-primary" disabled>Analyseer Documenten</button>
+          <button id="openBingliLogin" class="btn-secondary" disabled>Login OnePatient (Bingli)</button>
+          <button id="uploadToOnePatientBtn" class="btn-secondary" disabled>Upload naar OnePatient</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAP 2 -->
+    <section class="workflow-step" id="stap2">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <h2>Probleemgebieden & bundels</h2>
+      </div>
+
+      <div class="step-content">
+        <h3>Gevonden lexicon-termen</h3>
+        <div id="foundTerms" class="panel"></div>
+
+        <h3>Voorgestelde probleemgebieden</h3>
+        <div id="suggestedBundles" class="panel"></div>
+
+        <h3>Extract (ruwe tekst)</h3>
+        <div id="medicatieInfo" class="panel"></div>
+
+        <button id="generatePlan" class="btn-primary" disabled>Genereer Zorgplan</button>
+      </div>
+    </section>
+
+    <!-- STAP 3 -->
+    <section class="workflow-step" id="stap3">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <h2>Kies weergave</h2>
+      </div>
+
+      <div class="step-content">
+        <div class="mode-toggle">
+          <label class="toggle-btn">
+            <input type="radio" id="viewProf" name="viewMode" value="prof" checked>
+            Professioneel
+          </label>
+          <label class="toggle-btn">
+            <input type="radio" id="viewPatient" name="viewMode" value="patient">
+            Voor patiënt (B1)
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAP 4 -->
+    <section class="workflow-step" id="stap4">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <h2>Zorgplan</h2>
+      </div>
+
+      <div class="step-content">
+        <div id="zorgplanOutput" class="panel"></div>
+
+        <div class="plan-actions">
+          <button id="downloadPlan" class="btn-secondary" disabled>Download als HTML</button>
+          <button id="printPlan" class="btn-secondary" disabled>Afdrukken</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Zorgstart | Medicatie-info: <a href="https://www.bcfi.be/nl/chapters" target="_blank" rel="noopener">BCFI Repertorium</a></p>
+  </footer>
+
+  <script src="script.js?v=20260211-01"></script>
+</body>
+</html>
