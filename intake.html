@@ -328,14 +328,14 @@
   <div class="wrap">
     <section class="hero">
       <div class="hero-inner">
-        <h1>Intake met slimme openklappers — in 3 stappen</h1>
+        <h1>Veilig-thuis gesprek — in 3 stappen</h1>
         <p class="lead">
-          Progressieve vragenlijst: alleen relevante vervolgvragen verschijnen. Output: <b>probleemgebieden</b> + <b>zorgbundels</b> +
+          Progressieve vragenlijst: alleen relevante vervolgvragen verschijnen. Output: <b>aandachtsgebieden</b> + <b>zorgbundels</b> +
           samenvatting voor matching/registratie.
         </p>
         <div class="row">
           <span class="chip"><b>Stap 1</b> Basis</span>
-          <span class="chip"><b>Stap 2</b> Probleemgebieden</span>
+          <span class="chip"><b>Stap 2</b> Aandachtsgebieden</span>
           <span class="chip"><b>Stap 3</b> Samenvatting</span>
         </div>
       </div>
@@ -349,7 +349,7 @@
       </div>
       <div class="step" data-step="2" role="button" tabindex="0">
         <div class="num">2</div>
-        <div><b>Probleemgebieden</b><span>openklappers & score</span></div>
+        <div><b>Aandachtsgebieden</b><span>openklappers & score</span></div>
       </div>
       <div class="step" data-step="3" role="button" tabindex="0">
         <div class="num">3</div>
@@ -370,7 +370,7 @@
         <div class="card-h">
           <div>
             <h2 id="leftTitle">Stap 1 — Basis</h2>
-            <p class="sub" id="leftSub">Vul minimale gegevens in. Daarna ga je naar probleemgebieden.</p>
+            <p class="sub" id="leftSub">Vul minimale gegevens in. Daarna ga je naar aandachtsgebieden.</p>
           </div>
           <span class="badge" id="statusBadge">Start</span>
         </div>
@@ -411,7 +411,7 @@
               </div>
 
               <div class="btnbar">
-                <button type="button" class="btn primary" id="next1">Naar probleemgebieden</button>
+                <button type="button" class="btn primary" id="next1">Naar Aandachtsgebieden</button>
               </div>
               <div class="help">Tip: je kan later validatie toevoegen (RRN/telefoon) zodra dit aan backend gekoppeld wordt.</div>
             </div>
@@ -434,7 +434,7 @@
                     </label>
                     <label class="check">
                       <input type="checkbox" name="cog_dementie" data-pb="Cognitie" data-score="2" data-reveal="#rev-cog-details" />
-                      <div><b>Dementie gekend</b><span>diagnose of duidelijke signalen</span></div>
+                      <div><b>Dementie-syndroom gekend</b><span>diagnose of duidelijke signalen</span></div>
                     </label>
                     <label class="check">
                       <input type="checkbox" name="cog_delir" data-pb="Cognitie" data-score="3" data-reveal="#rev-cog-details" />
@@ -630,6 +630,7 @@
                       <option value="">Kies…</option>
                       <option>Ja</option>
                       <option>Nee</option>
+                      <option>reeds in orde</option>
                       <option>Onbekend</option>
                     </select>
                     <div class="help">Verschijnt enkel wanneer Valrisico-score hoog genoeg is.</div>
