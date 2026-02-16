@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Zorgstart — Slimme intake (wizard + openklappers + print)</title>
-  <meta name="description" content="Slimme, dynamische intake: wizard flow + bijkomende vragen op basis van antwoorden en score. Output: probleemgebieden + zorgbundels + samenvatting." />
+  <meta name="description" content="Slimme, dynamische intake: wizard flow + bijkomende vragen op basis van antwoorden en score. Output: aandachtsgebieden + zorgbundels + samenvatting." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -1032,7 +1032,7 @@
         <div class="card-h">
           <div>
             <h2>Output (live)</h2>
-            <p class="sub">Probleemgebieden + zorgbundels + JSON (later 1-op-1 door te sturen naar Zorgstart/EPD).</p>
+            <p class="sub">Aandachtsgebieden + zorgbundels + JSON (later 1-op-1 door te sturen naar Zorgstart/EPD).</p>
           </div>
           <span class="badge" id="severityBadge">—</span>
         </div>
@@ -1067,7 +1067,7 @@
           <div class="tasksHead">
             <div>
               <b>Concreet takenpakket</b>
-              <div class="mini">Automatisch afgeleid uit probleemgebieden & zorgbundels (prototype-regels).</div>
+              <div class="mini">Automatisch afgeleid uit aandachtsgebieden & zorgbundels (prototype-regels).</div>
             </div>
             <div class="tasksMeta">
               <span class="pill" id="taskCountPill">0 taken</span>
@@ -1369,10 +1369,10 @@ function buildTasks(pbScores, data, bundles){
 
   // Mobiliteit/Valpreventie
   if(bundles.some(b=> b.name.includes("Mobiliteit & valpreventie"))){
-    add("Valpreventie","Valrisico-inschatting bevestigen","Val-geschiedenis + letsel + trapcontext kort bevestigen.","Servicedesk","Vandaag");
+    add("Valpreventie","Valrisico-inschatting bevestigen","Val-geschiedenis + letsel + trapcontext kort bevestigen.","Vandaag");
     add("Valpreventie","Hulpmiddel checken/voorzien","Rollator/rolstoel/tillift: aanwezig? zo niet: aanvraag via mutualiteit/leverancier.","Ergotherapeut","Binnen 72u");
     if(data.soc_alleen && data.mob_val){
-      add("Valpreventie","Personenalarm activeren","Voorstel + praktische opstart + contactpersonen instellen.","Servicedesk","Binnen 48u");
+      add("Valpreventie","Personenalarm activeren","Voorstel + praktische opstart + contactpersonen instellen.","Binnen 48u");
     }
   }
 
@@ -1392,9 +1392,9 @@ function buildTasks(pbScores, data, bundles){
 
   // Veiligheid thuis
   if(bundles.some(b=> b.name.includes("Veiligheid thuis"))){
-    add("Veiligheid","Veiligheidscheck thuis","Sleutelbeheer/toegang + risico's (dwalen/val) + noodnummers.","Servicedesk","Binnen 48u");
+    add("Veiligheid","Veiligheidscheck thuis","Sleutelbeheer/toegang + risico's (dwalen/val) + noodnummers.","Binnen 48u");
     if(data.cog_veilig === "Hoog"){
-      add("Veiligheid","Dagelijks contactmoment organiseren","Dagelijkse check-in (telefonisch of bezoek) volgens afspraak.","Servicedesk","Binnen 48u");
+      add("Veiligheid","Dagelijks contactmoment organiseren","Dagelijkse check-in (telefonisch of bezoek) volgens afspraak.","","Binnen 48u");
     }
   }
 
@@ -1405,7 +1405,7 @@ function buildTasks(pbScores, data, bundles){
       add("Coordinatie","Mantelzorgbelasting bespreken","Duidelijke afspraken, grenzen, respite-opties.","Zorgcoördinator","Binnen 7 dagen");
     }
     if(data.soc_taal){
-      add("Coordinatie","Communicatie-afspraken","Voorkeurstaal + tolk/ondersteuner vastleggen voor afspraken.","Servicedesk","Vandaag");
+      add("Coordinatie","Communicatie-afspraken","Voorkeurstaal + tolk/ondersteuner vastleggen voor afspraken.","Vandaag");
     }
     if(data.soc_fin){
       add("Coordinatie","Financieel/administratief spoor","VT/tegemoetkomingen, hulpmiddelen, facturatiekanalen.","Sociaal werker","Binnen 7 dagen");
@@ -1685,13 +1685,12 @@ setStep(1);
                                                 // Zorgplan (PDF) functions
 function providerLabel(owner){
   const map = {
-    "Servicedesk": "Zorgstart Servicedesk (coordinatie)",
     "Thuisverpleging": "Thuisverpleegkundige (Altrio / partner)",
     "Verpleegkundige": "Verpleegkundige (N4/5)",
     "Verpleegkundige (N6)": "Verpleegkundige (N6) - supervisie & klinische afstemming",
     "Zorgcoordinator": "Zorgcoordinator / casemanager",
     "Sociaal werker": "Sociaal werker / sociale dienst",
-    "Ergo/Servicedesk": "Ergotherapie + Servicedesk (hulpmiddelen & woning)",
+    "Ergotherapeut": "Ergotherapie (hulpmiddelen & woning)",
   };
   return map[owner] || owner || "Onbekend";
 }
