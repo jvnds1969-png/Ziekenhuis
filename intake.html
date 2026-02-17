@@ -1064,15 +1064,17 @@
 
         <!-- TAB: TAKEN -->
         <div class="outPanel hidden" data-panel="taken">
-          <div class="tasksHead">
-            <div>
-              <b>Concreet takenpakket</b>
-              <div class="mini">Automatisch afgeleid uit aandachtsgebieden & zorgbundels (prototype-regels).</div>
-            </div>
-            <div class="tasksMeta">
-              <span class="pill" id="taskCountPill">0 taken</span>
-            </div>
-          </div>
+          <<div class="tasksHead">
+  <div>
+    <b>Concreet takenpakket</b>
+    <div class="mini">Automatisch afgeleid uit aandachtsgebieden & zorgbundels (prototype-regels) + manuele aanpassingen.</div>
+  </div>
+
+  <div class="tasksMeta" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+    <span class="pill" id="taskCountPill">0 taken</span>
+    <button class="btn" type="button" id="btnAddTask">+ Taak toevoegen</button>
+  </div>
+</div>
           <div id="taskBoard" class="taskBoard"></div>
         </div>
 
