@@ -1523,6 +1523,11 @@ function renderOutput(){
   severityBadge.textContent = `Kwetsbaarheid: ${sev.txt}`;
   severityBadge.className = `badge tag ${sev.cls}`;
 
+      // behoud selectie (als gebruiker al taken aan/uit zette)
+    const prev = window.__ZS_OUT?.taken || [];
+    const selMap = new Map(prev.map(t => [t.id, t.selected !== false]));
+    tasks.forEach(t => { if(selMap.has(t.id)) t.selected = selMap.get(t.id); });
+
   statusBadge.textContent = (total===0) ? "Start" : `Score ${total}`;
   scoreTotalEl.textContent = String(total);
   pbCountEl.textContent = String(pbKeys.length);
@@ -1715,7 +1720,7 @@ function carePlanHTML(out){
     ? bundles.map(b => `<span class="zp-chip">${esc(b.name.replace("Zorgbundel: ",""))}</span>`).join("")
     : `<span class="zp-chip">Minimale opvolging</span>`;
 
-  const tasks = out.taken || [];
+      const tasks = (out.taken || []).filter(t => t.selected !== false);
   const grouped = new Map();
   tasks.forEach(t=>{
     const g = t.group || "Algemeen";
