@@ -1348,73 +1348,319 @@ tabBtns.forEach(btn=>{
   });
 });
 
-// Task templates (prototype)
+}
+
+  // Task templates (prototype)
 function buildTasks(pbScores, data, bundles){
-  const tasks = [];
-
   const DEFAULT_COORD = "Zorgstart-coördinatie";
-  const add = (group, title, detail, uitvoerder,when="Binnen 24u",coord=DEFAULT_COORD)=>{
-    tasks.push({ group, title, detail, uitvoerder, when, coord });
+
+  // Helper om taken 1× te houden en triggers te verzamelen
+  const byId = new Map();
+
+  const add = ({
+    id,
+    group,
+    title,
+    detail,
+    uitvoerder,
+    when = "Binnen 24u",
+    coord = DEFAULT_COORD,
+    triggers = []
+  }) => {
+    if(!id) throw new Error("Task id ontbreekt");
+    const existing = byId.get(id);
+    if(existing){
+      // merge triggers, keep earliest timing if you want; for demo: keep existing fields
+      const set = new Set([...(existing.triggers||[]), ...triggers]);
+      existing.triggers = Array.from(set);
+      return;
+    }
+    byId.set(id, {
+      id, group, title, detail,
+      uitvoerder: uitvoerder || "—",
+      when, coord,
+      triggers: Array.from(new Set(triggers)),
+      selected: true
+    });
   };
-    
-  // Medicatie
-  if(bundles.some(b=> b.name.includes("Medicatiebegeleiding"))){
-    add("Medicatiebegeleiding","Medicatieschema opvragen/valideren","Vraag actueel schema op (huisarts/apotheek/ontslagbrief) en bevestig laatste wijzigingen.","Apotheker / huisarts","Vandaag");
-    add("Medicatiebegeleiding","Innamemomenten structureren","Maak overzicht (ochtend/middag/avond) en detecteer risicomedicatie (anticoagulantia, insuline).","Verpleegkundige (N6)","Binnen 48u");
-    if(data.med_confusion === "Hoog" || (Number(data.med_aantal||"0")>=10)){
-      add("Medicatiebegeleiding","Medicatiereview voorstellen","Contacteer huisarts/apotheek voor review (polyfarmacie/risico).","Verpleegkundige (N6)","Binnen 7 dagen");
+
+  const hasBundle = (txt) => bundles.some(b => (b.name||"").includes(txt));
+  const trig = (...arr) => arr.filter(Boolean);
+
+  // -------- Medicatiebegeleiding --------
+  if(hasBundle("Medicatiebegeleiding")){
+    add({
+      id:"MED_SCHEMA",
+      group:"Medicatiebegeleiding",
+      title:"Medicatieschema opvragen/valideren",
+      detail:"Vraag actueel schema op (huisarts/apotheek/ontslagbrief) en bevestig laatste wijzigingen.",
+      uitvoerder:"Apotheker / huisarts",
+      when:"Vandaag",
+      triggers: trig(
+        "Zorgbundel: Medicatiebegeleiding",
+        (pbScores["Medicatie"] ? "Probleemgebied: Medicatie" : null),
+        (data.cog_medicatievergeet ? "Signaal: therapietrouw onzeker" : null),
+        (Number(data.med_aantal||0) > 5 ? "Signaal: polyfarmacie" : null),
+        (data.med_overzicht ? "Signaal: schema ontbreekt" : null)
+      )
+    });
+
+    add({
+      id:"MED_STRUCT",
+      group:"Medicatiebegeleiding",
+      title:"Innamemomenten structureren",
+      detail:"Maak overzicht (ochtend/middag/avond) en detecteer risicomedicatie (anticoagulantia, insuline).",
+      uitvoerder:"Verpleegkundige (N6)",
+      when:"Binnen 48u",
+      triggers: trig(
+        "Zorgbundel: Medicatiebegeleiding",
+        (data.med_complex ? `Schema: ${data.med_complex}` : null),
+        (data.med_confusion ? `Verwarringsrisico: ${data.med_confusion}` : null)
+      )
+    });
+
+    if(data.med_confusion === "Hoog" || Number(data.med_aantal||0) >= 10 || data.med_review === "Ja"){
+      add({
+        id:"MED_REVIEW",
+        group:"Medicatiebegeleiding",
+        title:"Medicatiereview voorstellen",
+        detail:"Contacteer huisarts/apotheek voor review (polyfarmacie/risico).",
+        uitvoerder:"Verpleegkundige (N6)",
+        when:"Binnen 7 dagen",
+        triggers: trig(
+          "Zorgbundel: Medicatiebegeleiding",
+          (Number(data.med_aantal||0) >= 10 ? "Drempel: ≥10 medicaties" : null),
+          (data.med_confusion === "Hoog" ? "Drempel: verwarringsrisico hoog" : null),
+          (data.med_review === "Ja" ? "Keuze: review gevraagd" : null)
+        )
+      });
     }
+
     if(data.med_inject){
-      add("Medicatiebegeleiding","Injectieplan & materiaal","Bevestig frequentie + zelfredzaamheid; organiseer materiaal en visites.","Thuisverpleging","Bij opstart");
+      add({
+        id:"MED_INJECT",
+        group:"Medicatiebegeleiding",
+        title:"Injectieplan & materiaal",
+        detail:"Bevestig frequentie + zelfredzaamheid; organiseer materiaal en visites.",
+        uitvoerder:"Thuisverpleegkundige (N4/5)",
+        when:"Bij opstart",
+        triggers: trig(
+          "Signaal: injecties",
+          (data.inject_freq ? `Frequentie: ${data.inject_freq}` : null),
+          (data.inject_self ? `Zelf: ${data.inject_self}` : null)
+        )
+      });
     }
   }
 
-  // Mobiliteit/Valpreventie
-  if(bundles.some(b=> b.name.includes("Mobiliteit & valpreventie"))){
-    add("Valpreventie","Valrisico-inschatting bevestigen","Val-geschiedenis + letsel + trapcontext kort bevestigen.","Vandaag");
-    add("Valpreventie","Hulpmiddel checken/voorzien","Rollator/rolstoel/tillift: aanwezig? zo niet: aanvraag via mutualiteit/leverancier.","Ergotherapeut","Binnen 72u");
+  // -------- Mobiliteit & valpreventie --------
+  if(hasBundle("Mobiliteit & valpreventie")){
+    add({
+      id:"VAL_CONFIRM",
+      group:"Valpreventie",
+      title:"Valrisico-inschatting bevestigen",
+      detail:"Val-geschiedenis + letsel + trapcontext kort bevestigen.",
+      uitvoerder:"Verpleegkundige (N6)",
+      when:"Vandaag",
+      triggers: trig(
+        "Zorgbundel: Mobiliteit & valpreventie",
+        (data.mob_val ? "Signaal: valincident" : null),
+        (data.mob_trap ? "Signaal: trappen in woning" : null)
+      )
+    });
+
+    add({
+      id:"MOB_AID",
+      group:"Valpreventie",
+      title:"Hulpmiddel checken/voorzien",
+      detail:"Rollator/rolstoel/tillift: aanwezig? zo niet: aanvraag via mutualiteit/leverancier.",
+      uitvoerder:"Ergotherapeut",
+      when:"Binnen 72u",
+      triggers: trig(
+        "Zorgbundel: Mobiliteit & valpreventie",
+        (data.mob_hulpmiddel ? `Hulpmiddel: ${data.mob_hulpmiddel}` : null),
+        (data.transfer_tools ? `Transferhulpmiddel: ${data.transfer_tools}` : null)
+      )
+    });
+
     if(data.soc_alleen && data.mob_val){
-      add("Valpreventie","Personenalarm activeren","Voorstel + praktische opstart + contactpersonen instellen.","Binnen 48u");
+      add({
+        id:"ALARM_ACT",
+        group:"Valpreventie",
+        title:"Personenalarm activeren",
+        detail:"Voorstel + praktische opstart + contactpersonen instellen.",
+        uitvoerder:"Alarmdienst / externe partner",
+        when:"Binnen 48u",
+        triggers: trig(
+          "Combinatie: alleenwonend + valrisico",
+          (data.val_alarm_suggest ? `Keuze alarm: ${data.val_alarm_suggest}` : null)
+        )
+      });
     }
   }
 
-  // Technische zorg / wondzorg
-  if(bundles.some(b=> b.name.includes("Technische thuisverpleging"))){
-    add("Technische zorg","Zorgopstart door verpleegkundige","Eerste bezoek: assessment, voorschriften check, plan van aanpak.","Thuisverpleging","Bij opstart");
+  // -------- Technische thuisverpleging --------
+  if(hasBundle("Technische thuisverpleging")){
+    add({
+      id:"TECH_START",
+      group:"Technische zorg",
+      title:"Zorgopstart door verpleegkundige",
+      detail:"Eerste bezoek: assessment, voorschriften check, plan van aanpak.",
+      uitvoerder:"Thuisverpleegkundige (N4/5)",
+      when:"Bij opstart",
+      triggers: trig(
+        "Zorgbundel: Technische thuisverpleging",
+        (data.tech_wonde ? "Signaal: wonde" : null),
+        (data.tech_decub ? "Signaal: decubitus" : null),
+        (data.tech_katheter ? "Signaal: katheter" : null),
+        (data.tech_stoma ? "Signaal: stoma" : null)
+      )
+    });
+
     if(data.tech_wonde){
-      add("Technische zorg","Wondzorgprotocol vastleggen","Type wonde + frequentie + materialen; foto/metingen indien nodig.","Verpleegkundige","Binnen 24-48u");
+      add({
+        id:"TECH_WOUND",
+        group:"Technische zorg",
+        title:"Wondzorgprotocol vastleggen",
+        detail:"Type wonde + frequentie + materialen; foto/metingen indien nodig.",
+        uitvoerder:"Thuisverpleegkundige (N4/5)",
+        when:"Binnen 24–48u",
+        triggers: trig(
+          "Signaal: wonde",
+          (data.wonde_type ? `Type: ${data.wonde_type}` : null),
+          (data.wonde_freq ? `Frequentie: ${data.wonde_freq}` : null)
+        )
+      });
     }
+
     if(data.tech_decub){
-      add("Technische zorg","Decubitusplan & drukontlasting","Matras/positionering + opvolgfrequentie; escaleer bij stadium 3-4.","Verpleegkundige","Binnen 24u");
+      add({
+        id:"TECH_DECUB",
+        group:"Technische zorg",
+        title:"Decubitusplan & drukontlasting",
+        detail:"Matras/positionering + opvolgfrequentie; escaleer bij stadium 3–4.",
+        uitvoerder:"Thuisverpleegkundige (N4/5)",
+        when:"Binnen 24u",
+        triggers: trig(
+          "Signaal: decubitus",
+          (data.decub_stage ? `Stadium: ${data.decub_stage}` : null),
+          (data.decub_matras ? `Matras: ${data.decub_matras}` : null)
+        )
+      });
     }
+
     if(data.tech_katheter){
-      add("Technische zorg","Katheterzorg-afspraken","Type + wisselfrequentie + alarmsymptomen afstemmen.","Verpleegkundige","Binnen 72u");
+      add({
+        id:"TECH_KATH",
+        group:"Technische zorg",
+        title:"Katheterzorg-afspraken",
+        detail:"Type + wisselfrequentie + alarmsymptomen afstemmen.",
+        uitvoerder:"Thuisverpleegkundige (N4/5)",
+        when:"Binnen 72u",
+        triggers: trig(
+          "Signaal: katheter",
+          (data.katheter_type ? `Type: ${data.katheter_type}` : null),
+          (data.katheter_prob ? `Problemen: ${data.katheter_prob}` : null)
+        )
+      });
     }
   }
 
-  // Veiligheid thuis
-  if(bundles.some(b=> b.name.includes("Veiligheid thuis"))){
-    add("Veiligheid","Veiligheidscheck thuis","Sleutelbeheer/toegang + risico's (dwalen/val) + noodnummers.","Binnen 48u");
-    if(data.cog_veilig === "Hoog"){
-      add("Veiligheid","Dagelijks contactmoment organiseren","Dagelijkse check-in (telefonisch of bezoek) volgens afspraak.","","Binnen 48u");
+  // -------- Veiligheid thuis --------
+  if(hasBundle("Veiligheid thuis")){
+    add({
+      id:"SAFE_HOME",
+      group:"Veiligheid",
+      title:"Veiligheidscheck thuis",
+      detail:"Sleutelbeheer/toegang + risico's (dwalen/val) + noodnummers.",
+      uitvoerder:"Zorgcoördinator",
+      when:"Binnen 48u",
+      triggers: trig(
+        "Zorgbundel: Veiligheid thuis",
+        (data.toegang ? `Toegang: ${data.toegang}` : null),
+        (data.cog_veilig ? `Cognitieve veiligheid: ${data.cog_veilig}` : null)
+      )
+    });
+
+    if(data.cog_veilig === "Hoog" || data.cog_dailycheck === "Ja"){
+      add({
+        id:"SAFE_DAILY",
+        group:"Veiligheid",
+        title:"Dagelijks contactmoment organiseren",
+        detail:"Dagelijkse check-in (telefonisch of bezoek) volgens afspraak.",
+        uitvoerder:"Thuisverpleegkundige (N4/5) / netwerk",
+        when:"Binnen 48u",
+        triggers: trig(
+          "Drempel: cognitieve veiligheid hoog",
+          (data.cog_dailycheck ? `Daily check: ${data.cog_dailycheck}` : null)
+        )
+      });
     }
   }
 
-  // Coordinatie & netwerk
-  if(bundles.some(b=> b.name.includes("Coordinatie & netwerk") || b.name.includes("netwerk"))){
-    add("Coordinatie","Netwerk in kaart brengen","Wie doet wat? Mantelzorger + huisarts + andere hulpverleners.","Zorgcoördinator","Binnen 72u");
+  // -------- Coördinatie & netwerk --------
+  if(hasBundle("Coördinatie & netwerkondersteuning")){
+    add({
+      id:"COORD_NET",
+      group:"Coördinatie",
+      title:"Netwerk in kaart brengen",
+      detail:"Wie doet wat? Mantelzorger + huisarts + andere hulpverleners.",
+      uitvoerder:"Zorgcoördinator",
+      when:"Binnen 72u",
+      triggers: trig(
+        "Zorgbundel: Coördinatie & netwerkondersteuning",
+        (data.soc_alleen ? "Signaal: alleenwonend" : null),
+        (data.soc_mantel_overlast ? "Signaal: mantelzorger overbelast" : null),
+        (data.soc_taal ? "Signaal: taal/gezondheidsgeletterdheid" : null),
+        (data.soc_fin ? "Signaal: financieel" : null)
+      )
+    });
+
     if(data.soc_mantel_overlast){
-      add("Coordinatie","Mantelzorgbelasting bespreken","Duidelijke afspraken, grenzen, respite-opties.","Zorgcoördinator","Binnen 7 dagen");
+      add({
+        id:"COORD_MANTEL",
+        group:"Coördinatie",
+        title:"Mantelzorgbelasting bespreken",
+        detail:"Duidelijke afspraken, grenzen, respite-opties.",
+        uitvoerder:"Zorgcoördinator / sociaal werker",
+        when:"Binnen 7 dagen",
+        triggers: trig(
+          "Signaal: mantelzorger overbelast",
+          (data.mantel_reason ? `Reden: ${data.mantel_reason}` : null)
+        )
+      });
     }
+
     if(data.soc_taal){
-      add("Coordinatie","Communicatie-afspraken","Voorkeurstaal + tolk/ondersteuner vastleggen voor afspraken.","Vandaag");
+      add({
+        id:"COORD_LANG",
+        group:"Coördinatie",
+        title:"Communicatie-afspraken",
+        detail:"Voorkeurstaal + tolk/ondersteuner vastleggen voor afspraken.",
+        uitvoerder:"Zorgcoördinator",
+        when:"Vandaag",
+        triggers: trig(
+          "Signaal: communicatie",
+          (data.taal ? `Taal: ${data.taal}` : null),
+          (data.tolk ? `Tolk: ${data.tolk}` : null)
+        )
+      });
     }
+
     if(data.soc_fin){
-      add("Coordinatie","Financieel/administratief spoor","VT/tegemoetkomingen, hulpmiddelen, facturatiekanalen.","Sociaal werker","Binnen 7 dagen");
+      add({
+        id:"COORD_FIN",
+        group:"Coördinatie",
+        title:"Financieel/administratief spoor",
+        detail:"VT/tegemoetkomingen, hulpmiddelen, facturatiekanalen.",
+        uitvoerder:"Sociaal werker",
+        when:"Binnen 7 dagen",
+        triggers: trig("Signaal: financieel")
+      });
     }
   }
 
-  return tasks;
+  return Array.from(byId.values());
 }
 
 function groupBy(arr, keyFn){
@@ -1456,7 +1702,9 @@ function renderTasks(tasks){
   const taskBoard = $("#taskBoard");
   const taskCountPill = $("#taskCountPill");
   taskBoard.innerHTML = "";
-  taskCountPill.textContent = `${tasks.length} taken`;
+
+  const selectedCount = tasks.filter(t=> t.selected !== false).length;
+  taskCountPill.textContent = `${selectedCount} / ${tasks.length} taken (zorgplan)`;
 
   if(!tasks.length){
     taskBoard.innerHTML = `
@@ -1470,32 +1718,70 @@ function renderTasks(tasks){
     return;
   }
 
-  const grouped = groupBy(tasks, t=> t.group);
+  const grouped = groupBy(tasks, t=> t.group || "Algemeen");
+
   grouped.forEach((items, group)=>{
     const g = document.createElement("div");
     g.className = "taskGroup";
+
     g.innerHTML = `
       <div class="taskGroupTop">
         <div class="taskGroupTitle">${escapeHtml(group)}</div>
         <span class="tag">${items.length} taken</span>
       </div>
       <div class="taskList">
-        ${items.map(t=> `
-          <div class="task">
-            <div class="tick">V</div>
-            <div>
-              <b>${escapeHtml(t.title)}</b>
-              <span>${escapeHtml(t.detail)}</span>
-              <span style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
-                <span class="whyChip">Uitvoerder: ${escapeHtml(t.uitvoerder)}</span>
-                <span class="whyChip">Timing: ${escapeHtml(t.when)}</span>                     <span class="whyChip">Coördinatie: ${escapeHtml(t.coord)}</span>
-              </span>
+        ${items.map(t=> {
+          const checked = (t.selected !== false) ? "checked" : "";
+          const trigHtml = (t.triggers && t.triggers.length)
+            ? t.triggers.slice(0,4).map(x=> `<span class="whyChip">${escapeHtml(x)}</span>`).join("")
+            : `<span class="whyChip">—</span>`;
+          return `
+            <div class="task">
+              <div class="tick">✓</div>
+              <div style="width:100%">
+                <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;">
+                  <div>
+                    <b>${escapeHtml(t.title)}</b>
+                    <span>${escapeHtml(t.detail)}</span>
+                  </div>
+                  <label class="whyChip" style="display:flex;gap:8px;align-items:center;cursor:pointer;">
+                    <input type="checkbox" data-task-select="${escapeHtml(t.id)}" ${checked} style="width:auto;margin:0;accent-color:#0b63ce;">
+                    In zorgplan
+                  </label>
+                </div>
+
+                <span style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
+                  <span class="whyChip">Uitvoerder: ${escapeHtml(t.uitvoerder || "-")}</span>
+                  <span class="whyChip">Timing: ${escapeHtml(t.when || "-")}</span>
+                  <span class="whyChip">Coördinatie: ${escapeHtml(t.coord || "-")}</span>
+                </span>
+
+                <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+                  ${trigHtml}
+                </div>
+              </div>
             </div>
-          </div>
-        `).join("")}
+          `;
+        }).join("")}
       </div>
     `;
+
     taskBoard.appendChild(g);
+  });
+
+  // selection handler (delegation)
+  taskBoard.querySelectorAll("input[data-task-select]").forEach(inp=>{
+    inp.addEventListener("change", (e)=>{
+      const id = e.target.getAttribute("data-task-select");
+      const out = window.__ZS_OUT;
+      if(!out || !out.taken) return;
+      const t = out.taken.find(x=> x.id === id);
+      if(!t) return;
+      t.selected = e.target.checked;
+      // refresh counters + JSON + (optioneel) samenvatting
+      jsonOut.textContent = JSON.stringify(out, null, 2);
+      renderTasks(out.taken);
+    });
   });
 }
 
