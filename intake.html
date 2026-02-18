@@ -408,6 +408,22 @@
                   <label>Mantelzorg / contactpersoon</label>
                   <input name="mantel" placeholder="Naam + telefoon (optioneel)" />
                 </div>
+                          <div style="grid-column:1/-1">
+            <label>Reden van opname / context</label>
+            <textarea name="context" placeholder="Korte beschrijving: reden opname, relevante voorgeschiedenis" rows="2"></textarea>
+          </div>
+          <div>
+            <label>Verwijzer / dienst</label>
+            <input name="verwijzer" placeholder="bv. Dr. Peeters – Geriatrie" />
+          </div>
+          <div>
+            <label>Ontslagdatum (verwacht)</label>
+            <input name="ontslagdatum" type="date" />
+          </div>
+          <div style="grid-column:1/-1">
+            <label>Bestaande zorgverleners aan huis</label>
+            <input name="zorgverleners" placeholder="bv. thuisverpleging X, kine Y, poetshulp Z (optioneel)" />
+          </div>
               </div>
 
               <div class="btnbar">
@@ -1828,7 +1844,11 @@ function renderOutput(){
       mutualiteit: data.mut || "",
       adres: data.adres || "",
       huisarts: data.huisarts || "",
-      mantel: data.mantel || ""
+      mantel: data.mantel || "",
+        context: data.context || "",
+        verwijzer: data.verwijzer || "",
+        ontslagdatum: data.ontslagdatum || "",
+        zorgverleners: data.zorgverleners || ""
     },
     probleemgebieden: pbKeys.map(k => ({
       key: k,
@@ -2084,6 +2104,10 @@ function carePlanHTML(out){
           <div class="zp-kv"><div class="zp-k">Contact</div><div class="zp-v">${esc(tel)}</div></div>
           <div class="zp-kv"><div class="zp-k">Huisarts</div><div class="zp-v">${esc(huisarts)}</div></div>
           <div class="zp-kv"><div class="zp-k">Mantelzorg / contactpersoon</div><div class="zp-v">${esc(mantel)}</div></div>
+                      <div class="zp-kv"><div class="zp-k">Context / reden opname</div><div class="zp-v">${esc(out.patient?.context || "-")}</div></div>
+            <div class="zp-kv"><div class="zp-k">Verwijzer / dienst</div><div class="zp-v">${esc(out.patient?.verwijzer || "-")}</div></div>
+            <div class="zp-kv"><div class="zp-k">Ontslagdatum (verwacht)</div><div class="zp-v">${esc(out.patient?.ontslagdatum || "-")}</div></div>
+            <div class="zp-kv"><div class="zp-k">Bestaande zorgverleners</div><div class="zp-v">${esc(out.patient?.zorgverleners || "-")}</div></div>
         </div>
         <div class="zp-chiprow">
           ${bundleChips}
