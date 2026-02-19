@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Zorgstart — Slimme intake (wizard + openklappers + print)</title>
-  <meta name="description" content="Slimme, dynamische intake: wizard flow + bijkomende vragen op basis van antwoorden en score. Output: aandachtsgebieden + zorgbundels + samenvatting." />
+  <meta name="description" content="Slimme, dynamische intake: wizard flow + bijkomende vragen op basis van antwoorden en score. Output: aandachtsgebieden + taken + samenvatting." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -276,26 +276,7 @@
     }
     .stat .n{font-size:22px; font-weight:900; letter-spacing:-.2px}
     .stat .t{font-size:12px; color: var(--muted); margin-top:2px}
-    .list{margin-top:12px; display:flex; flex-direction:column; gap:10px}
-    .item{
-      padding:12px;
-      border-radius: 16px;
-      border:1px solid var(--border);
-      background: #ffffff;
-    }
-    .item .h{display:flex; justify-content:space-between; align-items:center; gap:10px}
-    .tag{
-      font-size:11px; font-weight:900;
-      padding:5px 9px; border-radius:999px;
-      border:1px solid var(--border);
-      background: #f0f5ff;
-      color: var(--muted);
-      white-space:nowrap;
-    }
-    .tag.good{border-color: rgba(52,211,153,.30); color: rgba(52,211,153,.95); background: rgba(52,211,153,.10)}
-    .tag.warn{border-color: rgba(251,191,36,.30); color: rgba(251,191,36,.95); background: rgba(251,191,36,.10)}
-    .tag.bad{border-color: rgba(251,113,133,.30); color: rgba(251,113,133,.95); background: rgba(251,113,133,.10)}
-    .item p{margin:8px 0 0; color: var(--muted); font-size:12px; line-height:1.4}
+
     pre{
       margin:12px 0 0;
       padding:12px;
@@ -308,7 +289,140 @@
       line-height:1.45;
     }
 
-    .hidden{display:none!important;}  /* OUTPUT TABS */ .outTabs{   display:flex; gap:8px; flex-wrap:wrap;   margin-top:12px; } .outTab{   appearance:none;   cursor:pointer;   border:1px solid var(--border);   background: #f0f5ff;   color: var(--text);   padding:8px 10px;   border-radius: 999px;   font-weight:800;   font-size:12px; } .outTab.active{   border-color: rgba(11,99,206,.30);   background: linear-gradient(135deg, rgba(11,99,206,.15), rgba(11,99,206,.06)); } .outTab.tech{color: var(--muted)} .outPanel{margin-top:10px}  /* nicer bundle cards */ .bundleCard{   padding:12px;   border-radius: 16px;   border:1px solid var(--border);   background: #ffffff; } .bundleTop{   display:flex; align-items:flex-start; justify-content:space-between; gap:10px; } .bundleName{   font-weight:900;   letter-spacing:.1px; } .bundleWhy{   margin-top:8px;   display:flex; flex-wrap:wrap; gap:8px; } .whyChip{   font-size:12px;   padding:7px 9px;   border-radius:999px;   border:1px solid var(--border);   background: #f0f5ff;   color: var(--muted); } .bundleFoot{   margin-top:10px;   display:flex; justify-content:space-between; align-items:center; gap:10px;   color: var(--muted);   font-size:12px; }  /* TASK BOARD */ .tasksHead{   display:flex; justify-content:space-between; align-items:flex-start; gap:12px;   padding:12px;   border-radius: 16px;   border:1px solid var(--border);   background: #ffffff; } .taskBoard{   margin-top:10px;   display:grid;   grid-template-columns: 1fr;   gap:10px; } .taskGroup{   padding:12px;   border-radius: 16px;   border:1px solid var(--border);   background: #ffffff; } .taskGroupTop{   display:flex; justify-content:space-between; align-items:center; gap:10px; } .taskGroupTitle{font-weight:900} .taskList{   margin-top:10px;   display:flex; flex-direction:column; gap:8px; } .task{   display:flex; gap:10px; align-items:flex-start;   padding:10px;   border-radius: 14px;   border:1px solid var(--border);   background: #f8fafc; } .task .tick{   width:22px; height:22px;   border-radius:8px;   border:1px solid var(--border);   background: rgba(10,47,94,0.06);   display:grid; place-items:center;   color: var(--text);   font-weight:900;   flex:0 0 auto; } .task b{font-size:13px} .task span{display:block; color: var(--muted); font-size:12px; margin-top:2px; line-height:1.3}  /* SUMMARY */ .summaryCard{   padding:12px;   border-radius: 16px;   border:1px solid var(--border);   background: #ffffff; } .summaryRow{   display:grid;   grid-template-columns: 150px 1fr;   gap:10px;   padding:10px 0;   border-bottom:1px solid var(--border); } .summaryRow:last-child{border-bottom:none} .summaryK{color: var(--muted); font-size:12px; font-weight:800} .summaryV{font-size:13px}  /* Zorgplan print view (in nieuw window) */ .zp-wrap{max-width:920px;margin:0 auto;padding:28px 18px 40px;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial} .zp-head{   padding:18px 16px;border-radius:18px;border:1px solid rgba(17,24,39,.12);   background: linear-gradient(180deg, rgba(17,24,39,.03), rgba(17,24,39,.01)); } .zp-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap} .zp-title h1{margin:0;font-size:20px;letter-spacing:-.2px;color:#111827} .zp-meta{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px} .zp-kv{padding:10px 12px;border:1px solid rgba(17,24,39,.10);border-radius:14px;background:#fff} .zp-k{font-size:11px;font-weight:800;color:#6b7280} .zp-v{margin-top:4px;font-size:13px;color:#111827} .zp-chiprow{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap} .zp-chip{font-size:12px;padding:7px 10px;border-radius:999px;border:1px solid rgba(17,24,39,.12);background:#fff;color:#374151;font-weight:700} .zp-section{margin-top:14px;padding:14px 14px;border-radius:18px;border:1px solid rgba(17,24,39,.10);background:#fff} .zp-section h2{margin:0 0 8px;font-size:14px;color:#111827} .zp-section p{margin:0;color:#4b5563;font-size:12px;line-height:1.45} .zp-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px} .zp-card{padding:12px;border-radius:16px;border:1px solid rgba(17,24,39,.10);background:#fff} .zp-cardtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start} .zp-cardtop b{color:#111827} .zp-tag{font-size:11px;font-weight:900;padding:5px 9px;border-radius:999px;border:1px solid rgba(17,24,39,.12);background:#f9fafb;color:#374151;white-space:nowrap} .zp-tasklist{margin-top:10px;display:flex;flex-direction:column;gap:8px} .zp-task{padding:10px;border-radius:14px;border:1px solid rgba(17,24,39,.10);background:#fcfcfd} .zp-taskline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap} .zp-taskline b{color:#111827;font-size:13px} .zp-tasksmall{margin-top:4px;color:#4b5563;font-size:12px;line-height:1.4} .zp-pillrow{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap} .zp-pill{font-size:12px;padding:6px 9px;border-radius:999px;border:1px solid rgba(17,24,39,.12);background:#fff;color:#374151;font-weight:700} .zp-footer{margin-top:12px;color:#6b7280;font-size:11px} @media print{   .zp-noprint{display:none!important}   body{background:#fff}   .zp-wrap{max-width:100%;padding:0}   .zp-section,.zp-card,.zp-kv{break-inside:avoid} }
+    .hidden{display:none!important;}
+
+    /* OUTPUT TABS */
+    .outTabs{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .outTab{
+      appearance:none;
+      cursor:pointer;
+      border:1px solid var(--border);
+      background: #f0f5ff;
+      color: var(--text);
+      padding:8px 10px;
+      border-radius: 999px;
+      font-weight:800;
+      font-size:12px;
+    }
+    .outTab.active{
+      border-color: rgba(11,99,206,.30);
+      background: linear-gradient(135deg, rgba(11,99,206,.15), rgba(11,99,206,.06));
+    }
+    .outTab.tech{color: var(--muted)}
+    .outPanel{margin-top:10px}
+
+    /* TASK BOARD */
+    .tasksHead{
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: #ffffff;
+    }
+    .taskBoard{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    .taskGroup{
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: #ffffff;
+    }
+    .taskGroupTop{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+    }
+    .taskGroupTitle{font-weight:900}
+    .taskList{
+      margin-top:10px;
+      display:flex; flex-direction:column; gap:8px;
+    }
+    .task{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: #f8fafc;
+    }
+    .task .tick{
+      width:22px; height:22px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background: rgba(10,47,94,0.06);
+      display:grid; place-items:center;
+      color: var(--text);
+      font-weight:900;
+      flex:0 0 auto;
+    }
+    .task b{font-size:13px}
+    .task span{display:block; color: var(--muted); font-size:12px; margin-top:2px; line-height:1.3}
+
+    .whyChip{
+      font-size:12px;
+      padding:7px 9px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: #f0f5ff;
+      color: var(--muted);
+    }
+
+    /* SUMMARY */
+    .summaryCard{
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: #ffffff;
+    }
+    .summaryRow{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap:10px;
+      padding:10px 0;
+      border-bottom:1px solid var(--border);
+    }
+    .summaryRow:last-child{border-bottom:none}
+    .summaryK{color: var(--muted); font-size:12px; font-weight:800}
+    .summaryV{font-size:13px}
+
+    /* Zorgplan print view (in nieuw window) */
+    .zp-wrap{max-width:920px;margin:0 auto;padding:28px 18px 40px;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .zp-head{
+      padding:18px 16px;border-radius:18px;border:1px solid rgba(17,24,39,.12);
+      background: linear-gradient(180deg, rgba(17,24,39,.03), rgba(17,24,39,.01));
+    }
+    .zp-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+    .zp-title h1{margin:0;font-size:20px;letter-spacing:-.2px;color:#111827}
+    .zp-meta{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .zp-kv{padding:10px 12px;border:1px solid rgba(17,24,39,.10);border-radius:14px;background:#fff}
+    .zp-k{font-size:11px;font-weight:800;color:#6b7280}
+    .zp-v{margin-top:4px;font-size:13px;color:#111827}
+    .zp-section{margin-top:14px;padding:14px 14px;border-radius:18px;border:1px solid rgba(17,24,39,.10);background:#fff}
+    .zp-section h2{margin:0 0 8px;font-size:14px;color:#111827}
+    .zp-section p{margin:0;color:#4b5563;font-size:12px;line-height:1.45}
+    .zp-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+    .zp-card{padding:12px;border-radius:16px;border:1px solid rgba(17,24,39,.10);background:#fff}
+    .zp-cardtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .zp-cardtop b{color:#111827}
+    .zp-tag{font-size:11px;font-weight:900;padding:5px 9px;border-radius:999px;border:1px solid rgba(17,24,39,.12);background:#f9fafb;color:#374151;white-space:nowrap}
+    .zp-tasklist{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+    .zp-task{padding:10px;border-radius:14px;border:1px solid rgba(17,24,39,.10);background:#fcfcfd}
+    .zp-taskline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .zp-taskline b{color:#111827;font-size:13px}
+    .zp-tasksmall{margin-top:4px;color:#4b5563;font-size:12px;line-height:1.4}
+    .zp-pillrow{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+    .zp-pill{font-size:12px;padding:6px 9px;border-radius:999px;border:1px solid rgba(17,24,39,.12);background:#fff;color:#374151;font-weight:700}
+    .zp-footer{margin-top:12px;color:#6b7280;font-size:11px}
+    @media print{
+      .zp-noprint{display:none!important}
+      body{background:#fff}
+      .zp-wrap{max-width:100%;padding:0}
+      .zp-section,.zp-card,.zp-kv{break-inside:avoid}
+    }
   </style>
 </head>
 
@@ -317,7 +431,7 @@
     <div class="topbar-inner">
       <div class="brand">
         <span class="dot"></span>
-            <a href="index.html" style="text-decoration:none;color:inherit">Zorgstart</a>
+        <a href="index.html" style="text-decoration:none;color:inherit">Zorgstart</a>
         <span class="badge">Slimme intake</span>
       </div>
       <div class="spacer"></div>
@@ -330,7 +444,7 @@
       <div class="hero-inner">
         <h1>Veilig-thuis gesprek — in 3 stappen</h1>
         <p class="lead">
-          Progressieve vragenlijst: alleen relevante vervolgvragen verschijnen. Output: <b>aandachtsgebieden</b> + <b>zorgbundels</b> +
+          Progressieve vragenlijst: alleen relevante vervolgvragen verschijnen. Output: <b>aandachtsgebieden</b> + <b>taken</b> +
           samenvatting voor matching/registratie.
         </p>
         <div class="row">
@@ -353,14 +467,15 @@
       </div>
       <div class="step" data-step="3" role="button" tabindex="0">
         <div class="num">3</div>
-        <div><b>Samenvatting</b><span>bundels & export</span></div>
+        <div><b>Samenvatting</b><span>export</span></div>
       </div>
 
       <div class="spacer"></div>
       <div class="right-actions">
         <button class="btn" type="button" id="btnPrint">Print/PDF</button>
         <button class="btn" type="button" id="btnCopy">Kopieer JSON</button>
-        <button class="btn primary" type="button" id="btnCarePlan">Zorgplan (PDF)</button>         <button class="btn" type="button" id="btnReset">Reset</button>
+        <button class="btn primary" type="button" id="btnCarePlan">Zorgplan (PDF)</button>
+        <button class="btn" type="button" id="btnReset">Reset</button>
       </div>
     </div>
 
@@ -408,22 +523,23 @@
                   <label>Mantelzorg / contactpersoon</label>
                   <input name="mantel" placeholder="Naam + telefoon (optioneel)" />
                 </div>
-                          <div style="grid-column:1/-1">
-            <label>Reden van opname / context</label>
-            <textarea name="context" placeholder="Korte beschrijving: reden opname, relevante voorgeschiedenis" rows="2"></textarea>
-          </div>
-          <div>
-            <label>Verwijzer / dienst</label>
-            <input name="verwijzer" placeholder="bv. Dr. Peeters – Geriatrie" />
-          </div>
-          <div>
-            <label>Ontslagdatum (verwacht)</label>
-            <input name="ontslagdatum" type="date" />
-          </div>
-          <div style="grid-column:1/-1">
-            <label>Bestaande zorgverleners aan huis</label>
-            <input name="zorgverleners" placeholder="bv. thuisverpleging X, kine Y, poetshulp Z (optioneel)" />
-          </div>
+
+                <div style="grid-column:1/-1">
+                  <label>Reden van opname / context</label>
+                  <textarea name="context" placeholder="Korte beschrijving: reden opname, relevante voorgeschiedenis" rows="2"></textarea>
+                </div>
+                <div>
+                  <label>Verwijzer / dienst</label>
+                  <input name="verwijzer" placeholder="bv. Dr. Peeters – Geriatrie" />
+                </div>
+                <div>
+                  <label>Ontslagdatum (verwacht)</label>
+                  <input name="ontslagdatum" type="date" />
+                </div>
+                <div style="grid-column:1/-1">
+                  <label>Bestaande zorgverleners aan huis</label>
+                  <input name="zorgverleners" placeholder="bv. thuisverpleging X, kine Y, poetshulp Z (optioneel)" />
+                </div>
               </div>
 
               <div class="btnbar">
@@ -485,7 +601,6 @@
                         </select>
                       </div>
                     </div>
-                    <div class="help">Deze antwoorden sturen “veiligheid thuis” en “medicatiebegeleiding” aan.</div>
                   </div>
 
                   <div class="reveal" id="rev-medicatie-adherentie">
@@ -513,7 +628,6 @@
                     </div>
                   </div>
 
-                  <!-- Score-based reveal (alleen tonen als Cognitie-score >= 4) -->
                   <div class="reveal" id="rev-cog-score4" data-show="0">
                     <label>Extra: heeft patiënt nood aan dagelijks contactmoment?</label>
                     <select name="cog_dailycheck">
@@ -522,7 +636,6 @@
                       <option>Nee</option>
                       <option>Onbekend</option>
                     </select>
-                    <div class="help">Verschijnt enkel wanneer Cognitie-score hoog genoeg is (drempel).</div>
                   </div>
 
                 </div>
@@ -639,7 +752,6 @@
                     </div>
                   </div>
 
-                  <!-- Score-based reveal (alleen tonen als Valrisico-score >= 3) -->
                   <div class="reveal" id="rev-val-score3" data-show="0">
                     <label>Extra: Personenalarm automatisch voorstellen?</label>
                     <select name="val_alarm_suggest">
@@ -649,7 +761,6 @@
                       <option>reeds in orde</option>
                       <option>Onbekend</option>
                     </select>
-                    <div class="help">Verschijnt enkel wanneer Valrisico-score hoog genoeg is.</div>
                   </div>
                 </div>
               </div>
@@ -665,7 +776,7 @@
                     <div>
                       <label>Aantal medicaties</label>
                       <input type="number" name="med_aantal" min="0" placeholder="bv. 7" />
-                      <div class="help">Vanaf >5 wordt polyfarmacie-score automatisch toegevoegd.</div>
+                      <div class="help">Vanaf >5 wordt medicatie-risico verhoogd.</div>
                     </div>
                     <div>
                       <label>Complex schema?</label>
@@ -758,7 +869,6 @@
                     </select>
                   </div>
 
-                  <!-- Score-based reveal: als med_aantal >= 10 -->
                   <div class="reveal" id="rev-med-10" data-show="0">
                     <label>Extra: voorstel voor medicatiereview (huisarts/apotheek)?</label>
                     <select name="med_review">
@@ -767,7 +877,6 @@
                       <option>Nee</option>
                       <option>Onbekend</option>
                     </select>
-                    <div class="help">Verschijnt wanneer medicaties ≥ 10 (prototype-drempel).</div>
                   </div>
                 </div>
               </div>
@@ -996,7 +1105,6 @@
                     </select>
                   </div>
 
-                  <!-- Score-based reveal: als (Wooncontext+Valrisico) hoog -->
                   <div class="reveal" id="rev-netwerk-high" data-show="0">
                     <label>Extra: nood aan actieve coördinatie (case manager / zorgcoördinator)?</label>
                     <select name="coord_need">
@@ -1005,7 +1113,6 @@
                       <option>Nee</option>
                       <option>Onbekend</option>
                     </select>
-                    <div class="help">Verschijnt bij combinatie “alleen + valrisico” of hoge contextscore.</div>
                   </div>
                 </div>
               </div>
@@ -1048,7 +1155,7 @@
         <div class="card-h">
           <div>
             <h2>Output (live)</h2>
-            <p class="sub">Aandachtsgebieden + zorgbundels + JSON (later 1-op-1 door te sturen naar Zorgstart/EPD).</p>
+            <p class="sub">Aandachtsgebieden + taken + JSON (later 1-op-1 door te sturen naar Zorgstart/EPD).</p>
           </div>
           <span class="badge" id="severityBadge">—</span>
         </div>
@@ -1065,61 +1172,54 @@
             </div>
           </div>
 
-          <!-- OUTPUT TABS -->
-        <div class="outTabs">
-          <button class="outTab active" type="button" data-tab="bundels">Zorgbundels</button>
-          <button class="outTab" type="button" data-tab="taken">Taken</button>
-          <button class="outTab" type="button" data-tab="samenvatting">Samenvatting</button>
-          <button class="outTab tech" type="button" data-tab="json">Technisch (JSON)</button>
-        </div>
+          <!-- OUTPUT TABS (zonder zorgbundels) -->
+          <div class="outTabs">
+            <button class="outTab active" type="button" data-tab="taken">Taken</button>
+            <button class="outTab" type="button" data-tab="samenvatting">Samenvatting</button>
+            <button class="outTab tech" type="button" data-tab="json">Technisch (JSON)</button>
+          </div>
 
-        <!-- TAB: BUNDELS -->
-        <div class="outPanel" data-panel="bundels">
-          <div class="list" id="bundleList"></div>
-        </div>
-
-        <!-- TAB: TAKEN -->
-        <div class="outPanel hidden" data-panel="taken">
-          <<div class="tasksHead">
-  <div>
-    <b>Concreet takenpakket</b>
-    <div class="mini">Automatisch afgeleid uit aandachtsgebieden & zorgbundels (prototype-regels) + manuele aanpassingen.</div>
-  </div>
-
-  <div class="tasksMeta" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
-    <span class="pill" id="taskCountPill">0 taken</span>
-    <button class="btn" type="button" id="btnAddTask">+ Taak toevoegen</button>
-  </div>
-</div>
-          <div id="taskBoard" class="taskBoard"></div>
-        </div>
-
-        <!-- TAB: SAMENVATTING -->
-        <div class="outPanel hidden" data-panel="samenvatting">
-          <div class="summaryCard" id="summaryCard">
-            <div class="summaryRow">
-              <div class="summaryK">Patiënt</div>
-              <div class="summaryV" id="sumPatient">—</div>
+          <!-- TAB: TAKEN -->
+          <div class="outPanel" data-panel="taken">
+            <div class="tasksHead">
+              <div>
+                <b>Concreet takenpakket</b>
+                <div class="mini">Automatisch afgeleid uit antwoorden & probleemgebieden + manuele toevoegingen.</div>
+              </div>
+              <div class="tasksMeta" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+                <span class="pill" id="taskCountPill">0 taken</span>
+                <button class="btn" type="button" id="btnAddTask">+ Taak toevoegen</button>
+              </div>
             </div>
-            <div class="summaryRow">
-              <div class="summaryK">Top-probleemgebieden</div>
-              <div class="summaryV" id="sumPB">—</div>
-            </div>
-            <div class="summaryRow">
-              <div class="summaryK">Aanpak</div>
-              <div class="summaryV" id="sumApproach">—</div>
-            </div>
-            <div class="summaryRow">
-              <div class="summaryK">Opmerking</div>
-              <div class="summaryV" id="sumNote">—</div>
+            <div id="taskBoard" class="taskBoard"></div>
+          </div>
+
+          <!-- TAB: SAMENVATTING -->
+          <div class="outPanel hidden" data-panel="samenvatting">
+            <div class="summaryCard" id="summaryCard">
+              <div class="summaryRow">
+                <div class="summaryK">Patiënt</div>
+                <div class="summaryV" id="sumPatient">—</div>
+              </div>
+              <div class="summaryRow">
+                <div class="summaryK">Top-probleemgebieden</div>
+                <div class="summaryV" id="sumPB">—</div>
+              </div>
+              <div class="summaryRow">
+                <div class="summaryK">Aanpak</div>
+                <div class="summaryV" id="sumApproach">—</div>
+              </div>
+              <div class="summaryRow">
+                <div class="summaryK">Opmerking</div>
+                <div class="summaryV" id="sumNote">—</div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- TAB: JSON (optie) -->
-        <div class="outPanel hidden" data-panel="json">
-          <pre id="jsonOut">{}</pre>
-        </div>
+          <!-- TAB: JSON -->
+          <div class="outPanel hidden" data-panel="json">
+            <pre id="jsonOut">{}</pre>
+          </div>
         </div>
       </aside>
     </div>
@@ -1128,11 +1228,9 @@
 <script>
 /* ===========================
    Zorgstart Slimme Intake (V1 prototype)
-   - Wizard (3 stappen)
-   - Openklappers (checkbox -> reveal)
-   - Score-based reveals (drempels)
-   - Live output (bundels + JSON)
-   - Print/PDF
+   - Geen zorgbundels
+   - Taken op basis van antwoorden
+   - Manueel taken toevoegen (werkende knop)
    =========================== */
 
 const $ = (sel, root=document) => root.querySelector(sel);
@@ -1143,20 +1241,18 @@ const statusBadge = $("#statusBadge");
 const severityBadge = $("#severityBadge");
 const scoreTotalEl = $("#scoreTotal");
 const pbCountEl = $("#pbCount");
-const bundleList = $("#bundleList");
 const jsonOut = $("#jsonOut");
 
 const leftTitle = $("#leftTitle");
 const leftSub = $("#leftSub");
 
-const stepEls = {
-  1: $("#step1"),
-  2: $("#step2"),
-  3: $("#step3")
-};
-
+const stepEls = { 1: $("#step1"), 2: $("#step2"), 3: $("#step3") };
 const stepsNav = $$(".step", $("#navSteps"));
 
+/** Manual tasks store (persists during session) */
+window.__ZS_MANUAL_TASKS = window.__ZS_MANUAL_TASKS || []; // {id, group, title, detail, uitvoerder, when, coord, triggers, selected, manual:true}
+
+/** Labels */
 const PB = {
   Cognitie:{label:"Cognitie & oriëntatie"},
   Mobiliteit:{label:"Mobiliteit"},
@@ -1247,106 +1343,19 @@ function computePB(){
   return {pbScores, total, medAantal};
 }
 
-function suggestBundles(pbScores, data, medAantal){
-  const bundles = [];
-  const has = (k, min=1) => (pbScores[k] || 0) >= min;
-
-  // 1) Medicatiebegeleiding
-  const medRisk = has("Medicatie",2) || medAantal > 5 || (data.med_confusion === "Hoog") || data.cog_medicatievergeet;
-  if(medRisk){
-    bundles.push({
-      name:"Zorgbundel: Medicatiebegeleiding",
-      why:[
-        medAantal > 5 ? "Polyfarmacie (>5 medicaties)" : null,
-        data.med_complex ? `Schema: ${data.med_complex}` : null,
-        data.med_confusion ? `Verwarringsrisico: ${data.med_confusion}` : null,
-        data.cog_medicatievergeet ? "Therapietrouw onzeker" : null
-      ].filter(Boolean),
-      prio: (medAantal >= 10 || data.med_confusion==="Hoog") ? "hoog" : "matig"
-    });
-  }
-
-  // 2) Mobiliteit/Valpreventie
-  if(has("Valrisico",2) || has("Mobiliteit",2)){
-    bundles.push({
-      name:"Zorgbundel: Mobiliteit & valpreventie",
-      why:[
-        data.mob_val ? "Valincident(en) gemeld" : null,
-        data.mob_stappen ? "Stapproblemen" : null,
-        data.mob_transfers ? "Transfers moeilijk" : null,
-        data.mob_hulpmiddel ? `Hulpmiddel: ${data.mob_hulpmiddel}` : null
-      ].filter(Boolean),
-      prio: (data.mob_val && data.soc_alleen) ? "hoog" : "matig"
-    });
-  }
-
-  // 3) Technische thuisverpleging / Wondzorg
-  if(has("Wondzorg",2) || has("Technische zorg",2)){
-    bundles.push({
-      name:"Zorgbundel: Technische thuisverpleging",
-      why:[
-        data.tech_wonde ? `Wonde: ${data.wonde_type || "onbekend"} (${data.wonde_freq || "freq onbekend"})` : null,
-        data.tech_decub ? `Decubitus: ${data.decub_stage || "onbekend"} (matras: ${data.decub_matras || "onbekend"})` : null,
-        data.tech_katheter ? `Katheter: ${data.katheter_type || "onbekend"}` : null,
-        data.tech_stoma ? `Stoma: educatie ${data.stoma_educ || "onbekend"}` : null,
-        data.med_inject ? `Injecties: ${data.inject_freq || "freq onbekend"} (zelf: ${data.inject_self || "onbekend"})` : null
-      ].filter(Boolean),
-      prio: (data.tech_decub && (data.decub_stage||"").includes("3")) ? "hoog" : "matig"
-    });
-  }
-
-  // 4) Veiligheid thuis
-  const safety = has("Veiligheid",2) || data.soc_alarm || (data.soc_alleen && data.mob_val) || (data.cog_veilig === "Hoog");
-  if(safety){
-    bundles.push({
-      name:"Zorgbundel: Veiligheid thuis",
-      why:[
-        data.soc_alarm ? `Personenalarm: ${data.alarm_status || "onbekend"}` : null,
-        (data.soc_alleen && data.mob_val) ? "Alleenwonend + valrisico (prioriteit)" : null,
-        data.cog_veilig === "Hoog" ? "Cognitieve veiligheidsrisico’s (hoog)" : null
-      ].filter(Boolean),
-      prio: (data.soc_alleen && data.mob_val) || (data.cog_veilig === "Hoog") ? "hoog" : "matig"
-    });
-  }
-
-  // 5) Coördinatie & netwerk
-  if(has("Wooncontext",2) || has("Mantelzorg",2) || has("Communicatie",1) || has("Financieel",1) || data.coord_need==="Ja"){
-    bundles.push({
-      name:"Zorgbundel: Coördinatie & netwerkondersteuning",
-      why:[
-        data.soc_alleen ? `Alleenwonend (contact: ${data.alleen_contact || "onbekend"})` : null,
-        data.soc_mantel_overlast ? `Mantelzorger overbelast (${data.mantel_reason || "reden onbekend"})` : null,
-        data.soc_taal ? `Communicatie: taal ${data.taal || "onbekend"}, tolk ${data.tolk || "onbekend"}` : null,
-        data.soc_fin ? "Financiële kwetsbaarheid" : null,
-        data.coord_need==="Ja" ? "Actieve coördinatie gevraagd" : null
-      ].filter(Boolean),
-      prio: (data.soc_alleen && data.soc_mantel_overlast) ? "hoog" : "matig"
-    });
-  }
-
-  if(!bundles.length){
-    bundles.push({name:"Geen bundel (nog) — minimale opvolging", why:["Onvoldoende signalen om een bundel te activeren."], prio:"laag"});
-  }
-  return bundles;
-}
-
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
 }
 
 function setScoreBasedReveals(pbScores, medAantal){
-  // 1) Cognitie-score >= 4 => toon extra (rev-cog-score4)
   const cogScore = pbScores["Cognitie"] || 0;
   $("#rev-cog-score4")?.setAttribute("data-show", (cogScore >= 4) ? "1" : "0");
 
-  // 2) Valrisico-score >= 3 => toon extra (rev-val-score3)
   const valScore = pbScores["Valrisico"] || 0;
   $("#rev-val-score3")?.setAttribute("data-show", (valScore >= 3) ? "1" : "0");
 
-  // 3) Medicaties >= 10 => toon extra (rev-med-10)
   $("#rev-med-10")?.setAttribute("data-show", (medAantal >= 10) ? "1" : "0");
 
-  // 4) (Alleen + valrisico) => toon netwerk-high
   const alone = $("input[name=soc_alleen]")?.checked;
   const fall  = $("input[name=mob_val]")?.checked;
   $("#rev-netwerk-high")?.setAttribute("data-show", (alone && fall) ? "1" : "0");
@@ -1355,7 +1364,6 @@ function setScoreBasedReveals(pbScores, medAantal){
 // Tabs
 const tabBtns = $$(".outTab");
 const panels = $$(".outPanel");
-
 tabBtns.forEach(btn=>{
   btn.addEventListener("click", ()=>{
     const key = btn.getAttribute("data-tab");
@@ -1364,30 +1372,25 @@ tabBtns.forEach(btn=>{
   });
 });
 
+/* ===========================
+   TAKENLOGICA (zonder bundels)
+=========================== */
 
-  // Task templates (prototype)
-function buildTasks(pbScores, data, bundles){
+function buildAutoTasks(pbScores, data, medAantal){
   const DEFAULT_COORD = "Zorgstart-coördinatie";
-
-  // Helper om taken 1× te houden en triggers te verzamelen
   const byId = new Map();
 
+  const trig = (...arr) => arr.filter(Boolean);
+  const hasPB = (k, min=1) => (pbScores[k] || 0) >= min;
+
   const add = ({
-    id,
-    group,
-    title,
-    detail,
-    uitvoerder,
-    when = "Binnen 24u",
-    coord = DEFAULT_COORD,
-    triggers = []
+    id, group, title, detail,
+    uitvoerder, when="Binnen 24u", coord=DEFAULT_COORD,
+    triggers=[]
   }) => {
-    if(!id) throw new Error("Task id ontbreekt");
     const existing = byId.get(id);
     if(existing){
-      // merge triggers, keep earliest timing if you want; for demo: keep existing fields
-      const set = new Set([...(existing.triggers||[]), ...triggers]);
-      existing.triggers = Array.from(set);
+      existing.triggers = Array.from(new Set([...(existing.triggers||[]), ...triggers]));
       return;
     }
     byId.set(id, {
@@ -1395,127 +1398,76 @@ function buildTasks(pbScores, data, bundles){
       uitvoerder: uitvoerder || "—",
       when, coord,
       triggers: Array.from(new Set(triggers)),
-      selected: true
+      selected: true,
+      manual: false
     });
   };
 
-  const hasBundle = (txt) => bundles.some(b => (b.name||"").includes(txt));
-  const trig = (...arr) => arr.filter(Boolean);
+  // ---------- Medicatie ----------
+  const medRisk =
+    hasPB("Medicatie", 2) ||
+    medAantal > 5 ||
+    data.cog_medicatievergeet ||
+    (data.med_confusion === "Hoog") ||
+    data.med_overzicht ||
+    (String(data.med_complex||"").includes("Ja"));
 
-  // -------- Medicatiebegeleiding --------
-  if(hasBundle("Medicatiebegeleiding")){
+  if(medRisk){
     add({
       id:"MED_SCHEMA",
-      group:"Medicatiebegeleiding",
+      group:"Medicatie",
       title:"Medicatieschema opvragen/valideren",
       detail:"Vraag actueel schema op (huisarts/apotheek/ontslagbrief) en bevestig laatste wijzigingen.",
       uitvoerder:"Apotheker / huisarts",
       when:"Vandaag",
       triggers: trig(
-        "Zorgbundel: Medicatiebegeleiding",
-        (pbScores["Medicatie"] ? "Probleemgebied: Medicatie" : null),
+        hasPB("Medicatie") ? "Probleemgebied: Medicatie" : null,
+        (medAantal > 5 ? "Signaal: polyfarmacie" : null),
+        (data.med_complex ? `Schema: ${data.med_complex}` : null),
+        (data.med_overzicht ? "Signaal: schema ontbreekt" : null),
         (data.cog_medicatievergeet ? "Signaal: therapietrouw onzeker" : null),
-        (Number(data.med_aantal||0) > 5 ? "Signaal: polyfarmacie" : null),
-        (data.med_overzicht ? "Signaal: schema ontbreekt" : null)
+        (data.med_confusion ? `Verwarringsrisico: ${data.med_confusion}` : null)
       )
     });
 
     add({
       id:"MED_STRUCT",
-      group:"Medicatiebegeleiding",
+      group:"Medicatie",
       title:"Innamemomenten structureren",
       detail:"Maak overzicht (ochtend/middag/avond) en detecteer risicomedicatie (anticoagulantia, insuline).",
       uitvoerder:"Verpleegkundige (N6)",
       when:"Binnen 48u",
       triggers: trig(
-        "Zorgbundel: Medicatiebegeleiding",
-        (data.med_complex ? `Schema: ${data.med_complex}` : null),
-        (data.med_confusion ? `Verwarringsrisico: ${data.med_confusion}` : null)
+        hasPB("Medicatie") ? "Probleemgebied: Medicatie" : null,
+        (data.med_anticoag ? "Signaal: anticoagulatie" : null),
+        (data.med_inject ? "Signaal: injecties" : null)
       )
     });
 
-    if(data.med_confusion === "Hoog" || Number(data.med_aantal||0) >= 10 || data.med_review === "Ja"){
+    if(data.med_confusion === "Hoog" || medAantal >= 10 || data.med_review === "Ja"){
       add({
         id:"MED_REVIEW",
-        group:"Medicatiebegeleiding",
+        group:"Medicatie",
         title:"Medicatiereview voorstellen",
         detail:"Contacteer huisarts/apotheek voor review (polyfarmacie/risico).",
         uitvoerder:"Verpleegkundige (N6)",
         when:"Binnen 7 dagen",
         triggers: trig(
-          "Zorgbundel: Medicatiebegeleiding",
-          (Number(data.med_aantal||0) >= 10 ? "Drempel: ≥10 medicaties" : null),
-          (data.med_confusion === "Hoog" ? "Drempel: verwarringsrisico hoog" : null),
-          (data.med_review === "Ja" ? "Keuze: review gevraagd" : null)
-        )
-      });
-    }
-
-    if(data.med_inject){
-      add({
-        id:"MED_INJECT",
-        group:"Medicatiebegeleiding",
-        title:"Injectieplan & materiaal",
-        detail:"Bevestig frequentie + zelfredzaamheid; organiseer materiaal en visites.",
-        uitvoerder:"Thuisverpleegkundige (N4/5)",
-        when:"Bij opstart",
-        triggers: trig(
-          "Signaal: injecties",
-          (data.inject_freq ? `Frequentie: ${data.inject_freq}` : null),
-          (data.inject_self ? `Zelf: ${data.inject_self}` : null)
+          medAantal >= 10 ? "Drempel: ≥10 medicaties" : null,
+          data.med_confusion === "Hoog" ? "Drempel: verwarringsrisico hoog" : null,
+          data.med_review === "Ja" ? "Keuze: review gevraagd" : null
         )
       });
     }
   }
 
-  // -------- Mobiliteit & valpreventie --------
-  if(hasBundle("Mobiliteit & valpreventie")){
-    add({
-      id:"VAL_CONFIRM",
-      group:"Valpreventie",
-      title:"Valrisico-inschatting bevestigen",
-      detail:"Val-geschiedenis + letsel + trapcontext kort bevestigen.",
-      uitvoerder:"Verpleegkundige (N6)",
-      when:"Vandaag",
-      triggers: trig(
-        "Zorgbundel: Mobiliteit & valpreventie",
-        (data.mob_val ? "Signaal: valincident" : null),
-        (data.mob_trap ? "Signaal: trappen in woning" : null)
-      )
-    });
+  // ---------- Technische zorg / Wondzorg ----------
+  const techNeeded =
+    hasPB("Wondzorg",2) ||
+    hasPB("Technische zorg",2) ||
+    data.tech_wonde || data.tech_decub || data.tech_katheter || data.tech_stoma || data.med_inject;
 
-    add({
-      id:"MOB_AID",
-      group:"Valpreventie",
-      title:"Hulpmiddel checken/voorzien",
-      detail:"Rollator/rolstoel/tillift: aanwezig? zo niet: aanvraag via mutualiteit/leverancier.",
-      uitvoerder:"Ergotherapeut",
-      when:"Binnen 72u",
-      triggers: trig(
-        "Zorgbundel: Mobiliteit & valpreventie",
-        (data.mob_hulpmiddel ? `Hulpmiddel: ${data.mob_hulpmiddel}` : null),
-        (data.transfer_tools ? `Transferhulpmiddel: ${data.transfer_tools}` : null)
-      )
-    });
-
-    if(data.soc_alleen && data.mob_val){
-      add({
-        id:"ALARM_ACT",
-        group:"Valpreventie",
-        title:"Personenalarm activeren",
-        detail:"Voorstel + praktische opstart + contactpersonen instellen.",
-        uitvoerder:"Alarmdienst / externe partner",
-        when:"Binnen 48u",
-        triggers: trig(
-          "Combinatie: alleenwonend + valrisico",
-          (data.val_alarm_suggest ? `Keuze alarm: ${data.val_alarm_suggest}` : null)
-        )
-      });
-    }
-  }
-
-  // -------- Technische thuisverpleging --------
-  if(hasBundle("Technische thuisverpleging")){
+  if(techNeeded){
     add({
       id:"TECH_START",
       group:"Technische zorg",
@@ -1524,11 +1476,13 @@ function buildTasks(pbScores, data, bundles){
       uitvoerder:"Thuisverpleegkundige (N4/5)",
       when:"Bij opstart",
       triggers: trig(
-        "Zorgbundel: Technische thuisverpleging",
-        (data.tech_wonde ? "Signaal: wonde" : null),
-        (data.tech_decub ? "Signaal: decubitus" : null),
-        (data.tech_katheter ? "Signaal: katheter" : null),
-        (data.tech_stoma ? "Signaal: stoma" : null)
+        hasPB("Wondzorg") ? "Probleemgebied: Wondzorg" : null,
+        hasPB("Technische zorg") ? "Probleemgebied: Technische zorg" : null,
+        data.tech_wonde ? "Signaal: wonde" : null,
+        data.tech_decub ? "Signaal: decubitus" : null,
+        data.tech_katheter ? "Signaal: katheter" : null,
+        data.tech_stoma ? "Signaal: stoma" : null,
+        data.med_inject ? "Signaal: injecties" : null
       )
     });
 
@@ -1542,8 +1496,8 @@ function buildTasks(pbScores, data, bundles){
         when:"Binnen 24–48u",
         triggers: trig(
           "Signaal: wonde",
-          (data.wonde_type ? `Type: ${data.wonde_type}` : null),
-          (data.wonde_freq ? `Frequentie: ${data.wonde_freq}` : null)
+          data.wonde_type ? `Type: ${data.wonde_type}` : null,
+          data.wonde_freq ? `Frequentie: ${data.wonde_freq}` : null
         )
       });
     }
@@ -1558,8 +1512,8 @@ function buildTasks(pbScores, data, bundles){
         when:"Binnen 24u",
         triggers: trig(
           "Signaal: decubitus",
-          (data.decub_stage ? `Stadium: ${data.decub_stage}` : null),
-          (data.decub_matras ? `Matras: ${data.decub_matras}` : null)
+          data.decub_stage ? `Stadium: ${data.decub_stage}` : null,
+          data.decub_matras ? `Matras: ${data.decub_matras}` : null
         )
       });
     }
@@ -1574,15 +1528,84 @@ function buildTasks(pbScores, data, bundles){
         when:"Binnen 72u",
         triggers: trig(
           "Signaal: katheter",
-          (data.katheter_type ? `Type: ${data.katheter_type}` : null),
-          (data.katheter_prob ? `Problemen: ${data.katheter_prob}` : null)
+          data.katheter_type ? `Type: ${data.katheter_type}` : null,
+          data.katheter_prob ? `Problemen: ${data.katheter_prob}` : null
+        )
+      });
+    }
+
+    if(data.med_inject){
+      add({
+        id:"TECH_INJECT",
+        group:"Technische zorg",
+        title:"Injectieplan & materiaal",
+        detail:"Bevestig frequentie + zelfredzaamheid; organiseer materiaal en visites.",
+        uitvoerder:"Thuisverpleegkundige (N4/5)",
+        when:"Bij opstart",
+        triggers: trig(
+          "Signaal: injecties",
+          data.inject_freq ? `Frequentie: ${data.inject_freq}` : null,
+          data.inject_self ? `Zelf: ${data.inject_self}` : null
         )
       });
     }
   }
 
-  // -------- Veiligheid thuis --------
-  if(hasBundle("Veiligheid thuis")){
+  // ---------- Mobiliteit / Valrisico ----------
+  const mobOrFall =
+    hasPB("Mobiliteit",2) || hasPB("Valrisico",2) ||
+    data.mob_stappen || data.mob_transfers || data.mob_val || data.mob_trap;
+
+  if(mobOrFall){
+    add({
+      id:"VAL_CONFIRM",
+      group:"Valpreventie",
+      title:"Valrisico-inschatting bevestigen",
+      detail:"Val-geschiedenis + letsel + trapcontext kort bevestigen.",
+      uitvoerder:"Verpleegkundige (N6)",
+      when:"Vandaag",
+      triggers: trig(
+        hasPB("Valrisico") ? "Probleemgebied: Valrisico" : null,
+        hasPB("Mobiliteit") ? "Probleemgebied: Mobiliteit" : null,
+        data.mob_val ? "Signaal: valincident" : null,
+        data.mob_trap ? "Signaal: trappen in woning" : null
+      )
+    });
+
+    add({
+      id:"MOB_AID",
+      group:"Valpreventie",
+      title:"Hulpmiddel checken/voorzien",
+      detail:"Rollator/rolstoel/tillift: aanwezig? zo niet: aanvraag via mutualiteit/leverancier.",
+      uitvoerder:"Ergotherapeut",
+      when:"Binnen 72u",
+      triggers: trig(
+        data.mob_hulpmiddel ? `Hulpmiddel: ${data.mob_hulpmiddel}` : null,
+        data.transfer_tools ? `Transferhulpmiddel: ${data.transfer_tools}` : null
+      )
+    });
+
+    if(data.soc_alleen && data.mob_val){
+      add({
+        id:"ALARM_ACT",
+        group:"Valpreventie",
+        title:"Personenalarm activeren",
+        detail:"Voorstel + praktische opstart + contactpersonen instellen.",
+        uitvoerder:"Alarmdienst / externe partner",
+        when:"Binnen 48u",
+        triggers: trig(
+          "Combinatie: alleenwonend + valrisico",
+          data.val_alarm_suggest ? `Keuze alarm: ${data.val_alarm_suggest}` : null
+        )
+      });
+    }
+  }
+
+  // ---------- Veiligheid / Cognitie ----------
+  const safety =
+    hasPB("Veiligheid",2) || data.soc_alarm || (data.soc_alleen && data.mob_val) || (data.cog_veilig === "Hoog");
+
+  if(safety){
     add({
       id:"SAFE_HOME",
       group:"Veiligheid",
@@ -1591,9 +1614,10 @@ function buildTasks(pbScores, data, bundles){
       uitvoerder:"Zorgcoördinator",
       when:"Binnen 48u",
       triggers: trig(
-        "Zorgbundel: Veiligheid thuis",
-        (data.toegang ? `Toegang: ${data.toegang}` : null),
-        (data.cog_veilig ? `Cognitieve veiligheid: ${data.cog_veilig}` : null)
+        hasPB("Veiligheid") ? "Probleemgebied: Veiligheid" : null,
+        data.toegang ? `Toegang: ${data.toegang}` : null,
+        data.cog_veilig ? `Cognitieve veiligheid: ${data.cog_veilig}` : null,
+        data.soc_alarm ? `Alarm: ${data.alarm_status || "onbekend"}` : null
       )
     });
 
@@ -1606,15 +1630,19 @@ function buildTasks(pbScores, data, bundles){
         uitvoerder:"Thuisverpleegkundige (N4/5) / netwerk",
         when:"Binnen 48u",
         triggers: trig(
-          "Drempel: cognitieve veiligheid hoog",
-          (data.cog_dailycheck ? `Daily check: ${data.cog_dailycheck}` : null)
+          data.cog_veilig === "Hoog" ? "Drempel: cognitieve veiligheid hoog" : null,
+          data.cog_dailycheck ? `Daily check: ${data.cog_dailycheck}` : null
         )
       });
     }
   }
 
-  // -------- Coördinatie & netwerk --------
-  if(hasBundle("Coördinatie & netwerkondersteuning")){
+  // ---------- Coördinatie / netwerk ----------
+  const coord =
+    hasPB("Wooncontext",2) || hasPB("Mantelzorg",2) || hasPB("Communicatie",1) || hasPB("Financieel",1) ||
+    data.coord_need === "Ja" || data.soc_alleen || data.soc_mantel_overlast || data.soc_taal || data.soc_fin;
+
+  if(coord){
     add({
       id:"COORD_NET",
       group:"Coördinatie",
@@ -1623,11 +1651,13 @@ function buildTasks(pbScores, data, bundles){
       uitvoerder:"Zorgcoördinator",
       when:"Binnen 72u",
       triggers: trig(
-        "Zorgbundel: Coördinatie & netwerkondersteuning",
-        (data.soc_alleen ? "Signaal: alleenwonend" : null),
-        (data.soc_mantel_overlast ? "Signaal: mantelzorger overbelast" : null),
-        (data.soc_taal ? "Signaal: taal/gezondheidsgeletterdheid" : null),
-        (data.soc_fin ? "Signaal: financieel" : null)
+        hasPB("Wooncontext") ? "Probleemgebied: Wooncontext" : null,
+        hasPB("Mantelzorg") ? "Probleemgebied: Mantelzorg" : null,
+        data.soc_alleen ? "Signaal: alleenwonend" : null,
+        data.soc_mantel_overlast ? "Signaal: mantelzorger overbelast" : null,
+        data.soc_taal ? "Signaal: communicatie" : null,
+        data.soc_fin ? "Signaal: financieel" : null,
+        data.coord_need === "Ja" ? "Keuze: actieve coördinatie" : null
       )
     });
 
@@ -1641,7 +1671,7 @@ function buildTasks(pbScores, data, bundles){
         when:"Binnen 7 dagen",
         triggers: trig(
           "Signaal: mantelzorger overbelast",
-          (data.mantel_reason ? `Reden: ${data.mantel_reason}` : null)
+          data.mantel_reason ? `Reden: ${data.mantel_reason}` : null
         )
       });
     }
@@ -1656,8 +1686,8 @@ function buildTasks(pbScores, data, bundles){
         when:"Vandaag",
         triggers: trig(
           "Signaal: communicatie",
-          (data.taal ? `Taal: ${data.taal}` : null),
-          (data.tolk ? `Tolk: ${data.tolk}` : null)
+          data.taal ? `Taal: ${data.taal}` : null,
+          data.tolk ? `Tolk: ${data.tolk}` : null
         )
       });
     }
@@ -1688,29 +1718,15 @@ function groupBy(arr, keyFn){
   return m;
 }
 
-function renderNiceBundles(bundles){
-  bundleList.innerHTML = "";
-  bundles.forEach(b=>{
-    const pr = b.prio === "hoog" ? "bad" : (b.prio === "matig" ? "warn" : "good");
-    const whyHtml = (b.why && b.why.length)
-      ? b.why.map(w=> `<span class="whyChip">${escapeHtml(w)}</span>`).join("")
-      : `<span class="whyChip">-</span>`;
-
-    const el = document.createElement("div");
-    el.className = "bundleCard";
-    el.innerHTML = `
-      <div class="bundleTop">
-        <div class="bundleName">${escapeHtml(b.name)}</div>
-        <span class="tag ${pr}">${escapeHtml(b.prio)}</span>
-      </div>
-      <div class="bundleWhy">${whyHtml}</div>
-      <div class="bundleFoot">
-        <span>Voorstel (prototype-regels)</span>
-        <span>-> Taken automatisch</span>
-      </div>
-    `;
-    bundleList.appendChild(el);
+function mergeTasks(autoTasks, manualTasks){
+  // 1) auto tasks by id
+  const m = new Map(autoTasks.map(t => [t.id, t]));
+  // 2) add manual tasks (always keep)
+  (manualTasks || []).forEach(t => {
+    if(!t || !t.id) return;
+    m.set(t.id, t);
   });
+  return Array.from(m.values());
 }
 
 function renderTasks(tasks){
@@ -1726,9 +1742,9 @@ function renderTasks(tasks){
       <div class="taskGroup">
         <div class="taskGroupTop">
           <div class="taskGroupTitle">Nog geen taken</div>
-          <span class="tag">-</span>
+          <span class="whyChip">-</span>
         </div>
-        <div class="mini" style="margin-top:8px;">Vink probleemgebieden aan om taken te genereren.</div>
+        <div class="mini" style="margin-top:8px;">Vink probleemgebieden aan om taken te genereren of voeg manueel toe.</div>
       </div>`;
     return;
   }
@@ -1742,7 +1758,7 @@ function renderTasks(tasks){
     g.innerHTML = `
       <div class="taskGroupTop">
         <div class="taskGroupTitle">${escapeHtml(group)}</div>
-        <span class="tag">${items.length} taken</span>
+        <span class="whyChip">${items.length} taken</span>
       </div>
       <div class="taskList">
         ${items.map(t=> {
@@ -1750,6 +1766,11 @@ function renderTasks(tasks){
           const trigHtml = (t.triggers && t.triggers.length)
             ? t.triggers.slice(0,4).map(x=> `<span class="whyChip">${escapeHtml(x)}</span>`).join("")
             : `<span class="whyChip">—</span>`;
+
+          const delBtn = t.manual
+            ? `<button class="btn" type="button" data-task-del="${escapeHtml(t.id)}" style="padding:6px 10px;border-radius:999px;font-weight:900">Verwijder</button>`
+            : ``;
+
           return `
             <div class="task">
               <div class="tick">✓</div>
@@ -1759,10 +1780,14 @@ function renderTasks(tasks){
                     <b>${escapeHtml(t.title)}</b>
                     <span>${escapeHtml(t.detail)}</span>
                   </div>
-                  <label class="whyChip" style="display:flex;gap:8px;align-items:center;cursor:pointer;">
-                    <input type="checkbox" data-task-select="${escapeHtml(t.id)}" ${checked} style="width:auto;margin:0;accent-color:#0b63ce;">
-                    In zorgplan
-                  </label>
+
+                  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+                    ${delBtn}
+                    <label class="whyChip" style="display:flex;gap:8px;align-items:center;cursor:pointer;">
+                      <input type="checkbox" data-task-select="${escapeHtml(t.id)}" ${checked} style="width:auto;margin:0;accent-color:#0b63ce;">
+                      In zorgplan
+                    </label>
+                  </div>
                 </div>
 
                 <span style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
@@ -1784,7 +1809,7 @@ function renderTasks(tasks){
     taskBoard.appendChild(g);
   });
 
-  // selection handler (delegation)
+  // selection handler
   taskBoard.querySelectorAll("input[data-task-select]").forEach(inp=>{
     inp.addEventListener("change", (e)=>{
       const id = e.target.getAttribute("data-task-select");
@@ -1793,9 +1818,22 @@ function renderTasks(tasks){
       const t = out.taken.find(x=> x.id === id);
       if(!t) return;
       t.selected = e.target.checked;
-      // refresh counters + JSON + (optioneel) samenvatting
+      // reflect in manual store if needed
+      if(t.manual){
+        const mt = window.__ZS_MANUAL_TASKS.find(x=> x.id === id);
+        if(mt) mt.selected = t.selected;
+      }
       jsonOut.textContent = JSON.stringify(out, null, 2);
       renderTasks(out.taken);
+    });
+  });
+
+  // delete handler for manual tasks
+  taskBoard.querySelectorAll("button[data-task-del]").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{
+      const id = e.target.getAttribute("data-task-del");
+      window.__ZS_MANUAL_TASKS = (window.__ZS_MANUAL_TASKS || []).filter(t => t.id !== id);
+      renderOutput();
     });
   });
 }
@@ -1804,38 +1842,51 @@ function renderSummary(out){
   $("#sumPatient").textContent = out.patient.naam ? `${out.patient.naam} - ${out.patient.adres || "adres onbekend"}` : "-";
   const pbTop = out.probleemgebieden.slice(0,3).map(p=> `${p.label} (${p.score})`).join(" | ");
   $("#sumPB").textContent = pbTop || "-";
-  const approach = out.zorgbundels
-    .filter(b=> !b.name.startsWith("Geen bundel"))
-    .map(b=> b.name.replace("Zorgbundel: ",""))
-    .join(" -> ");
-  $("#sumApproach").textContent = approach || "Minimale opvolging";
+
+  // “Aanpak” = eerste 3 groepen met taken
+  const groups = Array.from(new Set((out.taken||[]).filter(t=>t.selected!==false).map(t=>t.group))).slice(0,3);
+  $("#sumApproach").textContent = groups.length ? groups.join(" -> ") : "Minimale opvolging";
+
   $("#sumNote").textContent = out.vrijeOpmerking || "-";
 }
 
-// VERVANGT bestaande renderOutput()
+/* ===========================
+   OUTPUT PIPELINE
+=========================== */
 function renderOutput(){
   const data = collectData();
   const {pbScores, total, medAantal} = computePB();
   setScoreBasedReveals(pbScores, medAantal);
 
   const pbKeys = Object.keys(pbScores).sort((a,b)=> (pbScores[b]-pbScores[a]));
-  const bundles = suggestBundles(pbScores, data, medAantal);
-  const tasks = buildTasks(pbScores, data, bundles);
 
+  const autoTasks = buildAutoTasks(pbScores, data, medAantal);
+
+  // preserve selections (auto + manual) from previous render
+  const prev = window.__ZS_OUT?.taken || [];
+  const selMap = new Map(prev.map(t => [t.id, t.selected !== false]));
+
+  // merge auto + manual
+  const merged = mergeTasks(autoTasks, window.__ZS_MANUAL_TASKS);
+
+  merged.forEach(t => {
+    if(selMap.has(t.id)) t.selected = selMap.get(t.id);
+    // also keep manual selection in store
+    if(t.manual){
+      const mt = window.__ZS_MANUAL_TASKS.find(x=> x.id === t.id);
+      if(mt && typeof mt.selected !== "undefined") t.selected = mt.selected;
+    }
+  });
+
+  // update badges
   const sev = severityTag(total);
   severityBadge.textContent = `Kwetsbaarheid: ${sev.txt}`;
   severityBadge.className = `badge tag ${sev.cls}`;
-
-      // behoud selectie (als gebruiker al taken aan/uit zette)
-    const prev = window.__ZS_OUT?.taken || [];
-    const selMap = new Map(prev.map(t => [t.id, t.selected !== false]));
-    tasks.forEach(t => { if(selMap.has(t.id)) t.selected = selMap.get(t.id); });
 
   statusBadge.textContent = (total===0) ? "Start" : `Score ${total}`;
   scoreTotalEl.textContent = String(total);
   pbCountEl.textContent = String(pbKeys.length);
 
-  // Build output object
   const out = {
     patient: {
       naam: data.naam || "",
@@ -1845,10 +1896,10 @@ function renderOutput(){
       adres: data.adres || "",
       huisarts: data.huisarts || "",
       mantel: data.mantel || "",
-        context: data.context || "",
-        verwijzer: data.verwijzer || "",
-        ontslagdatum: data.ontslagdatum || "",
-        zorgverleners: data.zorgverleners || ""
+      context: data.context || "",
+      verwijzer: data.verwijzer || "",
+      ontslagdatum: data.ontslagdatum || "",
+      zorgverleners: data.zorgverleners || ""
     },
     probleemgebieden: pbKeys.map(k => ({
       key: k,
@@ -1856,46 +1907,29 @@ function renderOutput(){
       score: pbScores[k]
     })),
     kwetsbaarheidScore: total,
-    zorgbundels: bundles,
-    taken: tasks,
+    taken: merged,
     vrijeOpmerking: data.opm || ""
   };
 
-  // Render pretty UI
-  renderNiceBundles(bundles);
-  renderTasks(tasks);
+  renderTasks(merged);
   renderSummary(out);
-
-  // JSON stays behind tab
   jsonOut.textContent = JSON.stringify(out, null, 2);
 
-  // Default bundels tab should always have content
-  if(bundleList.children.length === 0){
-    bundleList.innerHTML = `
-      <div class="bundleCard">
-        <div class="bundleTop">
-          <div class="bundleName">Geen bundels (nog)</div>
-          <span class="tag">-</span>
-        </div>
-        <div class="bundleWhy"><span class="whyChip">Vul probleemgebieden in om voorstellen te zien.</span></div>
-      </div>`;
-  }
-
-  window.__ZS_OUT = out; // bewaart laatste output voor zorgplan
+  window.__ZS_OUT = out;
 }
 
+/* ===========================
+   WIZARD UI
+=========================== */
 function setStep(n){
-  // show/hide
   Object.keys(stepEls).forEach(k => stepEls[k].classList.toggle("hidden", Number(k)!==n));
 
-  // update nav states
   stepsNav.forEach(s => {
     const sn = Number(s.getAttribute("data-step"));
     s.classList.toggle("active", sn === n);
     s.classList.toggle("done", sn < n);
   });
 
-  // header text
   if(n===1){
     leftTitle.textContent = "Stap 1 — Basis";
     leftSub.textContent = "Vul minimale gegevens in. Daarna ga je naar probleemgebieden.";
@@ -1906,7 +1940,6 @@ function setStep(n){
     leftTitle.textContent = "Stap 3 — Samenvatting";
     leftSub.textContent = "Kopieer JSON of print naar PDF. (Inhoud komt uit stap 1–2.)";
   }
-  // scroll top of card on step change (nice UX)
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
@@ -1944,7 +1977,6 @@ form.addEventListener("input", () => {
 // Init reveal blocks
 $$("input[type=checkbox][data-reveal]").forEach(updateRevealForInput);
 updateMeta();
-renderOutput();
 
 // Wizard controls
 $("#next1").addEventListener("click", ()=> setStep(2));
@@ -1982,31 +2014,55 @@ $("#btnFinalPrint").addEventListener("click", doPrint);
 // Reset
 $("#btnReset").addEventListener("click", () => {
   form.reset();
-  // close optional sections except first
+  window.__ZS_MANUAL_TASKS = []; // ook manuele taken resetten
   $$(".section").forEach((s,i)=> s.setAttribute("data-open", i===0 ? "1":"0"));
-  // hide all reveals
   $$(".reveal").forEach(r => r.setAttribute("data-show","0"));
   setStep(1);
   updateMeta();
   renderOutput();
 });
 
-// start at step 1
-setStep(1);
+// Manueel taak toevoegen (WERKT)
+function addManualTask(){
+  const title = prompt("Taaktitel (verplicht):", "");
+  if(!title || !title.trim()) return;
 
-                                                // Zorgplan (PDF) functions
-function providerLabel(owner){
-  const map = {
-    "Thuisverpleging": "Thuisverpleegkundige (Altrio / partner)",
-    "Verpleegkundige": "Verpleegkundige (N4/5)",
-    "Verpleegkundige (N6)": "Verpleegkundige (N6) - supervisie & klinische afstemming",
-    "Zorgcoordinator": "Zorgcoordinator / casemanager",
-    "Sociaal werker": "Sociaal werker / sociale dienst",
-    "Ergotherapeut": "Ergotherapie (hulpmiddelen & woning)",
-  };
-  return map[owner] || owner || "Onbekend";
+  const detail = prompt("Omschrijving (optioneel):", "") || "";
+  const group = prompt("Groep (bv. Medicatie / Valpreventie / Coördinatie / Technische zorg):", "Algemeen") || "Algemeen";
+  const uitvoerder = prompt("Uitvoerder (optioneel):", "—") || "—";
+  const when = prompt("Timing (optioneel):", "Binnen 48u") || "Binnen 48u";
+  const coord = prompt("Coördinatie (optioneel):", "Zorgstart-coördinatie") || "Zorgstart-coördinatie";
+
+  const id = "MAN_" + Date.now().toString(36);
+
+  window.__ZS_MANUAL_TASKS.push({
+    id,
+    group,
+    title: title.trim(),
+    detail: detail.trim(),
+    uitvoerder: uitvoerder.trim(),
+    when: when.trim(),
+    coord: coord.trim(),
+    triggers: ["Manueel toegevoegd"],
+    selected: true,
+    manual: true
+  });
+
+  // switch to tasks tab (zeker zichtbaar)
+  tabBtns.forEach(b=> b.classList.toggle("active", b.getAttribute("data-tab")==="taken"));
+  panels.forEach(p=> p.classList.toggle("hidden", p.getAttribute("data-panel")!=="taken"));
+
+  renderOutput();
 }
+$("#btnAddTask").addEventListener("click", addManualTask);
 
+// start
+setStep(1);
+renderOutput();
+
+/* ===========================
+   ZORGPLAN (PDF)
+=========================== */
 function esc(s){
   return String(s ?? "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
@@ -2022,12 +2078,7 @@ function carePlanHTML(out){
   const huisarts = out.patient?.huisarts || "-";
   const mantel = out.patient?.mantel || "-";
 
-  const bundles = (out.zorgbundels || []).filter(b => !String(b.name||"").startsWith("Geen bundel"));
-  const bundleChips = bundles.length
-    ? bundles.map(b => `<span class="zp-chip">${esc(b.name.replace("Zorgbundel: ",""))}</span>`).join("")
-    : `<span class="zp-chip">Minimale opvolging</span>`;
-
-      const tasks = (out.taken || []).filter(t => t.selected !== false);
+  const tasks = (out.taken || []).filter(t => t.selected !== false);
   const grouped = new Map();
   tasks.forEach(t=>{
     const g = t.group || "Algemeen";
@@ -2036,39 +2087,36 @@ function carePlanHTML(out){
   });
 
   const taskBlocks = tasks.length
-    ? Array.from(grouped.entries()).map(([group, items]) => {
-        const prioTag = (group.toLowerCase().includes("veilig") || group.toLowerCase().includes("val")) ? "Prioriteit" : "Taken";
-        return `
-          <div class="zp-card">
-            <div class="zp-cardtop">
-              <b>${esc(group)}</b>
-              <span class="zp-tag">${items.length} ${esc(prioTag)}</span>
-            </div>
-            <div class="zp-tasklist">
-              ${items.map(t => `
-                <div class="zp-task">
-                  <div class="zp-taskline">
-                    <b>${esc(t.title)}</b>
-                    <span class="zp-tag">${esc(t.when || "-")}</span>
-                  </div>
-                  <div class="zp-tasksmall">${esc(t.detail || "")}</div>
-                  <div class="zp-pillrow">
-                    <span class="zp-pill">Uitvoerder: ${esc(t.uitvoerder)}</span>
-                    <span class="zp-pill">Coördinatie: ${esc(t.coord)}</span>
-                  </div>
-                </div>
-              `).join("")}
-            </div>
+    ? Array.from(grouped.entries()).map(([group, items]) => `
+        <div class="zp-card">
+          <div class="zp-cardtop">
+            <b>${esc(group)}</b>
+            <span class="zp-tag">${items.length} taken</span>
           </div>
-        `;
-      }).join("")
+          <div class="zp-tasklist">
+            ${items.map(t => `
+              <div class="zp-task">
+                <div class="zp-taskline">
+                  <b>${esc(t.title)}</b>
+                  <span class="zp-tag">${esc(t.when || "-")}</span>
+                </div>
+                <div class="zp-tasksmall">${esc(t.detail || "")}</div>
+                <div class="zp-pillrow">
+                  <span class="zp-pill">Uitvoerder: ${esc(t.uitvoerder)}</span>
+                  <span class="zp-pill">Coördinatie: ${esc(t.coord)}</span>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `).join("")
     : `
       <div class="zp-card">
         <div class="zp-cardtop">
-          <b>Geen taken gegenereerd</b>
+          <b>Geen taken geselecteerd</b>
           <span class="zp-tag">-</span>
         </div>
-        <p style="margin:8px 0 0;color:#4b5563;font-size:12px;">Vul probleemgebieden in om automatisch een takenpakket te krijgen.</p>
+        <p style="margin:8px 0 0;color:#4b5563;font-size:12px;">Selecteer taken (In zorgplan) of voeg manueel toe.</p>
       </div>
     `;
 
@@ -2104,26 +2152,26 @@ function carePlanHTML(out){
           <div class="zp-kv"><div class="zp-k">Contact</div><div class="zp-v">${esc(tel)}</div></div>
           <div class="zp-kv"><div class="zp-k">Huisarts</div><div class="zp-v">${esc(huisarts)}</div></div>
           <div class="zp-kv"><div class="zp-k">Mantelzorg / contactpersoon</div><div class="zp-v">${esc(mantel)}</div></div>
-                      <div class="zp-kv"><div class="zp-k">Context / reden opname</div><div class="zp-v">${esc(out.patient?.context || "-")}</div></div>
-            <div class="zp-kv"><div class="zp-k">Verwijzer / dienst</div><div class="zp-v">${esc(out.patient?.verwijzer || "-")}</div></div>
-            <div class="zp-kv"><div class="zp-k">Ontslagdatum (verwacht)</div><div class="zp-v">${esc(out.patient?.ontslagdatum || "-")}</div></div>
-            <div class="zp-kv"><div class="zp-k">Bestaande zorgverleners</div><div class="zp-v">${esc(out.patient?.zorgverleners || "-")}</div></div>
-        </div>
-        <div class="zp-chiprow">
-          ${bundleChips}
+
+          <div class="zp-kv"><div class="zp-k">Context / reden opname</div><div class="zp-v">${esc(out.patient?.context || "-")}</div></div>
+          <div class="zp-kv"><div class="zp-k">Verwijzer / dienst</div><div class="zp-v">${esc(out.patient?.verwijzer || "-")}</div></div>
+          <div class="zp-kv"><div class="zp-k">Ontslagdatum (verwacht)</div><div class="zp-v">${esc(out.patient?.ontslagdatum || "-")}</div></div>
+          <div class="zp-kv"><div class="zp-k">Bestaande zorgverleners</div><div class="zp-v">${esc(out.patient?.zorgverleners || "-")}</div></div>
         </div>
       </div>
+
       <div class="zp-section">
         <h2>Kernsamenvatting</h2>
         <p><b>Top-probleemgebieden:</b> ${esc(pbTop)}</p>
       </div>
+
       <div class="zp-section">
         <h2>Zorgnetwerk — Takenpakket & uitvoerders</h2>
-        <p>Onderstaande taken zijn automatisch afgeleid uit probleemgebieden en zorgbundels. Elke taak bevat een aanbevolen uitvoerder/dienstverlener.</p>
+        <p>Onderstaande taken zijn automatisch afgeleid uit antwoorden/probleemgebieden en kunnen manueel aangevuld worden.</p>
         <div class="zp-grid">
           ${taskBlocks}
         </div>
-        <div class="zp-footer">Zorgstart - automatisch gegenereerd zorgplan (prototype). Voor klinische finalisatie: verpleegkundige (N6) / zorgcoordinator.</div>
+        <div class="zp-footer">Zorgstart - automatisch gegenereerd zorgplan (prototype). Voor klinische finalisatie: verpleegkundige (N6) / zorgcoördinator.</div>
       </div>
     </div>
   </body>
@@ -2141,7 +2189,6 @@ function openCarePlan(){
   w.document.write(carePlanHTML(out));
   w.document.close();
 }
-
 $("#btnCarePlan").addEventListener("click", openCarePlan);
 </script>
 </body>
