@@ -336,7 +336,7 @@
     <div class="topbar-inner">
       <div class="brand"><span class="dot"></span><span>Zorgstart</span><span class="badge">Slimme intake</span></div>
       <div class="spacer"></div>
-      <span class="pill">Wizard • Probleemgebieden • Taken • Zorgplan</span>
+      <span class="pill">Wizard • Aandachtsgebieden • Taken • Zorgplan</span>
     </div>
   </div>
 
@@ -440,13 +440,13 @@
                   <div class="check">
                     <input type="checkbox" name="nl_coord" data-reveal="#rev-nl" />
                     <div>
-                      <b>Coördinatie door Nurseline gevraagd?</b>
+                      <b>Coördinatie door Nurseline (zorcoördinator) gevraagd?</b>
                       <span>Enkel bij “ja” wordt er een Nurseline-coördinatie-taak aangemaakt.</span>
                     </div>
                   </div>
                   <div class="reveal" id="rev-nl">
                     <label>Waarvoor precies (heel concreet)?</label>
-                    <input name="nl_coord_why" placeholder="bv. opstart thuisverpleging, afstemming huisarts/apotheek, planning opvolgmomenten..." />
+                    <input name="nl_coord_why" placeholder="bv. opvolging thuisverpleging, afstemming huisarts/apotheek, ondersteuningsmateriaal, therapie-trouw, planning opvolgmomenten..." />
                   </div>
                 </div>
               </div>
@@ -502,37 +502,11 @@
                         </select>
                       </div>
                       <div>
-                        <label>Tillift / glijhulpmiddel?</label>
+                        <label>Tillift / glijmat?</label>
                         <select name="transfer_tools">
                           <option value="">Kies…</option>
                           <option>Ja</option>
                           <option>Nee</option>
-                          <option>Te voorzien</option>
-                          <option>Onbekend</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="reveal" id="rev-val">
-                    <div class="form-grid">
-                      <div>
-                        <label>Aantal vallen</label>
-                        <select name="val_aantal">
-                          <option value="">Kies…</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3 of meer</option>
-                          <option>Onbekend</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label>Letsel?</label>
-                        <select name="val_letsel">
-                          <option value="">Kies…</option>
-                          <option>Nee</option>
-                          <option>Ja, licht</option>
-                          <option>Ja, ernstig</option>
                           <option>Onbekend</option>
                         </select>
                       </div>
@@ -554,8 +528,8 @@
                         <label>Toegang (sleutel/kluis) geregeld?</label>
                         <select name="toegang">
                           <option value="">Kies…</option>
-                          <option>Ja</option>
-                          <option>Nee</option>
+                          <option>Ja, code na te vragen</option>
+                          <option>Nee, graag nakijken</option>
                           <option>Onbekend</option>
                         </select>
                       </div>
@@ -575,16 +549,6 @@
                     <div>
                       <label>Aantal medicaties</label>
                       <input type="number" name="med_aantal" min="0" placeholder="bv. 7" />
-                    </div>
-                    <div>
-                      <label>Complex schema?</label>
-                      <select name="med_complex">
-                        <option value="">Kies…</option>
-                        <option>Nee</option>
-                        <option>Ja, meerdere innamemomenten</option>
-                        <option>Ja, injecties/insuline</option>
-                        <option>Onbekend</option>
-                      </select>
                     </div>
                   </div>
 
@@ -615,7 +579,7 @@
                           <option value="">Kies…</option>
                           <option>Ja, zelfstandig</option>
                           <option>Gedeeltelijk</option>
-                          <option>Nee</option>
+                          <option>Nee, graag dispenser of innamedoosje voorzien</option>
                           <option>Onbekend</option>
                         </select>
                       </div>
@@ -626,7 +590,7 @@
                           <option>Laag</option>
                           <option>Middel</option>
                           <option>Hoog</option>
-                          <option>Onbekend</option>
+                          <option>Cave - slaapmedicatie</option>
                         </select>
                       </div>
                     </div>
@@ -753,18 +717,19 @@
                           <option>Postoperatief</option>
                           <option>Trauma</option>
                           <option>Ulcus</option>
-                          <option>Onbekend</option>
+                          <option>skintears</option>
+                          <option>doorligwonden</option>
                         </select>
                       </div>
                       <div>
-                        <label>Frequentie verbandwissel</label>
+                        <label>Frequentie zorg</label>
                         <select name="wonde_freq">
                           <option value="">Kies…</option>
                           <option>Dagelijks</option>
                           <option>Om de 2 dagen</option>
                           <option>2–3x/week</option>
                           <option>Wekelijks</option>
-                          <option>Onbekend</option>
+                          <option>Wisselhouding</option>
                         </select>
                       </div>
                     </div>
